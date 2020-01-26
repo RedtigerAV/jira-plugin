@@ -1,0 +1,41 @@
+{
+  "key": "jira-timgo",
+  "name": "Jira TimGo Plugin",
+  "description": "Atlassian Jira plugin for planning and labor accounting in Agile projects",
+  "vendor": {
+    "name": "Atlassian Developers",
+    "url": "https://developer.atlassian.com/"
+  },
+  "baseUrl": "{{localBaseUrl}}",
+  "links": {
+      "self": "{{localBaseUrl}}/atlassian-connect.json",
+      "homepage": "{{localBaseUrl}}/atlassian-connect.json"
+  },
+  "authentication": {
+      "type": "jwt"
+  },
+  "lifecycle": {
+      "installed": "/installed"
+  },
+  "scopes": [
+      "READ"
+  ],
+  "modules": {
+      "generalPages": [
+          {
+              "key": "timgo",
+              "location": "system.top.navigation.bar",
+              "name": {
+                  "value": "TimGo"
+              },
+              "url": "/",
+              "conditions": [{
+                  "condition": "user_is_logged_in"
+              }]
+          }
+      ]
+  },
+  "apiMigrations": {
+      "gdpr": true
+  }
+}
