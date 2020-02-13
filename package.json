@@ -5,7 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "swagger:build": "node swagger-builder.js",
+    "swagger:build": "node tools/swagger-scripts/swagger.clean.js && npm run swagger:build:platform && node tools/swagger-scripts/swagger.fix.js",
+    "swagger:build:platform": "node swagger-builder.js dirName=platform source=https://developer.atlassian.com/cloud/jira/platform/swagger.json",
+    "swagger:build:software": "node swagger-builder.js dirName=software source=https://developer.atlassian.com/cloud/jira/software/swagger.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

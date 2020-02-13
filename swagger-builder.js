@@ -8,6 +8,13 @@ const tmp = require('tmp');
 const https = require('https');
 const { unlinkSync } = require('fs');
 
+let envs = {};
+
+process.argv.slice(2).forEach(arg=>{
+  let [key,value] = arg.split('=');
+  envs[key] = value || true;
+});
+
 tmp.file({}, (err, path, fd) => {
   const proxyInfo = process.env.http_proxy ||
     process.env.https_proxy ||
@@ -20,14 +27,18 @@ tmp.file({}, (err, path, fd) => {
 
   const file = createWriteStream('', { fd });
   const request = get({
-    ...parse('https://developer.atlassian.com/cloud/jira/platform/swagger.v3.json'),
+    ...parse(envs.source),
     agent
   }, r => {
     r.pipe(file);
     console.log(path);
     file.on('finish', () => {
       file.close();
-      patchSpec(path);
+
+      if (envs.dirName === 'platform') {
+        patchSpec(path);
+      }
+
       trimIds(path);
       const gen = fork('node_modules/@openapitools/openapi-generator-cli/bin/openapi-generator', [
         'generate',
@@ -38,7 +49,7 @@ tmp.file({}, (err, path, fd) => {
         '-i',
         `"${path}"`,
         '-o',
-        `"${resolve(__dirname, 'src/app/core/api')}"`,
+        `"${resolve(__dirname, 'src/app/core/api/' + envs.dirName)}"`,
         '-g',
         'typescript-angular'
       ]);
@@ -46,7 +57,7 @@ tmp.file({}, (err, path, fd) => {
       gen.on('exit', (code) => {
         if (code === 0) {
           try {
-            unlinkSync('./src/app/core/api/index.ts');
+            unlinkSync(`./src/app/core/api/${envs.dirName}/index.ts`);
           } catch (error) {}
         }
       })
@@ -56,6 +67,7 @@ tmp.file({}, (err, path, fd) => {
 
 function trimIds(path) {
   o = JSON.parse(readFileSync(path));
+  o.servers[0].url = 'https://timgo.atlassian.net';
   Object.keys(o.paths).forEach(p => {
     Object.keys(o.paths[p]).forEach(method => {
       if (o.paths[p][method]['x-atlassian-connect-scope'] == 'INACCESSIBLE') {
@@ -63,13 +75,16 @@ function trimIds(path) {
         delete o.paths[p][method];
       } else {
         const id = o.paths[p][method].operationId;
-        const e = id.split('.').slice(-1)[0];
-        const newId = e.split('_')[0];
-        console.log(`Rewriting ${id} to ${newId}`);
-        o.paths[p][method].operationId = newId;
+
+        if (id) {
+          const e = id.split('.').slice(-1)[0];
+          const newId = e.split('_')[0];
+          console.log(`Rewriting ${id} to ${newId}`);
+          o.paths[p][method].operationId = newId;
+        }
       }
     })
-  })
+  });
 
   writeFileSync(path, JSON.stringify(o));
 }
