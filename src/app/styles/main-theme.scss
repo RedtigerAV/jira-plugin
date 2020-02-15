@@ -1,0 +1,58 @@
+@import '~@angular/material/theming';
+
+$tg-blue: (
+  50: #DEEBFF,
+  100: #B3D4FF,
+  200: #4C9AFF,
+  300: #2684FF,
+  400: #0065FF,
+  500: var(--tg-color-primary),
+  600: #0747A6,
+  A100: var(--tg-color-primary),
+  A200: var(--tg-color-primary),
+  A400: var(--tg-color-primary),
+  A700: var(--tg-color-primary),
+  contrast: (
+    50: $black-87-opacity,
+    100: $black-87-opacity,
+    200: $black-87-opacity,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white
+  )
+);
+
+$tg-red: (
+  50: #FFEBE6,
+  100: #FFBDAD,
+  200: #FF8F73,
+  300: #FF7452,
+  400: var(--tg-color-danger),
+  500: #DE350B,
+  600: #BF2600,
+  contrast: (
+    50: $black-87-opacity,
+    100: $black-87-opacity,
+    200: $black-87-opacity,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white
+  )
+);
+
+$jira-timgo-primary: mat-palette($tg-blue, 500, 300, 600);
+$jira-timgo-accent: mat-palette($mat-gray);
+$jira-timgo-warn: mat-palette($tg-red, 400, 200, 600);
+$jira-timgo-theme: mat-light-theme($jira-timgo-primary, $jira-timgo-accent, $jira-timgo-warn);
+
+@include angular-material-theme($jira-timgo-theme);

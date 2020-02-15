@@ -10,7 +10,6 @@ import { parse } from 'url';
 export class JiraApiInterceptor implements HttpInterceptor {
   constructor(private zone: NgZone) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(req);
     if (req.url.includes('https://timgo.atlassian.net')) {
       // tslint:disable-next-line: no-string-literal
       const request = window['AP'].request;
