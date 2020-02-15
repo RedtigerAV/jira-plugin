@@ -1,0 +1,66 @@
+:root {
+  /*KIT COLORS*/
+  --tg-color-background: #ffffff;
+  --tg-color-background-darker: #f1f2f6;
+  --tg-color-decorate: #e6e8f0;
+  --tg-color-disabled: #dddfe8;
+  --tg-color-muted: #b4b9cb;
+  --tg-color-secondary-text: #657195;
+  --tg-color-main-text: #000000;
+  --tg-color-info: #00B8D9;
+  --tg-color-success: #36B37E;
+  --tg-color-warning: #FFAB00;
+  --tg-color-danger: #FF5630;
+  --tg-color-primary: #0052CC;
+  --tg-color-primary-darker: #1b19b8;
+
+  /*KIT SPACING*/
+
+  --tg-spacing: 4px;
+
+  /*KIT RHYTHMS*/
+
+  --tg-rhythm-1: calc(var(--tg-spacing) * 1);
+  --tg-rhythm-2: calc(var(--tg-spacing) * 2);
+  --tg-rhythm-3: calc(var(--tg-spacing) * 3);
+  --tg-rhythm-4: calc(var(--tg-spacing) * 4);
+  --tg-rhythm-5: calc(var(--tg-spacing) * 5);
+  --tg-rhythm-6: calc(var(--tg-spacing) * 6);
+  --tg-rhythm-7: calc(var(--tg-spacing) * 7);
+  --tg-rhythm-8: calc(var(--tg-spacing) * 8);
+  --tg-rhythm-9: calc(var(--tg-spacing) * 9);
+  --tg-rhythm-10: calc(var(--tg-spacing) * 10);
+  --tg-rhythm-11: calc(var(--tg-spacing) * 11);
+  --tg-rhythm-12: calc(var(--tg-spacing) * 12);
+  --tg-rhythm-13: calc(var(--tg-spacing) * 13);
+  --tg-rhythm-14: calc(var(--tg-spacing) * 14);
+  --tg-rhythm-15: calc(var(--tg-spacing) * 15);
+  --tg-rhythm-16: calc(var(--tg-spacing) * 16);
+  --tg-rhythm-20: calc(var(--tg-spacing) * 20);
+  --tg-rhythm-32: calc(var(--tg-spacing) * 32);
+  --tg-rhythm-40: calc(var(--tg-spacing) * 40);
+  --tg-rhythm-60: calc(var(--tg-spacing) * 60);
+  --tg-rhythm-80: calc(var(--tg-spacing) * 80);
+
+  /*KIT MODAL OVERLAY*/
+  --tg-modal-overlay: rgba(0, 0, 0, 0.5);
+
+  /*KIT BOX-SHADOW*/
+  --tg-shadow-static: 0px 6px 24px rgba(180, 185, 203, 0.25);
+  --tg-shadow-expanded: 0px 6px 8px rgba(168, 175, 196, 0.25);
+  --tg-shadow-hover: 0px 6px 16px rgba(168, 175, 196, 0.3);
+  --tg-shadow-header: 0px 1px 10px rgba(230, 232, 240, 0.5);
+
+  /*KIT TRANSITION*/
+  --tg-transition: 0.3s;
+
+  /* SCREEN SIZES */
+  --screen-xs: 480px;
+  --screen-mobile: 576px;
+  --screen-sm: 768px;
+  --screen-md: 992px;
+  --screen-lg: 1200px;
+
+  /* Content width */
+  --max-content-width: 1170px;
+}

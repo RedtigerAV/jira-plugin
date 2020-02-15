@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JiraApiInterceptor } from './core/interceptors/jira-api.interceptor';
 import { ApiModule } from './core/api/platform/api.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -13,9 +15,11 @@ import { ApiModule } from './core/api/platform/api.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    ApiModule
+    ApiModule,
+    MatButtonModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JiraApiInterceptor, multi: true }
