@@ -1,0 +1,23 @@
+.header-wrapper {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.header {
+  position: relative;
+  width: 100%;
+  height: var(--tg-rhythm-12);
+  padding: 0 var(--tg-gap);
+  background-color: var(--tg-color-background);
+  box-shadow: var(--tg-shadow-header);
+}
+
+.invisible-block {
+  position: relative;
+  width: 100%;
+  height: var(--tg-rhythm-12);
+  visibility: hidden;
+}

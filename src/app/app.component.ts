@@ -13,6 +13,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.apiService.getIssue('JTT-1').subscribe(x => console.log(x));
+    // this.apiService.getIssue('JTT-1').subscribe(x => console.log(x));
   }
 }

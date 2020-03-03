@@ -5,6 +5,7 @@
 @import '~@atlaskit/reduced-ui-pack/dist/bundle.css';
 @import "src/app/styles/variables-kit.scss";
 @import "src/app/styles/main-theme.scss";
+@import "src/app/styles/media.mixin";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
