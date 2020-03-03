@@ -17,6 +17,8 @@
   /*KIT SPACING*/
 
   --tg-spacing: 4px;
+  --tg-gap: calc(var(--tg-spacing) * 4);
+  --tg-gap-small: calc(var(--tg-spacing) * 2);
 
   /*KIT RHYTHMS*/
 
