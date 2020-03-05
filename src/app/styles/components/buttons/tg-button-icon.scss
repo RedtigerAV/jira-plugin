@@ -1,0 +1,27 @@
+.tg-button-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: unset;
+  color: var(--tg-color-muted);
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: var(--tg-transition);
+  &:hover,
+  &:active {
+    background-color: var(--tg-color-primary);
+    color: var(--tg-color-background);
+  }
+  &:disabled {
+    background-color: var(--tg-color-disabled);
+  }
+
+  &--big {
+    width: 40px;
+    height: 40px;
+  }
+}

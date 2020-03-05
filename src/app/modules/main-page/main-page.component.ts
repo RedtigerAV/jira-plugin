@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { mainPageTexts } from './main-page.texts';
 
 @Component({
   selector: 'app-main-page',
@@ -7,6 +8,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainPageComponent implements OnInit {
+  public texts = mainPageTexts;
 
   constructor() { }
 

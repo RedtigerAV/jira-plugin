@@ -1,0 +1,16 @@
+<mat-form-field [formGroup]="controlContainer.control" appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+
+  <textarea
+    matInput
+    [formControl]="control"
+    [placeholder]="placeholder"
+    [matTextareaAutosize]="autoSize"
+    [matAutosizeMinRows]="minRows"
+    [matAutosizeMaxRows]="maxRows"
+    [maxLength]="maxLength"
+  ></textarea>
+  <mat-error *ngIf="getErrorMessage()">
+    {{ getErrorMessage() }}
+  </mat-error>
+</mat-form-field>

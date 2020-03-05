@@ -1,0 +1,18 @@
+<div class="wrapper" [class.wrapper-clickable]="clickable">
+  <div class="title tg-h4">
+    <ng-content
+      select="app-tg-card-title, [app-tg-card-title], [appTgCardTitle]"
+    ></ng-content>
+  </div>
+  <div class="content tg-p1">
+    <ng-content
+      select="app-tg-card-content, [app-tg-card-content], [appTgCardContent]"
+    ></ng-content>
+  </div>
+
+  <div class="actions">
+    <ng-content
+      select="app-tg-card-actions, [app-tg-card-actions], [appTgCardActions]"
+    ></ng-content>
+  </div>
+</div>

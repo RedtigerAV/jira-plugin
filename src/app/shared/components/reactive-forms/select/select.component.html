@@ -1,0 +1,39 @@
+<ng-container
+  *ngIf="{
+    options: dataSource.data$ | async
+  } as data"
+>
+  <mat-form-field [formGroup]="controlContainer.control" appearance="outline">
+    <mat-label>{{ label }}</mat-label>
+
+    <mat-select
+      [placeholder]="placeholder"
+      [formControl]="control"
+      (selectionChange)="selectionChange.emit($event)"
+    >
+      <ng-container
+        *ngIf="
+          getOptions(data.options) && getOptions(data.options).length;
+          else notFound
+        "
+      >
+        <mat-option
+          *ngFor="let option of getOptions(data.options)"
+          [value]="dataSource.getKey(option)"
+        >
+          {{ dataSource.displayWith(option) }}
+        </mat-option>
+      </ng-container>
+
+      <ng-template #notFound>
+        <mat-option disabled>
+          {{ textNotFound }}
+        </mat-option>
+      </ng-template>
+    </mat-select>
+
+    <mat-error *ngIf="getErrorMessage()">
+      {{ getErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+</ng-container>

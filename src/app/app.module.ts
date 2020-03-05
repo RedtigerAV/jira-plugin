@@ -7,6 +7,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JiraApiInterceptor } from '@core/interceptors/jira-api.interceptor';
 import { ApiModule } from '@core/api/platform/api.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    ApiModule
+    ApiModule,
+    TgSnackbarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JiraApiInterceptor, multi: true }

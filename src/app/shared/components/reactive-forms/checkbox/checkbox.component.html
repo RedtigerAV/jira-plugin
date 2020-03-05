@@ -1,0 +1,13 @@
+<div class="d-inline-block">
+  <div class="d-flex">
+    <mat-checkbox
+      color="primary"
+      [formControl]="control"
+      [labelPosition]="labelPosition"
+      (change)="onChange.emit($event)"
+    >
+      <div [innerHTML]="label | safe: 'html'"></div>
+    </mat-checkbox>
+    <mat-error>{{errorMessage}}</mat-error>
+  </div>
+</div>
