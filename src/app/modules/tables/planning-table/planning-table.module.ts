@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlanningTableComponent } from './planning-table.component';
 import { PlanningTableRoutingModule } from './planning-table-routing.module';
+import { HeaderModule } from '@shared/components/header/header.module';
+import { MatButtonModule, MatIconModule } from '@angular/material';
 
 
 
@@ -9,7 +11,10 @@ import { PlanningTableRoutingModule } from './planning-table-routing.module';
   declarations: [PlanningTableComponent],
   imports: [
     CommonModule,
-    PlanningTableRoutingModule
+    PlanningTableRoutingModule,
+    HeaderModule,
+    MatButtonModule,
+    MatIconModule
   ],
   exports: [PlanningTableComponent]
 })

@@ -1,10 +1,19 @@
 <div class="header-wrapper">
   <div class="header">
-    <span>Header</span>
+    <div class="title-group">
+      <button
+        *ngIf="backButtonLink"
+        [routerLink]="backButtonLink"
+        mat-icon-button
+        class="tg-button-icon tg-button-icon--outline"
+      >
+        <mat-icon class="tg-icon">arrow_back</mat-icon>
+      </button>
+      <span class="tg-h3">{{title}}</span>
+    </div>
     <div class="actions">
-      <span>First</span>
-      <span>Second</span>
-      <span>Third</span>
+      <ng-content select="app-header-actions, [app-header-actions], [appHeaderActions]">
+      </ng-content>
     </div>
   </div>
 </div>
