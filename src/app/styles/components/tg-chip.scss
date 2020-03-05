@@ -1,0 +1,22 @@
+.tg-chip {
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  padding: 0 8px;
+  border-radius: 26px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--tg-color-background);
+
+  &--small {
+    min-height: 18px;
+    font-size: 10px;
+  }
+
+  &--badge {
+    padding: 0 12px;
+    font-size: 11px;
+  }
+}

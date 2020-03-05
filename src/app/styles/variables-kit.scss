@@ -12,6 +12,7 @@
   --tg-color-warning: #FFAB00;
   --tg-color-danger: #FF5630;
   --tg-color-primary: #0052CC;
+  --tg-color-primary-lighter: #006bcc;
   --tg-color-primary-darker: #1b19b8;
 
   /*KIT SPACING*/
@@ -48,9 +49,9 @@
   --tg-modal-overlay: rgba(0, 0, 0, 0.5);
 
   /*KIT BOX-SHADOW*/
-  --tg-shadow-static: 0px 6px 24px rgba(180, 185, 203, 0.25);
+  --tg-shadow-static: 0px 0px 10px 4px rgba(237,237,237,1);
   --tg-shadow-expanded: 0px 6px 8px rgba(168, 175, 196, 0.25);
-  --tg-shadow-hover: 0px 6px 16px rgba(168, 175, 196, 0.3);
+  --tg-shadow-hover: 3px 3px 10px 4px rgba(237,237,237,1);
   --tg-shadow-header: 0px 1px 10px rgba(230, 232, 240, 0.5);
 
   /*KIT TRANSITION*/
@@ -62,6 +63,9 @@
   --screen-sm: 768px;
   --screen-md: 992px;
   --screen-lg: 1200px;
+
+  /* KIT BORDER */
+  --tg-border-radius: 8px;
 
   /* Content width */
   --max-content-width: 1170px;

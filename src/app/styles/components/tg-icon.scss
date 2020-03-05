@@ -1,0 +1,26 @@
+.tg-icon {
+  width: var(--tg-rhythm-5);
+  height: var(--tg-rhythm-5);
+  font-size: var(--tg-rhythm-5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--big {
+    width: var(--tg-rhythm-7) !important;
+    height: var(--tg-rhythm-7) !important;
+    font-size: var(--tg-rhythm-7);
+  }
+
+  &--small {
+    width: var(--tg-rhythm-4);
+    height: var(--tg-rhythm-4);
+    font-size: var(--tg-rhythm-4);
+  }
+
+  &--smallest {
+    width: var(--tg-rhythm-3);
+    height: var(--tg-rhythm-3);
+    font-size: var(--tg-rhythm-3);
+  }
+}

@@ -1,0 +1,24 @@
+.tg-button {
+  min-width: 168px;
+  min-height: 40px;
+  background-color: var(--tg-color-primary);
+  color: var(--tg-color-background);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: background-color;
+  transition-duration: var(--tg-transition);
+  &:hover,
+  &:active {
+    background-color: var(--tg-color-primary-darker);
+  }
+  &:disabled {
+    background-color: var(--tg-color-disabled);
+  }
+}

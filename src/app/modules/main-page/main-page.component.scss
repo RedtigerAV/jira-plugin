@@ -1,0 +1,105 @@
+.main-page {
+  &__block {
+    margin-bottom: var(--tg-gap);
+  }
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  &:first-child {
+    margin-right: var(--tg-rhythm-1);
+  }
+}
+
+.subtitle {
+  width: 50%;
+  color: var(--tg-color-secondary-text);
+}
+.main-page {
+  &__block {
+    margin-bottom: var(--tg-gap);
+  }
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  &:first-child {
+    margin-right: var(--tg-rhythm-1);
+  }
+}
+
+.subtitle {
+  width: 50%;
+}
+.main-page {
+  &__block {
+    margin-bottom: var(--tg-gap);
+  }
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  &:first-child {
+    margin-right: var(--tg-rhythm-1);
+  }
+}
+
+.subtitle {
+  width: 50%;
+}
+
+.tables-cards {
+  display: grid;
+  grid-row-gap: var(--tg-gap);
+  grid-column-gap: var(--tg-gap);
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: 1fr 1fr 60px;
+  grid-template-areas:
+    'lifecycle dynamic timespent'
+    'lifecycle dynamic timespent'
+    'lifecycle planning planning';
+}
+
+.table-card {
+  &:focus {
+    outline: none;
+    text-decoration: none;
+  }
+
+  &__lifecycle {
+    grid-area: lifecycle;
+  }
+
+  &__dynamic {
+    grid-area: dynamic;
+  }
+
+  &__time-spent {
+    grid-area: timespent;
+  }
+
+  &__planning {
+    grid-area: planning;
+
+    &:hover {
+      mat-icon {
+        transition: color var(--tg-transition);
+        color: var(--tg-color-primary)
+      }
+    }
+
+    &__title {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

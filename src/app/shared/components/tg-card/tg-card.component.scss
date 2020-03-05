@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--tg-border-radius);
+  background-color: var(--tg-color-background);
+  box-shadow: var(--tg-shadow-static);
+  padding: var(--tg-gap);
+  overflow: hidden;
+
+  &-clickable {
+    transition: all var(--tg-transition);
+
+    &:hover {
+      cursor: pointer;
+      transform: translate(-4px, -4px);
+      box-shadow: var(--tg-shadow-hover);
+    }
+  }
+}
+
+.title {
+  padding-bottom: var(--tg-gap);
+
+  &:empty {
+    padding-bottom: 0;
+  }
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+}

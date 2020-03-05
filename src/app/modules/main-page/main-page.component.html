@@ -1,108 +1,69 @@
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
-<p>main-page works!</p>
+<div class="main-page">
+  <div class="title main-page__block">
+    <mat-icon class="tg-icon--big">track_changes</mat-icon>
+    <span class="tg-h1 tg-h1--medium">TimGo&nbsp;</span>
+    <span class="tg-h2">- best plugin for planning and labor accounting</span>
+  </div>
+  <div class="subtitle main-page__block tg-p1">
+    {{texts.pluginDescription}}
+  </div>
+
+  <!-- TABLES -->
+  <div class="tables main-page__block">
+    <div class="tables-title main-page__block">
+      <span class="tg-h2 tg-h3">Tables</span>
+      <mat-divider></mat-divider>
+    </div>
+
+    <div class="tables-cards main-page__block">
+      <div class="table-card table-card__lifecycle" [routerLink]="'lifecycle-table'">
+        <app-tg-card [clickable]="true">
+          <app-tg-card-title>
+            Tasks lifecycle registry
+          </app-tg-card-title>
+          <app-tg-card-content>
+            {{texts.lifecycleRegistryDescription}}
+          </app-tg-card-content>
+        </app-tg-card>
+      </div>
+      <div class="table-card table-card__dynamic" [routerLink]="'dynamic-table'">
+        <app-tg-card [clickable]="true">
+          <app-tg-card-title>
+            Tasks lifecycle registry
+          </app-tg-card-title>
+          <app-tg-card-content>
+            {{texts.lifecycleRegistryDescription}}
+          </app-tg-card-content>
+        </app-tg-card>
+      </div>
+      <div class="table-card table-card__time-spent" [routerLink]="'time-spent-table'">
+        <app-tg-card [clickable]="true">
+          <app-tg-card-title>
+            Tasks lifecycle registry
+          </app-tg-card-title>
+          <app-tg-card-content>
+            {{texts.lifecycleRegistryDescription}}
+          </app-tg-card-content>
+        </app-tg-card>
+      </div>
+      <div class="table-card table-card__planning" [routerLink]="'planning-table'">
+        <app-tg-card [clickable]="true">
+          <app-tg-card-title>
+            <div class="table-card__planning__title">
+              <div>Make labor accounting and plan your sprint here</div>
+              <mat-icon class="tg-icon tg-icon--big">arrow_forward</mat-icon>
+            </div>
+          </app-tg-card-title>
+        </app-tg-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIAGRAMS -->
+  <div class="tables main-page__block">
+    <div class="tables-title main-page__block">
+      <span class="tg-h2 tg-h3">Diagrams</span>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</div>

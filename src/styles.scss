@@ -4,8 +4,16 @@
 @import '~@atlaskit/css-reset/dist/bundle.css';
 @import '~@atlaskit/reduced-ui-pack/dist/bundle.css';
 @import "src/app/styles/variables-kit.scss";
-@import "src/app/styles/main-theme.scss";
+@import "src/app/styles/themes/main-theme";
 @import "src/app/styles/media.mixin";
+@import "src/app/styles/components/tg-chip";
+@import "src/app/styles/components/tg-icon";
+@import "src/app/styles/components/buttons/tg-button";
+@import "src/app/styles/components/buttons/tg-button-add";
+@import "src/app/styles/components/buttons/tg-button-icon";
+@import "src/app/styles/components/buttons/tg-button-icon-outline";
+@import "src/app/styles/components/buttons/tg-button-outline";
+@import "src/app/styles/tg-typography";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
