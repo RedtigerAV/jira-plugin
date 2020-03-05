@@ -1,4 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { TableMainInfo } from '@core/interfaces/table-main-info.interface';
+import { tablesMainInfo } from '@core/static/tables-main-info.const';
+import { RecordTableTypesEnum } from '@core/enums/tables.enum';
 
 @Component({
   selector: 'app-planning-table',
@@ -7,10 +10,15 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanningTableComponent implements OnInit {
+  public mainInfo: TableMainInfo = tablesMainInfo
+    .find(({type}) => type === RecordTableTypesEnum.PLANNING);
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
+  public onSettings(): void {
+    console.log('OnSettings');
+  }
 }

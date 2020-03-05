@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TasksTimeSpentTableComponent } from './tasks-time-spent-table.component';
 import { TasksTimeSpentTableRoutingModule } from './tasks-time-spent-table-routing.module';
+import { HeaderModule } from '@shared/components/header/header.module';
+import { MatButtonModule, MatIconModule } from '@angular/material';
 
 
 
@@ -9,7 +11,10 @@ import { TasksTimeSpentTableRoutingModule } from './tasks-time-spent-table-routi
   declarations: [TasksTimeSpentTableComponent],
   imports: [
     CommonModule,
-    TasksTimeSpentTableRoutingModule
+    TasksTimeSpentTableRoutingModule,
+    HeaderModule,
+    MatButtonModule,
+    MatIconModule
   ],
   exports: [TasksTimeSpentTableComponent]
 })

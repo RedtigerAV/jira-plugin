@@ -1,0 +1,15 @@
+.mat-icon-button {
+  .mat-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+button,
+a {
+  &:focus {
+    outline: none;
+    text-decoration: none;
+  }
+}

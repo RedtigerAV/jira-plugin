@@ -1,1 +1,13 @@
+<app-header [title]="mainInfo.name" [backButtonLink]="'../'">
+  <app-header-actions>
+    <button
+      mat-icon-button
+      class="tg-button-icon tg-button-icon--outline"
+      (click)="onSettings()"
+    >
+      <mat-icon class="tg-icon">settings</mat-icon>
+    </button>
+  </app-header-actions>
+</app-header>
+
 <p>planning-table works!</p>
