@@ -9,18 +9,18 @@
   &--big {
     width: var(--tg-rhythm-7) !important;
     height: var(--tg-rhythm-7) !important;
-    font-size: var(--tg-rhythm-7);
+    font-size: var(--tg-rhythm-7) !important;;
   }
 
   &--small {
-    width: var(--tg-rhythm-4);
-    height: var(--tg-rhythm-4);
-    font-size: var(--tg-rhythm-4);
+    width: var(--tg-rhythm-4) !important;
+    height: var(--tg-rhythm-4) !important;
+    font-size: var(--tg-rhythm-4) !important;
   }
 
   &--smallest {
-    width: var(--tg-rhythm-3);
-    height: var(--tg-rhythm-3);
-    font-size: var(--tg-rhythm-3);
+    width: var(--tg-rhythm-3) !important;
+    height: var(--tg-rhythm-3) !important;
+    font-size: var(--tg-rhythm-3) !important;
   }
 }

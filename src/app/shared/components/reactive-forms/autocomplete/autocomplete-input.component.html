@@ -1,0 +1,25 @@
+<input
+  #inputControl
+  type="text"
+  matInput
+  (input)="changeInput($event.target.value)"
+  [matAutocomplete]="dropdown"
+  [placeholder]="placeholder"
+  [disabled]="disabled"
+  (blur)="onBlur()"
+/>
+
+<mat-autocomplete
+  #dropdown="matAutocomplete"
+  [displayWith]="dataSource.displayWith"
+  (optionSelected)="onOptionSelected($event)"
+  [panelWidth]="panelWidth"
+>
+  <mat-option
+    *ngFor="let option of (dataSource.data$ | async)"
+    [value]="option"
+    class="format-text"
+  >
+    {{ dataSource.displayWith(option) }}
+  </mat-option>
+</mat-autocomplete>

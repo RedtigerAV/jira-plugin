@@ -1,0 +1,20 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+
+  <app-autocomplete-input
+    [formControl]="control"
+    [previewFormControl]="previewFormControl"
+    [previewControlName]="previewControlName"
+    [placeholder]="placeholder"
+    [dataSource]="dataSource"
+    [getKey]="getKey"
+    [panelWidth]="panelWidth"
+    [updateByInput]="updateByInput"
+    (optionSelected)="optionSelected.emit($event)"
+    (onInput)="onInput.emit($event)"
+  ></app-autocomplete-input>
+
+  <mat-error>
+    {{ errorMessage }}
+  </mat-error>
+</mat-form-field>

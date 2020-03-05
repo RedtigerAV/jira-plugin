@@ -1,0 +1,20 @@
+.tg-snackbar {
+  &-danger {
+    color: var(--tg-color-background);
+    background-color: var(--tg-color-danger);
+  }
+
+  &-success {
+    color: var(--tg-color-background);
+    background-color: var(--tg-color-success);
+  }
+
+  &-info {
+    color: var(--color-black-light);
+    background-color: var(--tg-color-info);
+  }
+
+  button {
+    color: var(--tg-color-background);
+  }
+}

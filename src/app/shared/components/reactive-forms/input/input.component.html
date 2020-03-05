@@ -1,0 +1,16 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+
+  <input
+    [type]="type"
+    matInput
+    [formControl]="control"
+    [placeholder]="placeholder"
+    [step]="step"
+    autocomplete="off"
+  />
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-error *ngIf="errorMessage">
+    {{ errorMessage }}
+  </mat-error>
+</mat-form-field>

@@ -1,0 +1,15 @@
+span {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+:host.floating span {
+  opacity: 1;
+}
+
+.format-text {
+  white-space: normal;
+  height: auto;
+  line-height: 1.5;
+  padding-top: var(--tg-rhythm-2);
+  padding-bottom: var(--tg-rhythm-2);
+}
