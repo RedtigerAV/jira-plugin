@@ -61,7 +61,7 @@
   display: grid;
   grid-row-gap: var(--tg-gap);
   grid-column-gap: var(--tg-gap);
-  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-columns: 2fr 3fr 3fr;
   grid-template-rows: 1fr 1fr 60px;
   grid-template-areas:
     'lifecycle dynamic timespent'

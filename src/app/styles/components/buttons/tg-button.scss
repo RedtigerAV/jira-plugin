@@ -1,10 +1,10 @@
 .tg-button {
-  min-width: 168px;
-  min-height: 40px;
+  min-width: var(--tg-rhythm-40);
+  min-height: var(--tg-rhythm-10);
   background-color: var(--tg-color-primary);
   color: var(--tg-color-background);
   border: none;
-  border-radius: 2px;
+  border-radius: var(--tg-border-radius);
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
@@ -14,11 +14,33 @@
   justify-content: center;
   transition-property: background-color;
   transition-duration: var(--tg-transition);
+
   &:hover,
   &:active {
     background-color: var(--tg-color-primary-darker);
   }
   &:disabled {
     background-color: var(--tg-color-disabled);
+  }
+  &:focus {
+    outline: none;
+    text-decoration: none;
+  }
+
+  &--outline {
+    background-color: var(--tg-color-background);
+    color: var(--tg-color-primary);
+    border-color: var(--tg-color-primary);
+    border-width: 1px;
+    border-style: solid;
+
+    &:hover,
+    &:active {
+      background-color: var(--tg-color-primary);
+      color: var(--tg-color-background);
+    }
+    &:disabled {
+      background-color: var(--tg-color-disabled);
+    }
   }
 }

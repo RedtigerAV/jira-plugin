@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { mainPageTexts } from './main-page.texts';
+import { reportsTableMainInfo } from '@core/static/tables-main-info.const';
+import { TableType } from '@core/enums/tables.enum';
 
 @Component({
   selector: 'app-main-page',
@@ -9,10 +11,16 @@ import { mainPageTexts } from './main-page.texts';
 })
 export class MainPageComponent implements OnInit {
   public texts = mainPageTexts;
+  public reportTables = reportsTableMainInfo;
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
+  public openSettings(event: MouseEvent, tableType: TableType): void {
+    event.stopPropagation();
+
+    console.log('OnSettings: ', tableType);
+  }
 }
