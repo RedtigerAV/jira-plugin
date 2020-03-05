@@ -16,36 +16,32 @@
     </div>
 
     <div class="tables-cards main-page__block">
-      <div class="table-card table-card__lifecycle" [routerLink]="'lifecycle-table'">
+      <div
+        *ngFor="let table of reportTables"
+        class="table-card table-card__{{table.classSuffix}}"
+        [routerLink]="table.routerLink"
+      >
         <app-tg-card [clickable]="true">
           <app-tg-card-title>
-            Tasks lifecycle registry
+            {{table.name}}
           </app-tg-card-title>
+
           <app-tg-card-content>
             {{texts.lifecycleRegistryDescription}}
           </app-tg-card-content>
+
+          <app-tg-card-actions>
+            <button
+              type="button"
+              class="tg-button tg-button--outline"
+              (click)="openSettings($event, table.type)"
+            >
+              Settings
+            </button>
+          </app-tg-card-actions>
         </app-tg-card>
       </div>
-      <div class="table-card table-card__dynamic" [routerLink]="'dynamic-table'">
-        <app-tg-card [clickable]="true">
-          <app-tg-card-title>
-            Tasks lifecycle registry
-          </app-tg-card-title>
-          <app-tg-card-content>
-            {{texts.lifecycleRegistryDescription}}
-          </app-tg-card-content>
-        </app-tg-card>
-      </div>
-      <div class="table-card table-card__time-spent" [routerLink]="'time-spent-table'">
-        <app-tg-card [clickable]="true">
-          <app-tg-card-title>
-            Tasks lifecycle registry
-          </app-tg-card-title>
-          <app-tg-card-content>
-            {{texts.lifecycleRegistryDescription}}
-          </app-tg-card-content>
-        </app-tg-card>
-      </div>
+
       <div class="table-card table-card__planning" [routerLink]="'planning-table'">
         <app-tg-card [clickable]="true">
           <app-tg-card-title>
