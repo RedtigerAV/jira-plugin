@@ -4,6 +4,7 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
 }
 
 .header {
@@ -17,6 +18,7 @@
   background-color: var(--tg-color-background);
   box-shadow: var(--tg-shadow-header);
   box-sizing: border-box;
+  z-index: 1000;
 }
 
 .title-group {

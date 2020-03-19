@@ -47,7 +47,7 @@ export class AutocompleteComponent extends ControlValueAccessorBase {
   public label: string;
 
   @Input()
-  public getKey: (item: any) => any;
+  public getValue: (item: any) => any;
 
   @Input()
   public panelWidth: string;

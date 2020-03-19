@@ -34,7 +34,7 @@ export interface IAutocompleteDataSource {
   data$: Observable<any>;
   filterChanged: (value: string) => void;
   // tslint:disable-next-line: no-any
-  getKey: (item: any) => any;
+  getValue: (item: any) => any;
   // tslint:disable-next-line: no-any
   displayWith: (item: any) => string;
 }
@@ -81,7 +81,7 @@ export class AutocompleteInputComponent
 
   @Input()
   // tslint:disable-next-line: no-any
-  public getKey: (item: any) => any;
+  public getValue: (item: any) => any;
 
   @Input()
   public panelWidth: string;
@@ -246,10 +246,10 @@ export class AutocompleteInputComponent
   }
 
   public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    const key = this.getKey
-      ? this.getKey(event.option.value)
-      : this.dataSource.getKey
-      ? this.dataSource.getKey(event.option.value)
+    const key = this.getValue
+      ? this.getValue(event.option.value)
+      : this.dataSource.getValue
+      ? this.dataSource.getValue(event.option.value)
       : event.option.value.id;
 
     this.onValueChanged(key);

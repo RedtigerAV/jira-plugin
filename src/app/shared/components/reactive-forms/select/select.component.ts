@@ -21,7 +21,7 @@ import { FormErrorsService } from '@shared/errors/services/form-errors.service';
 
 export interface ISelectDataSource {
   data$: Observable<any>;
-  getKey: (item: any) => string;
+  getValue: (item: any) => any;
   displayWith: (item: any) => string;
 }
 

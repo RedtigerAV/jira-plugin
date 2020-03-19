@@ -19,7 +19,7 @@
       >
         <mat-option
           *ngFor="let option of getOptions(data.options)"
-          [value]="dataSource.getKey(option)"
+          [value]="dataSource.getValue(option)"
         >
           {{ dataSource.displayWith(option) }}
         </mat-option>

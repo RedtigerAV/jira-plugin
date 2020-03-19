@@ -34,11 +34,16 @@
     border-width: 1px;
     border-style: solid;
 
-    &:hover,
-    &:active {
+    &:hover {
       background-color: var(--tg-color-primary);
       color: var(--tg-color-background);
     }
+
+    &:active {
+      background-color: var(--tg-color-primary-darker);
+      color: var(--tg-color-background);
+    }
+
     &:disabled {
       background-color: var(--tg-color-disabled);
     }

@@ -1,13 +1,105 @@
-<app-header [title]="mainInfo.name" [backButtonLink]="'../'">
-  <app-header-actions>
-    <button
-      mat-icon-button
-      class="tg-button-icon tg-button-icon--outline"
-      (click)="onSettings()"
-    >
-      <mat-icon class="tg-icon">settings</mat-icon>
-    </button>
-  </app-header-actions>
-</app-header>
+<div class="wrapper">
+  <app-header [title]="mainInfo.name" [backButtonLink]="'../'">
+    <app-header-actions>
+      <button
+        mat-icon-button
+        class="tg-button-icon tg-button-icon--outline"
+        (click)="onSettings()"
+      >
+        <mat-icon class="tg-icon">settings</mat-icon>
+      </button>
+    </app-header-actions>
+  </app-header>
 
-<p>task-lifecycle-table works!</p>
+  <div class="layout">
+    <div class="control-panel">
+      <div class="control-panel__settings">
+        <app-tg-card>
+          <app-tg-card-title>
+            Main settings
+          </app-tg-card-title>
+
+          <app-tg-card-content>
+            <app-table-settings
+              controlsDisplay="row"
+              [form]="form"
+            ></app-table-settings>
+          </app-tg-card-content>
+        </app-tg-card>
+      </div>
+
+      <div class="control-panel__filters">
+        <app-tg-card>
+          <app-tg-card-title>
+            Filters
+          </app-tg-card-title>
+          <app-tg-card-content>
+            <div style="display: flex; align-items: center; margin: auto; flex-direction: column">
+              <span class="tg-h4" style="color: gray">There is no saved filters yet</span>
+            </div>
+          </app-tg-card-content>
+        </app-tg-card>
+      </div>
+
+      <div class="control-panel__sorts">
+        <app-tg-card>
+          <app-tg-card-title>
+            Sorts
+          </app-tg-card-title>
+          <app-tg-card-content>
+            <div style="display: flex; align-items: center; margin: auto; flex-direction: column">
+              <span class="tg-h4" style="color: gray">There is no saved sorts yet</span>
+            </div>
+          </app-tg-card-content>
+        </app-tg-card>
+      </div>
+
+      <div class="control-panel__actions">
+        <app-tg-card>
+          <app-tg-card-title>
+            Actions
+          </app-tg-card-title>
+          <app-tg-card-content>
+            <app-table-actions (generateTable)="onGenerate()"></app-table-actions>
+          </app-tg-card-content>
+        </app-tg-card>
+      </div>
+    </div>
+
+    <div class="lifecycle-table">
+      <ng-container *ngIf="{state: loadTableState$ | async} as loadTable">
+        <ng-container [ngSwitch]="loadTable.state">
+          <ng-container
+            *ngSwitchCase="loadTableStateEnum.NOT_LOADED"
+            [ngTemplateOutlet]="tableNotLoaded"
+          ></ng-container>
+
+          <ng-container
+            *ngSwitchCase="loadTableStateEnum.LOADING"
+            [ngTemplateOutlet]="tableLoading"
+          ></ng-container>
+
+          <ng-container
+            *ngSwitchCase="loadTableStateEnum.LOADED"
+            [ngTemplateOutlet]="tableLoaded"
+          ></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #tableNotLoaded>
+  <span class="tg-h4" style="color: gray">The report table will be shown here</span>
+</ng-template>
+
+<ng-template #tableLoading>
+  <mat-progress-spinner
+    color="primary"
+    [mode]="'indeterminate'"
+  ></mat-progress-spinner>
+</ng-template>
+
+<ng-template #tableLoaded>
+  <span class="tg-h4" style="color: gray">The report table loaded!</span>
+</ng-template>
