@@ -1,0 +1,56 @@
+<ng-container *ngIf="!!form">
+  <div
+    [formGroup]="form"
+    class="table-settings table-settings--{{controlsDisplay}}"
+  >
+    <div class="table-settings__item">
+      <app-select
+        label="Project"
+        [dataSource]="projectsDataSource"
+        [formControl]="form.controls.project"
+      ></app-select>
+    </div>
+
+    <div class="table-settings__item">
+      <app-select
+        label="Board"
+        [dataSource]="boardsDataSource"
+        [formControl]="form.controls.board"
+      ></app-select>
+    </div>
+
+    <div class="table-settings__item">
+      <app-select
+        label="Period by"
+        [dataSource]="periodTypeDataSource"
+        [formControl]="form.controls.periodType"
+      ></app-select>
+    </div>
+
+    <ng-container *ngIf="{type: periodType$ | async} as period">
+      <div class="table-settings__item" *ngIf="period.type === periodTypeEnum.SPRINT">
+        <app-select
+          label="Sprint"
+          [dataSource]="sprintDataSource"
+          [formControl]="form.controls.sprint"
+        ></app-select>
+      </div>
+
+      <div class="table-settings__grouped-item" *ngIf="period.type === periodTypeEnum.DATE">
+        <div class="table-settings__item">
+          <app-datepicker
+            label="Start date"
+            [formControl]="form.controls.startDate"
+          ></app-datepicker>
+        </div>
+
+        <div class="table-settings__item">
+          <app-datepicker
+            label="End date"
+            [formControl]="form.controls.endDate"
+          ></app-datepicker>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

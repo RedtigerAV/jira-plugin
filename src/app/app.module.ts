@@ -8,6 +8,7 @@ import { JiraApiInterceptor } from '@core/interceptors/jira-api.interceptor';
 import { ApiModule } from '@core/api/platform/api.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.module';
+import { DatesProviders } from '@core/common-configuration/dates.configuration';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.mod
     TgSnackbarModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JiraApiInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JiraApiInterceptor, multi: true },
+    ...DatesProviders
   ],
   bootstrap: [AppComponent]
 })
