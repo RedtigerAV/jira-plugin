@@ -1,30 +1,25 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { tablesMainInfo } from '@core/static/tables-main-info.const';
-import { ReportTableTypesEnum } from '@core/enums/tables.enum';
-import { TableMainInfo } from '@core/interfaces/table-main-info.interface';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { ITableSettingsForm, TableSettingsPeriodTypesEnum } from '../../shared/table-settings/interfaces/table-settings-form.interface';
-import { Validators } from '@angular/forms';
+import { TableMainInfo } from '@core/interfaces/table-main-info.interface';
+import { tablesMainInfo } from '@core/static/tables-main-info.const';
+import { ReportTableTypesEnum } from '@core/enums/tables.enum';
 import { BehaviorSubject, forkJoin } from 'rxjs';
-import { markFormGroupTouched } from '@shared/helpers/form.helpers';
-import { distinctUntilChanged, finalize } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { HttpClient } from '@angular/common/http';
 import { AuditRecordsService } from '@core/api/platform/api/auditRecords.service';
-
-export enum LoadTableStateEnum {
-  NOT_LOADED = 'not-loaded',
-  LOADING = 'loading',
-  LOADED = 'loaded'
-}
+import { Validators } from '@angular/forms';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
+import { markFormGroupTouched } from '@shared/helpers/form.helpers';
+import { LoadTableStateEnum } from '../tasks-lifecycle-table/tasks-lifecycle-table.component';
 
 @Component({
-  selector: 'app-task-lifecycle-table',
-  templateUrl: './tasks-lifecycle-table.component.html',
-  styleUrls: ['./tasks-lifecycle-table.component.scss'],
+  selector: 'app-report',
+  templateUrl: './report.component.html',
+  styleUrls: ['./report.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TasksLifecycleTableComponent implements OnInit, OnDestroy {
+export class ReportComponent implements OnInit, OnDestroy {
   public form: FormGroup<ITableSettingsForm>;
   public mainInfo: TableMainInfo = tablesMainInfo
     .find(({type}) => type === ReportTableTypesEnum.LIFECYCLE);

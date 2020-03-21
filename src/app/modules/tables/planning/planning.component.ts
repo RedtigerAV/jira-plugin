@@ -4,12 +4,12 @@ import { tablesMainInfo } from '@core/static/tables-main-info.const';
 import { RecordTableTypesEnum } from '@core/enums/tables.enum';
 
 @Component({
-  selector: 'app-planning-table',
-  templateUrl: './planning-table.component.html',
-  styleUrls: ['./planning-table.component.scss'],
+  selector: 'app-planning',
+  templateUrl: './planning.component.html',
+  styleUrls: ['./planning.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlanningTableComponent implements OnInit {
+export class PlanningComponent implements OnInit {
   public mainInfo: TableMainInfo = tablesMainInfo
     .find(({type}) => type === RecordTableTypesEnum.PLANNING);
 

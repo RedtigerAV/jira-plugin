@@ -60,13 +60,13 @@
             Actions
           </app-tg-card-title>
           <app-tg-card-content>
-            <app-table-actions (generateTable)="onGenerate()"></app-table-actions>
+            <app-report-actions (generateTable)="onGenerate()"></app-report-actions>
           </app-tg-card-content>
         </app-tg-card>
       </div>
     </div>
 
-    <div class="lifecycle-table">
+    <div class="table">
       <ng-container *ngIf="{state: loadTableState$ | async} as loadTable">
         <ng-container [ngSwitch]="loadTable.state">
           <ng-container
@@ -103,3 +103,4 @@
 <ng-template #tableLoaded>
   <span class="tg-h4" style="color: gray">The report table loaded!</span>
 </ng-template>
+
