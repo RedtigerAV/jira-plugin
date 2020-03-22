@@ -6,19 +6,19 @@ export const reportsTableMainInfo: IReportTableMainInfo[] = [
     name: 'Tasks lifecycle registry',
     type: ReportTableTypesEnum.LIFECYCLE,
     routerLink: '/lifecycle-table',
-    classSuffix: 'lifecycle'
+    reportID: 'lifecycle'
   },
   {
     name: 'Dynamics of the tasks',
     type: ReportTableTypesEnum.DYNAMIC,
     routerLink: '/dynamic-table',
-    classSuffix: 'dynamic'
+    reportID: 'dynamic'
   },
   {
     name: 'Total time spent',
     type: ReportTableTypesEnum.TIME_SPENT,
     routerLink: '/time-spent-table',
-    classSuffix: 'time-spent'
+    reportID: 'time-spent'
   }
 ];
 
@@ -27,7 +27,7 @@ export const recordsTableMainInfo: IRecordTableMainInfo[] = [
     name: 'Planning',
     type: RecordTableTypesEnum.PLANNING,
     routerLink: '/planning-table',
-    classSuffix: 'planning'
+    reportID: 'planning'
   }
 ];
 

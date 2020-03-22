@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { IReportSortsComponent } from '../interfaces/report-sorts.interfaces';
+import { ReportMediator } from '../report.mediator';
 
 @Component({
   selector: 'app-report-sorts',
@@ -6,11 +8,19 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./report-sorts.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReportSortsComponent implements OnInit {
+export class ReportSortsComponent implements OnInit, IReportSortsComponent {
 
-  constructor() { }
+  constructor(private readonly mediator: ReportMediator) {
+    mediator.reportSortsComponent = this;
+  }
 
   ngOnInit() {
+  }
+
+  applySort(): void {
+  }
+
+  saveSort(sortState: object): void {
   }
 
 }

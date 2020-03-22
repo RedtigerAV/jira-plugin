@@ -10,8 +10,10 @@ export interface IRecordTableMainInfo extends ITableMainInfo {
   type: RecordTableTypesEnum;
 }
 
+export type ReportID = 'lifecycle' | 'dynamic' | 'time-spent' | 'planning';
+
 export interface ITableMainInfo {
   name: string;
   routerLink: string;
-  classSuffix: string;
+  reportID: ReportID;
 }

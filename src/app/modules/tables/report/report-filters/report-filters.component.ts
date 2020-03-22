@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { IReportFiltersComponent } from '../interfaces/report-filters.interfaces';
+import { ReportMediator } from '../report.mediator';
 
 @Component({
   selector: 'app-report-filters',
@@ -6,11 +8,19 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./report-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReportFiltersComponent implements OnInit {
+export class ReportFiltersComponent implements OnInit, IReportFiltersComponent {
 
-  constructor() { }
+  constructor(private readonly mediator: ReportMediator) {
+    mediator.reportFiltersComponent = this;
+  }
 
   ngOnInit() {
+  }
+
+  applyFilter(): void {
+  }
+
+  saveFilter(filterState: object): void {
   }
 
 }
