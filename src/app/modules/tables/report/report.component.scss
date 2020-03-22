@@ -1,7 +1,6 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 .layout {
@@ -38,14 +37,4 @@
   &__actions {
     grid-area: actions;
   }
-}
-
-.table {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  height: 100%;
-  overflow-y: scroll;
 }
