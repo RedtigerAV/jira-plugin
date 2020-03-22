@@ -60,31 +60,31 @@
             Actions
           </app-tg-card-title>
           <app-tg-card-content>
-            <app-report-actions (generateTable)="onGenerate()"></app-report-actions>
+            <app-report-actions></app-report-actions>
           </app-tg-card-content>
         </app-tg-card>
       </div>
     </div>
 
     <div class="table">
-      <ng-container *ngIf="{state: loadTableState$ | async} as loadTable">
-        <ng-container [ngSwitch]="loadTable.state">
-          <ng-container
-            *ngSwitchCase="loadTableStateEnum.NOT_LOADED"
-            [ngTemplateOutlet]="tableNotLoaded"
-          ></ng-container>
+<!--      <ng-container *ngIf="{state: loadTableState$ | async} as loadTable">-->
+<!--        <ng-container [ngSwitch]="loadTable.state">-->
+<!--          <ng-container-->
+<!--            *ngSwitchCase="loadTableStateEnum.NOT_LOADED"-->
+<!--            [ngTemplateOutlet]="tableNotLoaded"-->
+<!--          ></ng-container>-->
 
-          <ng-container
-            *ngSwitchCase="loadTableStateEnum.LOADING"
-            [ngTemplateOutlet]="tableLoading"
-          ></ng-container>
+<!--          <ng-container-->
+<!--            *ngSwitchCase="loadTableStateEnum.LOADING"-->
+<!--            [ngTemplateOutlet]="tableLoading"-->
+<!--          ></ng-container>-->
 
-          <ng-container
-            *ngSwitchCase="loadTableStateEnum.LOADED"
-            [ngTemplateOutlet]="tableLoaded"
-          ></ng-container>
-        </ng-container>
-      </ng-container>
+<!--          <ng-container-->
+<!--            *ngSwitchCase="loadTableStateEnum.LOADED"-->
+<!--            [ngTemplateOutlet]="tableLoaded"-->
+<!--          ></ng-container>-->
+<!--        </ng-container>-->
+<!--      </ng-container>-->
     </div>
   </div>
 </div>

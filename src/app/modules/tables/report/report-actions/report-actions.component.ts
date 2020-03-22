@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { ReportMediator } from '../report.mediator';
 
 @Component({
   selector: 'app-report-actions',
@@ -9,7 +10,9 @@ import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from
 export class ReportActionsComponent implements OnInit {
   @Output() generateTable = new EventEmitter();
 
-  constructor() { }
+  constructor(private readonly mediator: ReportMediator) {
+    mediator.reportActionsComponent = this;
+  }
 
   ngOnInit() {
   }

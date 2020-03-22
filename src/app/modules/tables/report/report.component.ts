@@ -4,14 +4,9 @@ import { ITableSettingsForm, TableSettingsPeriodTypesEnum } from '../../shared/t
 import { TableMainInfo } from '@core/interfaces/table-main-info.interface';
 import { tablesMainInfo } from '@core/static/tables-main-info.const';
 import { ReportTableTypesEnum } from '@core/enums/tables.enum';
-import { BehaviorSubject, forkJoin } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { AuditRecordsService } from '@core/api/platform/api/auditRecords.service';
 import { Validators } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { markFormGroupTouched } from '@shared/helpers/form.helpers';
-import { LoadTableStateEnum } from '../tasks-lifecycle-table/tasks-lifecycle-table.component';
 
 @Component({
   selector: 'app-report',
@@ -23,12 +18,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   public form: FormGroup<ITableSettingsForm>;
   public mainInfo: TableMainInfo = tablesMainInfo
     .find(({type}) => type === ReportTableTypesEnum.LIFECYCLE);
-  public loadTableState$ = new BehaviorSubject<LoadTableStateEnum>(LoadTableStateEnum.NOT_LOADED);
-  public loadTableStateEnum = LoadTableStateEnum;
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly http: HttpClient,
-              private readonly auditRecordsService: AuditRecordsService) {
+  constructor(private readonly fb: FormBuilder) {
     this.form = this.fb.group<ITableSettingsForm>({
       project: ['', Validators.required],
       board: ['', Validators.required],
@@ -62,28 +53,5 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   public onSettings(): void {
     console.log('OnSettings');
-  }
-
-  public onGenerate(): void {
-    if (this.form.invalid) {
-      markFormGroupTouched(this.form);
-
-      return;
-    }
-
-    this.loadTableState$.next(LoadTableStateEnum.LOADING);
-
-    forkJoin(
-      this.auditRecordsService.getAuditRecords(),
-      this.http.get('https://timgo.atlassian.net/rest/agile/1.0/board')
-    )
-      .pipe(
-        takeUntilDestroyed(this)
-      )
-      .subscribe(value => {
-        this.loadTableState$.next(LoadTableStateEnum.LOADED);
-
-        console.log(value);
-      });
   }
 }

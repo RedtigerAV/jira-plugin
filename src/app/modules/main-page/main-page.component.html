@@ -18,7 +18,7 @@
     <div class="tables-cards main-page__block">
       <div
         *ngFor="let table of reportTables"
-        class="table-card table-card__{{table.classSuffix}}"
+        class="table-card table-card__{{table.reportID}}"
         [routerLink]="table.routerLink"
       >
         <app-tg-card [clickable]="true">
