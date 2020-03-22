@@ -20,7 +20,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { ActorInputBeanModel } from '../model/actorInputBean';
 import { ActorsMapModel } from '../model/actorsMap';
 import { ProjectRoleActorsUpdateBeanModel } from '../model/projectRoleActorsUpdateBean';
 import { ProjectRoleModel } from '../model/projectRole';
@@ -66,9 +65,9 @@ export class ProjectRoleActorsService {
 
     /**
      * Add actors to project role
-     * Adds actors to a project role for the project.  To replace all actors for the project, use [Set actors for project role](#api-rest-api-2-project-projectIdOrKey-role-id-put).  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * Adds actors to a project role for the project.  To replace all actors for the project, use [Set actors for project role](#api-rest-api-3-project-projectIdOrKey-role-id-put).  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param projectIdOrKey The project ID or project key (case sensitive).
-     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-3-role-get) to get a list of project role IDs.
      * @param actorsMapModel The groups or users to associate with the project role for this project. Provide the user account ID or group name.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -119,7 +118,7 @@ export class ProjectRoleActorsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/role/${encodeURIComponent(String(id))}`,
+        return this.httpClient.post<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/role/${encodeURIComponent(String(id))}`,
             actorsMapModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -131,64 +130,10 @@ export class ProjectRoleActorsService {
     }
 
     /**
-     * Add default actors to project role
-     * Adds [default actors](#api-rest-api-2-resolution-get) to a role. You may add groups or users, but you cannot add groups and users in the same request.  Changing a project role\&#39;s default actors does not affect project role members for projects already created.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.
-     * @param actorInputBeanModel 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public addProjectRoleActorsToRole(id: number, actorInputBeanModel: ActorInputBeanModel, observe?: 'body', reportProgress?: boolean): Observable<ProjectRoleModel>;
-    public addProjectRoleActorsToRole(id: number, actorInputBeanModel: ActorInputBeanModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProjectRoleModel>>;
-    public addProjectRoleActorsToRole(id: number, actorInputBeanModel: ActorInputBeanModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProjectRoleModel>>;
-    public addProjectRoleActorsToRole(id: number, actorInputBeanModel: ActorInputBeanModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling addProjectRoleActorsToRole.');
-        }
-        if (actorInputBeanModel === null || actorInputBeanModel === undefined) {
-            throw new Error('Required parameter actorInputBeanModel was null or undefined when calling addProjectRoleActorsToRole.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/2/role/${encodeURIComponent(String(id))}/actors`,
-            actorInputBeanModel,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Delete actors from project role
-     * Deletes actors from a project role for the project.  To remove default actors from the project role, use [Delete default actors from project role This operation can be accessed anonymously. ](#api-rest-api-2-role-id-actors-delete)  [ ](#api-rest-api-2-role-id-actors-delete)**[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * Deletes actors from a project role for the project.  To remove default actors from the project role, use [Delete default actors from project role This operation can be accessed anonymously. ](#api-rest-api-3-role-id-actors-delete)  [ ](#api-rest-api-3-role-id-actors-delete)**[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param projectIdOrKey The project ID or project key (case sensitive).
-     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-3-role-get) to get a list of project role IDs.
      * @param user The user account ID of the user to remove from the project role.
      * @param group The name of the group to remove from the project role.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -239,62 +184,7 @@ export class ProjectRoleActorsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/role/${encodeURIComponent(String(id))}`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Delete default actors from project role
-     * Deletes the [default actors](#api-rest-api-2-resolution-get) from a project role. You may delete a group or user, but you cannot delete a group and a user in the same request.  Changing a project role\&#39;s default actors does not affect project role members for projects already created.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.
-     * @param user The user account ID of the user to remove as a default actor.
-     * @param group The group name of the group to be removed as a default actor.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public deleteProjectRoleActorsFromRole(id: number, user?: string, group?: string, observe?: 'body', reportProgress?: boolean): Observable<ProjectRoleModel>;
-    public deleteProjectRoleActorsFromRole(id: number, user?: string, group?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProjectRoleModel>>;
-    public deleteProjectRoleActorsFromRole(id: number, user?: string, group?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProjectRoleModel>>;
-    public deleteProjectRoleActorsFromRole(id: number, user?: string, group?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling deleteProjectRoleActorsFromRole.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (user !== undefined && user !== null) {
-            queryParameters = queryParameters.set('user', <any>user);
-        }
-        if (group !== undefined && group !== null) {
-            queryParameters = queryParameters.set('group', <any>group);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/2/role/${encodeURIComponent(String(id))}/actors`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/role/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -307,8 +197,8 @@ export class ProjectRoleActorsService {
 
     /**
      * Get default actors for project role
-     * Returns the [default actors](#api-rest-api-2-resolution-get) for the project role.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+     * Returns the [default actors](#api-rest-api-3-resolution-get) for the project role.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-3-role-get) to get a list of project role IDs.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -347,7 +237,7 @@ export class ProjectRoleActorsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/2/role/${encodeURIComponent(String(id))}/actors`,
+        return this.httpClient.get<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/3/role/${encodeURIComponent(String(id))}/actors`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -359,9 +249,9 @@ export class ProjectRoleActorsService {
 
     /**
      * Set actors for project role
-     * Sets the actors for a project role for a project, replacing all existing actors.  To add actors to the project without overwriting the existing list, use [Add actors to project role](#api-rest-api-2-project-projectIdOrKey-role-id-post).  **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * Sets the actors for a project role for a project, replacing all existing actors.  To add actors to the project without overwriting the existing list, use [Add actors to project role](#api-rest-api-3-project-projectIdOrKey-role-id-post).  **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param projectIdOrKey The project ID or project key (case sensitive).
-     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+     * @param id The ID of the project role. Use [Get all project roles](#api-rest-api-3-role-get) to get a list of project role IDs.
      * @param projectRoleActorsUpdateBeanModel The groups or users to associate with the project role for this project. Provide the user account ID or group name.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -412,7 +302,7 @@ export class ProjectRoleActorsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/role/${encodeURIComponent(String(id))}`,
+        return this.httpClient.put<ProjectRoleModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/role/${encodeURIComponent(String(id))}`,
             projectRoleActorsUpdateBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,

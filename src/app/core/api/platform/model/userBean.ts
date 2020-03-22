@@ -32,7 +32,7 @@ export interface UserBeanModel {
      */
     displayName?: string;
     /**
-     * Indicates whether the user is active.
+     * Whether the user is active.
      */
     active?: boolean;
     /**

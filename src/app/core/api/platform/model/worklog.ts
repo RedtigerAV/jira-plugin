@@ -36,9 +36,9 @@ export interface WorklogModel {
      */
     readonly updateAuthor?: UserDetailsModel;
     /**
-     * A comment about the worklog. Optional when creating or updating a worklog.
+     * A comment about the worklog in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/). Optional when creating or updating a worklog.
      */
-    comment?: string;
+    comment?: object;
     /**
      * The datetime on which the worklog was created.
      */

@@ -101,7 +101,7 @@ export class LabelsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanStringModel>(`${this.configuration.basePath}/rest/api/2/label`,
+        return this.httpClient.get<PageBeanStringModel>(`${this.configuration.basePath}/rest/api/3/label`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

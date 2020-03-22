@@ -108,7 +108,7 @@ export class IssueCustomFieldOptionsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/customField/${encodeURIComponent(String(fieldId))}/option`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/customField/${encodeURIComponent(String(fieldId))}/option`,
             bulkCreateCustomFieldOptionRequestModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -161,7 +161,7 @@ export class IssueCustomFieldOptionsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<CustomFieldOptionModel>(`${this.configuration.basePath}/rest/api/2/customFieldOption/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<CustomFieldOptionModel>(`${this.configuration.basePath}/rest/api/3/customFieldOption/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -215,7 +215,7 @@ export class IssueCustomFieldOptionsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanCustomFieldOptionDetailsModel>(`${this.configuration.basePath}/rest/api/2/customField/${encodeURIComponent(String(fieldId))}/option`,
+        return this.httpClient.get<PageBeanCustomFieldOptionDetailsModel>(`${this.configuration.basePath}/rest/api/3/customField/${encodeURIComponent(String(fieldId))}/option`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -269,7 +269,7 @@ export class IssueCustomFieldOptionsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/customField/${encodeURIComponent(String(fieldId))}/option`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/customField/${encodeURIComponent(String(fieldId))}/option`,
             updateCustomFieldOptionModel,
             {
                 withCredentials: this.configuration.withCredentials,

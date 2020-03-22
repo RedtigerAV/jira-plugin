@@ -20,11 +20,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { DashboardModel } from '../model/dashboard';
 import { EntityPropertyModel } from '../model/entityProperty';
-import { ErrorCollectionModel } from '../model/errorCollection';
-import { PageBeanDashboardModel } from '../model/pageBeanDashboard';
-import { PageOfDashboardsModel } from '../model/pageOfDashboards';
 import { PropertyKeysModel } from '../model/propertyKeys';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -115,106 +111,7 @@ export class DashboardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties/${encodeURIComponent(String(propertyKey))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get all dashboards
-     * Returns a list of dashboards owned by or shared with the user. The list may be filtered to include only favorite or owned dashboards.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** None.
-     * @param filter The filter applied to the list of dashboards. Valid values are:   *  &#x60;favourite&#x60; Returns dashboards the user has marked as favorite.  *  &#x60;my&#x60; Returns dashboards owned by the user.
-     * @param startAt The index of the first item to return in a page of results (page offset).
-     * @param maxResults The maximum number of items to return per page.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllDashboards(filter?: 'my' | 'favourite', startAt?: number, maxResults?: number, observe?: 'body', reportProgress?: boolean): Observable<PageOfDashboardsModel>;
-    public getAllDashboards(filter?: 'my' | 'favourite', startAt?: number, maxResults?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOfDashboardsModel>>;
-    public getAllDashboards(filter?: 'my' | 'favourite', startAt?: number, maxResults?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOfDashboardsModel>>;
-    public getAllDashboards(filter?: 'my' | 'favourite', startAt?: number, maxResults?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (filter !== undefined && filter !== null) {
-            queryParameters = queryParameters.set('filter', <any>filter);
-        }
-        if (startAt !== undefined && startAt !== null) {
-            queryParameters = queryParameters.set('startAt', <any>startAt);
-        }
-        if (maxResults !== undefined && maxResults !== null) {
-            queryParameters = queryParameters.set('maxResults', <any>maxResults);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<PageOfDashboardsModel>(`${this.configuration.basePath}/rest/api/2/dashboard`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get dashboard
-     * Returns a dashboard.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** None.  However, to get a dashboard, the dashboard must be shared with the user or the user must own it. Note, users with the *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) are considered owners of the System dashboard. The System dashboard is considered to be shared with all other users.
-     * @param id The ID of the dashboard.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getDashboard(id: string, observe?: 'body', reportProgress?: boolean): Observable<DashboardModel>;
-    public getDashboard(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DashboardModel>>;
-    public getDashboard(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DashboardModel>>;
-    public getDashboard(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getDashboard.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<DashboardModel>(`${this.configuration.basePath}/rest/api/2/dashboard/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -274,7 +171,7 @@ export class DashboardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/2/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/3/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -330,95 +227,8 @@ export class DashboardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/2/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties`,
+        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/3/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties`,
             {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Search for dashboards
-     * Searches for dashboards. This operation is similar to [Get dashboards](#api-rest-api-2-dashboard-get) except that the results can be refined to include dashboards that have specific attributes. For example, dashboards with a particular name. When multiple attributes are specified only filters matching all attributes are returned.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** The following dashboards that match the query parameters are returned:   *  Dashboards owned by the user. Not returned for anonymous users.  *  Dashboards shared with a group that the user is a member of. Not returned for anonymous users.  *  Dashboards shared with a private project that the user can browse. Not returned for anonymous users.  *  Dashboards shared with a public project.  *  Dashboards shared with the public.
-     * @param dashboardName String used to perform a case-insensitive partial match with &#x60;name&#x60;.
-     * @param accountId User account ID used to return dashboards with the matching &#x60;owner.accountId&#x60;. This parameter cannot be used with the &#x60;owner&#x60; parameter.
-     * @param owner This parameter is deprecated because of privacy changes. Use &#x60;accountId&#x60; instead. See the [migration guide](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/) for details. User name used to return dashboards with the matching &#x60;owner.name&#x60;. This parameter cannot be used with the &#x60;accountId&#x60; parameter.
-     * @param groupname Group name used to returns dashboards that are shared with a group that matches &#x60;sharePermissions.group.name&#x60;.
-     * @param projectId Project ID used to returns dashboards that are shared with a project that matches &#x60;sharePermissions.project.id&#x60;.
-     * @param orderBy [Order](#ordering) the results by a field:   *  &#x60;description&#x60; Sorts by dashboard description. Note that this sort works independently of whether the expand to display the description field is in use.  *  &#x60;favourite_count&#x60; Sorts by dashboard popularity.  *  &#x60;id&#x60; Sorts by dashboard ID.  *  &#x60;is_favourite&#x60; Sorts by whether the dashboard is marked as a favorite.  *  &#x60;name&#x60; Sorts by dashboard name.  *  &#x60;owner&#x60; Sorts by dashboard owner name.
-     * @param startAt The index of the first item to return in a page of results (page offset).
-     * @param maxResults The maximum number of items to return per page.
-     * @param expand Use [expand](#expansion) to include additional information about dashboard in the response. This parameter accepts a comma-separated list. Expand options include:   *  &#x60;description&#x60; Returns the description of the dashboard.  *  &#x60;owner&#x60; Returns the owner of the dashboard.  *  &#x60;viewUrl&#x60; Returns the URL that is used to view the dashboard.  *  &#x60;favourite&#x60; Returns &#x60;isFavourite&#x60;, an indicator of whether the user has set the dashboard as a favorite.  *  &#x60;favouritedCount&#x60; Returns &#x60;popularity&#x60;, a count of how many users have set this dashboard as a favorite.  *  &#x60;sharePermissions&#x60; Returns details of the share permissions defined for the dashboard.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getDashboardsPaginated(dashboardName?: string, accountId?: string, owner?: string, groupname?: string, projectId?: number, orderBy?: 'description' | '-description' | '+description' | 'favorite_count' | '-favorite_count' | '+favorite_count' | 'id' | '-id' | '+id' | 'is_favorite' | '-is_favorite' | '+is_favorite' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner', startAt?: number, maxResults?: number, expand?: string, observe?: 'body', reportProgress?: boolean): Observable<PageBeanDashboardModel>;
-    public getDashboardsPaginated(dashboardName?: string, accountId?: string, owner?: string, groupname?: string, projectId?: number, orderBy?: 'description' | '-description' | '+description' | 'favorite_count' | '-favorite_count' | '+favorite_count' | 'id' | '-id' | '+id' | 'is_favorite' | '-is_favorite' | '+is_favorite' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner', startAt?: number, maxResults?: number, expand?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanDashboardModel>>;
-    public getDashboardsPaginated(dashboardName?: string, accountId?: string, owner?: string, groupname?: string, projectId?: number, orderBy?: 'description' | '-description' | '+description' | 'favorite_count' | '-favorite_count' | '+favorite_count' | 'id' | '-id' | '+id' | 'is_favorite' | '-is_favorite' | '+is_favorite' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner', startAt?: number, maxResults?: number, expand?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanDashboardModel>>;
-    public getDashboardsPaginated(dashboardName?: string, accountId?: string, owner?: string, groupname?: string, projectId?: number, orderBy?: 'description' | '-description' | '+description' | 'favorite_count' | '-favorite_count' | '+favorite_count' | 'id' | '-id' | '+id' | 'is_favorite' | '-is_favorite' | '+is_favorite' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner', startAt?: number, maxResults?: number, expand?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (dashboardName !== undefined && dashboardName !== null) {
-            queryParameters = queryParameters.set('dashboardName', <any>dashboardName);
-        }
-        if (accountId !== undefined && accountId !== null) {
-            queryParameters = queryParameters.set('accountId', <any>accountId);
-        }
-        if (owner !== undefined && owner !== null) {
-            queryParameters = queryParameters.set('owner', <any>owner);
-        }
-        if (groupname !== undefined && groupname !== null) {
-            queryParameters = queryParameters.set('groupname', <any>groupname);
-        }
-        if (projectId !== undefined && projectId !== null) {
-            queryParameters = queryParameters.set('projectId', <any>projectId);
-        }
-        if (orderBy !== undefined && orderBy !== null) {
-            queryParameters = queryParameters.set('orderBy', <any>orderBy);
-        }
-        if (startAt !== undefined && startAt !== null) {
-            queryParameters = queryParameters.set('startAt', <any>startAt);
-        }
-        if (maxResults !== undefined && maxResults !== null) {
-            queryParameters = queryParameters.set('maxResults', <any>maxResults);
-        }
-        if (expand !== undefined && expand !== null) {
-            queryParameters = queryParameters.set('expand', <any>expand);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<PageBeanDashboardModel>(`${this.configuration.basePath}/rest/api/2/dashboard/search`,
-            {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -486,7 +296,7 @@ export class DashboardsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/dashboard/${encodeURIComponent(String(dashboardId))}/items/${encodeURIComponent(String(itemId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,

@@ -105,7 +105,7 @@ export class JQLService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<JQLReferenceDataModel>(`${this.configuration.basePath}/rest/api/2/jql/autocompletedata`,
+        return this.httpClient.get<JQLReferenceDataModel>(`${this.configuration.basePath}/rest/api/3/jql/autocompletedata`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -171,7 +171,7 @@ export class JQLService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<AutoCompleteSuggestionsModel>(`${this.configuration.basePath}/rest/api/2/jql/autocompletedata/suggestions`,
+        return this.httpClient.get<AutoCompleteSuggestionsModel>(`${this.configuration.basePath}/rest/api/3/jql/autocompletedata/suggestions`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -229,7 +229,7 @@ export class JQLService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ConvertedJQLQueriesModel>(`${this.configuration.basePath}/rest/api/2/jql/pdcleaner`,
+        return this.httpClient.post<ConvertedJQLQueriesModel>(`${this.configuration.basePath}/rest/api/3/jql/pdcleaner`,
             jQLPersonalDataMigrationRequestModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -287,7 +287,7 @@ export class JQLService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ParsedJqlQueriesModel>(`${this.configuration.basePath}/rest/api/2/jql/parse`,
+        return this.httpClient.post<ParsedJqlQueriesModel>(`${this.configuration.basePath}/rest/api/3/jql/parse`,
             jqlQueriesToParseModel,
             {
                 withCredentials: this.configuration.withCredentials,

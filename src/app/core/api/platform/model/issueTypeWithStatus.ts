@@ -31,7 +31,7 @@ export interface IssueTypeWithStatusModel {
      */
     readonly name: string;
     /**
-     * Indicates whether this issue type represents subtasks.
+     * Whether this issue type represents subtasks.
      */
     readonly subtask: boolean;
     /**

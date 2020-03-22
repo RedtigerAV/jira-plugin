@@ -92,7 +92,7 @@ export class TimeTrackingService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<TimeTrackingProviderModel>>(`${this.configuration.basePath}/rest/api/2/configuration/timetracking/list`,
+        return this.httpClient.get<Array<TimeTrackingProviderModel>>(`${this.configuration.basePath}/rest/api/3/configuration/timetracking/list`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -132,7 +132,7 @@ export class TimeTrackingService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<TimeTrackingProviderModel>(`${this.configuration.basePath}/rest/api/2/configuration/timetracking`,
+        return this.httpClient.get<TimeTrackingProviderModel>(`${this.configuration.basePath}/rest/api/3/configuration/timetracking`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -172,7 +172,7 @@ export class TimeTrackingService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<TimeTrackingConfigurationModel>(`${this.configuration.basePath}/rest/api/2/configuration/timetracking/options`,
+        return this.httpClient.get<TimeTrackingConfigurationModel>(`${this.configuration.basePath}/rest/api/3/configuration/timetracking/options`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -221,7 +221,7 @@ export class TimeTrackingService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/configuration/timetracking`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/configuration/timetracking`,
             timeTrackingProviderModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -271,7 +271,7 @@ export class TimeTrackingService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<TimeTrackingConfigurationModel>(`${this.configuration.basePath}/rest/api/2/configuration/timetracking/options`,
+        return this.httpClient.put<TimeTrackingConfigurationModel>(`${this.configuration.basePath}/rest/api/3/configuration/timetracking/options`,
             timeTrackingConfigurationModel,
             {
                 withCredentials: this.configuration.withCredentials,

@@ -26,15 +26,15 @@ export interface FieldReferenceDataModel {
      */
     displayName?: string;
     /**
-     * Indicates whether the field can be used in a query\'s `ORDER BY` clause.
+     * Whether the field can be used in a query\'s `ORDER BY` clause.
      */
     orderable?: FieldReferenceDataModel.OrderableModelEnum;
     /**
-     * Indicates whether the content of this field can be searched.
+     * Whether the content of this field can be searched.
      */
     searchable?: FieldReferenceDataModel.SearchableModelEnum;
     /**
-     * Indicates whether the field provide auto-complete suggestions.
+     * Whether the field provide auto-complete suggestions.
      */
     auto?: FieldReferenceDataModel.AutoModelEnum;
     /**

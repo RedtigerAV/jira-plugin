@@ -26,7 +26,7 @@ export interface HealthCheckResultModel {
      */
     description?: string;
     /**
-     * Indicates whether the Jira health check item passed or failed.
+     * Whether the Jira health check item passed or failed.
      */
     passed?: boolean;
 }

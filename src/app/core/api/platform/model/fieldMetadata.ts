@@ -19,7 +19,7 @@ import { JsonTypeBeanModel } from './jsonTypeBean';
  */
 export interface FieldMetadataModel { 
     /**
-     * Indicates whether the field is required.
+     * Whether the field is required.
      */
     readonly required: boolean;
     /**
@@ -39,7 +39,7 @@ export interface FieldMetadataModel {
      */
     readonly autoCompleteUrl?: string;
     /**
-     * Indicates whether the field has a default value.
+     * Whether the field has a default value.
      */
     readonly hasDefaultValue?: boolean;
     /**

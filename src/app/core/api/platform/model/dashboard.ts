@@ -25,7 +25,7 @@ export interface DashboardModel {
      */
     readonly id?: string;
     /**
-     * Indicates whether the dashboard is selected as a favorite by the user.
+     * Whether the dashboard is selected as a favorite by the user.
      */
     readonly isFavourite?: boolean;
     /**

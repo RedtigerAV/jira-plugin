@@ -24,8 +24,6 @@ import { CustomFieldDefinitionJsonBeanModel } from '../model/customFieldDefiniti
 import { ErrorCollectionModel } from '../model/errorCollection';
 import { FieldDetailsModel } from '../model/fieldDetails';
 import { PageBeanContextModel } from '../model/pageBeanContext';
-import { PageBeanFieldConfigurationItemModel } from '../model/pageBeanFieldConfigurationItem';
-import { PageBeanFieldConfigurationModel } from '../model/pageBeanFieldConfiguration';
 import { PageBeanFieldModel } from '../model/pageBeanField';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -114,60 +112,9 @@ export class IssueFieldsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<FieldDetailsModel>(`${this.configuration.basePath}/rest/api/2/field`,
+        return this.httpClient.post<FieldDetailsModel>(`${this.configuration.basePath}/rest/api/3/field`,
             customFieldDefinitionJsonBeanModel,
             {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get all field configurations
-     * Returns a paginated list of all field configurations.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param startAt The index of the first item to return in a page of results (page offset).
-     * @param maxResults The maximum number of items to return per page.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllFieldConfigurations(startAt?: number, maxResults?: number, observe?: 'body', reportProgress?: boolean): Observable<PageBeanFieldConfigurationModel>;
-    public getAllFieldConfigurations(startAt?: number, maxResults?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanFieldConfigurationModel>>;
-    public getAllFieldConfigurations(startAt?: number, maxResults?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanFieldConfigurationModel>>;
-    public getAllFieldConfigurations(startAt?: number, maxResults?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (startAt !== undefined && startAt !== null) {
-            queryParameters = queryParameters.set('startAt', <any>startAt);
-        }
-        if (maxResults !== undefined && maxResults !== null) {
-            queryParameters = queryParameters.set('maxResults', <any>maxResults);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<PageBeanFieldConfigurationModel>(`${this.configuration.basePath}/rest/api/2/field/configuration`,
-            {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -220,62 +167,7 @@ export class IssueFieldsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanContextModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldId))}/contexts`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get field configuration items
-     * Returns a paginated list of all fields for a configuration.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param id The ID of the field configuration.
-     * @param startAt The index of the first item to return in a page of results (page offset).
-     * @param maxResults The maximum number of items to return per page.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getFieldConfigurationItems(id: number, startAt?: number, maxResults?: number, observe?: 'body', reportProgress?: boolean): Observable<PageBeanFieldConfigurationItemModel>;
-    public getFieldConfigurationItems(id: number, startAt?: number, maxResults?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanFieldConfigurationItemModel>>;
-    public getFieldConfigurationItems(id: number, startAt?: number, maxResults?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanFieldConfigurationItemModel>>;
-    public getFieldConfigurationItems(id: number, startAt?: number, maxResults?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getFieldConfigurationItems.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (startAt !== undefined && startAt !== null) {
-            queryParameters = queryParameters.set('startAt', <any>startAt);
-        }
-        if (maxResults !== undefined && maxResults !== null) {
-            queryParameters = queryParameters.set('maxResults', <any>maxResults);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<PageBeanFieldConfigurationItemModel>(`${this.configuration.basePath}/rest/api/2/field/configuration/${encodeURIComponent(String(id))}/fields`,
+        return this.httpClient.get<PageBeanContextModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldId))}/contexts`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -324,7 +216,7 @@ export class IssueFieldsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<FieldDetailsModel>>(`${this.configuration.basePath}/rest/api/2/field`,
+        return this.httpClient.get<Array<FieldDetailsModel>>(`${this.configuration.basePath}/rest/api/3/field`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -398,7 +290,7 @@ export class IssueFieldsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanFieldModel>(`${this.configuration.basePath}/rest/api/2/field/search`,
+        return this.httpClient.get<PageBeanFieldModel>(`${this.configuration.basePath}/rest/api/3/field/search`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

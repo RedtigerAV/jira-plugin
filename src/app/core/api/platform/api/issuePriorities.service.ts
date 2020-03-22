@@ -99,7 +99,7 @@ export class IssuePrioritiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<PriorityModel>>(`${this.configuration.basePath}/rest/api/2/priority`,
+        return this.httpClient.get<Array<PriorityModel>>(`${this.configuration.basePath}/rest/api/3/priority`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -151,7 +151,7 @@ export class IssuePrioritiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PriorityModel>(`${this.configuration.basePath}/rest/api/2/priority/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<PriorityModel>(`${this.configuration.basePath}/rest/api/3/priority/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

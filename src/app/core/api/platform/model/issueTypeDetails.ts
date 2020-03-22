@@ -39,7 +39,7 @@ export interface IssueTypeDetailsModel {
      */
     readonly name?: string;
     /**
-     * Indicates whether this issue type is used to create subtasks.
+     * Whether this issue type is used to create subtasks.
      */
     readonly subtask?: boolean;
     /**

@@ -103,7 +103,7 @@ export class WorkflowStatusesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<StatusDetailsModel>(`${this.configuration.basePath}/rest/api/2/status/${encodeURIComponent(String(idOrName))}`,
+        return this.httpClient.get<StatusDetailsModel>(`${this.configuration.basePath}/rest/api/3/status/${encodeURIComponent(String(idOrName))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -151,7 +151,7 @@ export class WorkflowStatusesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<StatusDetailsModel>>(`${this.configuration.basePath}/rest/api/2/status`,
+        return this.httpClient.get<Array<StatusDetailsModel>>(`${this.configuration.basePath}/rest/api/3/status`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

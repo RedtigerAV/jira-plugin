@@ -22,7 +22,7 @@ export interface StatusModel {
 
 
     /**
-     * Indicates whether the item is resolved. If set to \"true\", the link to the issue is displayed in a strikethrough font, otherwise the link displays in normal font.
+     * Whether the item is resolved. If set to \"true\", the link to the issue is displayed in a strikethrough font, otherwise the link displays in normal font.
      */
     resolved?: boolean;
     /**

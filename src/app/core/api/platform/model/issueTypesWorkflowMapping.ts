@@ -26,11 +26,11 @@ export interface IssueTypesWorkflowMappingModel {
      */
     issueTypes?: Array<string>;
     /**
-     * Indicates whether the workflow is the default workflow for the workflow scheme.
+     * Whether the workflow is the default workflow for the workflow scheme.
      */
     defaultMapping?: boolean;
     /**
-     * Indicates whether a draft workflow scheme is created or updated when updating an active workflow scheme. The draft is updated with the new workflow-issue types mapping. Defaults to `false`.
+     * Whether a draft workflow scheme is created or updated when updating an active workflow scheme. The draft is updated with the new workflow-issue types mapping. Defaults to `false`.
      */
     updateDraftIfNeeded?: boolean;
 }

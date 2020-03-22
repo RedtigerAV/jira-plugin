@@ -23,6 +23,18 @@ export interface ComponentWithIssueCountModel {
      */
     readonly issueCount?: number;
     /**
+     * The user assigned to issues created with this component, when `assigneeType` does not identify a valid assignee.
+     */
+    realAssignee?: UserModel;
+    /**
+     * Whether a user is associated with `assigneeType`. For example, if the `assigneeType` is set to `COMPONENT_LEAD` but the component lead is not set, then `false` is returned.
+     */
+    readonly isAssigneeTypeValid?: boolean;
+    /**
+     * The type of the assignee that is assigned to issues created with this component, when an assignee cannot be set from the `assigneeType`. For example, `assigneeType` is set to `COMPONENT_LEAD` but no component lead is set. This property is set to one of the following values:   *  `PROJECT_LEAD` when `assigneeType` is `PROJECT_LEAD` and the project lead has permission to be assigned issues in the project that the component is in.  *  `COMPONENT_LEAD` when `assignee`Type is `COMPONENT_LEAD` and the component lead has permission to be assigned issues in the project that the component is in.  *  `UNASSIGNED` when `assigneeType` is `UNASSIGNED` and Jira is configured to allow unassigned issues.  *  `PROJECT_DEFAULT` when none of the preceding cases are true.
+     */
+    readonly realAssigneeType?: ComponentWithIssueCountModel.RealAssigneeTypeModelEnum;
+    /**
      * The description for the component.
      */
     readonly description?: string;
@@ -31,37 +43,25 @@ export interface ComponentWithIssueCountModel {
      */
     readonly self?: string;
     /**
-     * The key of the project to which the component is assigned.
+     * The user details for the component\'s lead user.
      */
-    readonly project?: string;
-    /**
-     * Not used.
-     */
-    readonly projectId?: number;
+    lead?: UserModel;
     /**
      * The nominal user type used to determine the assignee for issues created with this component. See `realAssigneeType` for details on how the type of the user, and hence the user, assigned to issues is determined. Takes the following values:   *  `PROJECT_LEAD` the assignee to any issues created with this component is nominally the lead for the project the component is in.  *  `COMPONENT_LEAD` the assignee to any issues created with this component is nominally the lead for the component.  *  `UNASSIGNED` an assignee is not set for issues created with this component.  *  `PROJECT_DEFAULT` the assignee to any issues created with this component is nominally the default assignee for the project that the component is in.
      */
     readonly assigneeType?: ComponentWithIssueCountModel.AssigneeTypeModelEnum;
     /**
-     * The user details for the component\'s lead user.
+     * The key of the project to which the component is assigned.
      */
-    lead?: UserModel;
-    /**
-     * The user assigned to issues created with this component, when `assigneeType` does not identify a valid assignee.
-     */
-    realAssignee?: UserModel;
-    /**
-     * Indicates whether a user is associated with `assigneeType`. For example, if the `assigneeType` is set to `COMPONENT_LEAD` but the component lead is not set, then `false` is returned.
-     */
-    readonly isAssigneeTypeValid?: boolean;
+    readonly project?: string;
     /**
      * The details of the user associated with `assigneeType`, if any. See `realAssignee` for details of the user assigned to issues created with this component.
      */
     assignee?: UserModel;
     /**
-     * The type of the assignee that is assigned to issues created with this component, when an assignee cannot be set from the `assigneeType`. For example, `assigneeType` is set to `COMPONENT_LEAD` but no component lead is set. This property is set to one of the following values:   *  `PROJECT_LEAD` when `assigneeType` is `PROJECT_LEAD` and the project lead has permission to be assigned issues in the project that the component is in.  *  `COMPONENT_LEAD` when `assignee`Type is `COMPONENT_LEAD` and the component lead has permission to be assigned issues in the project that the component is in.  *  `UNASSIGNED` when `assigneeType` is `UNASSIGNED` and Jira is configured to allow unassigned issues.  *  `PROJECT_DEFAULT` when none of the preceding cases are true.
+     * Not used.
      */
-    readonly realAssigneeType?: ComponentWithIssueCountModel.RealAssigneeTypeModelEnum;
+    readonly projectId?: number;
     /**
      * The name for the component.
      */
@@ -72,19 +72,19 @@ export interface ComponentWithIssueCountModel {
     readonly id?: string;
 }
 export namespace ComponentWithIssueCountModel {
-    export type AssigneeTypeModelEnum = 'PROJECT_DEFAULT' | 'COMPONENT_LEAD' | 'PROJECT_LEAD' | 'UNASSIGNED';
-    export const AssigneeTypeModelEnum = {
-        PROJECTDEFAULT: 'PROJECT_DEFAULT' as AssigneeTypeModelEnum,
-        COMPONENTLEAD: 'COMPONENT_LEAD' as AssigneeTypeModelEnum,
-        PROJECTLEAD: 'PROJECT_LEAD' as AssigneeTypeModelEnum,
-        UNASSIGNED: 'UNASSIGNED' as AssigneeTypeModelEnum
-    };
     export type RealAssigneeTypeModelEnum = 'PROJECT_DEFAULT' | 'COMPONENT_LEAD' | 'PROJECT_LEAD' | 'UNASSIGNED';
     export const RealAssigneeTypeModelEnum = {
         PROJECTDEFAULT: 'PROJECT_DEFAULT' as RealAssigneeTypeModelEnum,
         COMPONENTLEAD: 'COMPONENT_LEAD' as RealAssigneeTypeModelEnum,
         PROJECTLEAD: 'PROJECT_LEAD' as RealAssigneeTypeModelEnum,
         UNASSIGNED: 'UNASSIGNED' as RealAssigneeTypeModelEnum
+    };
+    export type AssigneeTypeModelEnum = 'PROJECT_DEFAULT' | 'COMPONENT_LEAD' | 'PROJECT_LEAD' | 'UNASSIGNED';
+    export const AssigneeTypeModelEnum = {
+        PROJECTDEFAULT: 'PROJECT_DEFAULT' as AssigneeTypeModelEnum,
+        COMPONENTLEAD: 'COMPONENT_LEAD' as AssigneeTypeModelEnum,
+        PROJECTLEAD: 'PROJECT_LEAD' as AssigneeTypeModelEnum,
+        UNASSIGNED: 'UNASSIGNED' as AssigneeTypeModelEnum
     };
 }
 

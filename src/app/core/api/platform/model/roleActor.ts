@@ -19,19 +19,34 @@ import { ProjectRoleUserBeanModel } from './projectRoleUserBean';
  * Details about a user assigned to a project role.
  */
 export interface RoleActorModel { 
-    id?: number;
     /**
-     * The display name of the user. Depending on the user’s privacy setting, this may return an alternative value.
+     * The ID of the role actor.
+     */
+    readonly id?: number;
+    /**
+     * The display name of the role actor. For users, depending on the user’s privacy setting, this may return an alternative value for the user\'s name.
      */
     readonly displayName?: string;
-    type?: string;
+    /**
+     * The type of role actor.
+     */
+    readonly type?: RoleActorModel.TypeModelEnum;
     /**
      * This property is no longer available and will be removed from the documentation soon. See the [deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/) for details.
      */
     readonly name?: string;
-    avatarUrl?: string;
-    actorUser?: ProjectRoleUserBeanModel;
-    actorGroup?: ProjectRoleGroupBeanModel;
-    user?: string;
+    /**
+     * The avatar of the role actor.
+     */
+    readonly avatarUrl?: string;
+    readonly actorUser?: ProjectRoleUserBeanModel;
+    readonly actorGroup?: ProjectRoleGroupBeanModel;
+}
+export namespace RoleActorModel {
+    export type TypeModelEnum = 'atlassian-group-role-actor' | 'atlassian-user-role-actor';
+    export const TypeModelEnum = {
+        GroupRoleActor: 'atlassian-group-role-actor' as TypeModelEnum,
+        UserRoleActor: 'atlassian-user-role-actor' as TypeModelEnum
+    };
 }
 

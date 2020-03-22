@@ -103,7 +103,7 @@ export class TasksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/task/${encodeURIComponent(String(taskId))}/cancel`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/task/${encodeURIComponent(String(taskId))}/cancel`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -156,7 +156,7 @@ export class TasksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<TaskProgressBeanObjectModel>(`${this.configuration.basePath}/rest/api/2/task/${encodeURIComponent(String(taskId))}`,
+        return this.httpClient.get<TaskProgressBeanObjectModel>(`${this.configuration.basePath}/rest/api/3/task/${encodeURIComponent(String(taskId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

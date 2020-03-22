@@ -103,7 +103,7 @@ export class IssueLinksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issueLink/${encodeURIComponent(String(linkId))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issueLink/${encodeURIComponent(String(linkId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -155,7 +155,7 @@ export class IssueLinksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueLinkModel>(`${this.configuration.basePath}/rest/api/2/issueLink/${encodeURIComponent(String(linkId))}`,
+        return this.httpClient.get<IssueLinkModel>(`${this.configuration.basePath}/rest/api/3/issueLink/${encodeURIComponent(String(linkId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -167,7 +167,7 @@ export class IssueLinksService {
 
     /**
      * Create issue link
-     * Creates a link between two issues. Use this operation to indicate a relationship between two issues and optionally add a comment to the from (outward) issue. To use this resource the site must have [Issue Linking](https://confluence.atlassian.com/x/yoXKM) enabled.  This resource returns nothing on the creation of an issue link. To obtain the ID of the issue link, use &#x60;https://your-domain.atlassian.net/rest/api/2/issue/[linked issue key]?fields&#x3D;issuelinks&#x60;.  If the link request duplicates a link, the response indicates that the issue link was created. If the request included a comment, the comment is added.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse project* [project permission](https://confluence.atlassian.com/x/yodKLg) for all the projects containing the issues to be linked,  *  *Link issues* [project permission](https://confluence.atlassian.com/x/yodKLg) on the project containing the from (outward) issue,  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.  *  If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to.
+     * Creates a link between two issues. Use this operation to indicate a relationship between two issues and optionally add a comment to the from (outward) issue. To use this resource the site must have [Issue Linking](https://confluence.atlassian.com/x/yoXKM) enabled.  This resource returns nothing on the creation of an issue link. To obtain the ID of the issue link, use &#x60;https://your-domain.atlassian.net/rest/api/3/issue/[linked issue key]?fields&#x3D;issuelinks&#x60;.  If the link request duplicates a link, the response indicates that the issue link was created. If the request included a comment, the comment is added.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse project* [project permission](https://confluence.atlassian.com/x/yodKLg) for all the projects containing the issues to be linked,  *  *Link issues* [project permission](https://confluence.atlassian.com/x/yodKLg) on the project containing the from (outward) issue,  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.  *  If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to.
      * @param linkIssueRequestJsonBeanModel The issue link request.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -212,7 +212,7 @@ export class IssueLinksService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/issueLink`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/issueLink`,
             linkIssueRequestJsonBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,

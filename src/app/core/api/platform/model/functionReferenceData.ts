@@ -26,7 +26,7 @@ export interface FunctionReferenceDataModel {
      */
     displayName?: string;
     /**
-     * Indicates whether the function can take a list of arguments.
+     * Whether the function can take a list of arguments.
      */
     isList?: FunctionReferenceDataModel.IsListModelEnum;
     /**

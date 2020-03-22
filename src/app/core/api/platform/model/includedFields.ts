@@ -14,8 +14,8 @@
 
 
 export interface IncludedFieldsModel { 
-    included?: Array<string>;
     actuallyIncluded?: Array<string>;
+    included?: Array<string>;
     excluded?: Array<string>;
 }
 

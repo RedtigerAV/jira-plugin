@@ -109,7 +109,7 @@ export class ProjectCategoriesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ProjectCategoryModel>(`${this.configuration.basePath}/rest/api/2/projectCategory`,
+        return this.httpClient.post<ProjectCategoryModel>(`${this.configuration.basePath}/rest/api/3/projectCategory`,
             projectCategoryModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -158,7 +158,7 @@ export class ProjectCategoriesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ProjectCategoryModel>>(`${this.configuration.basePath}/rest/api/2/projectCategory`,
+        return this.httpClient.get<Array<ProjectCategoryModel>>(`${this.configuration.basePath}/rest/api/3/projectCategory`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -210,7 +210,7 @@ export class ProjectCategoriesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ProjectCategoryModel>(`${this.configuration.basePath}/rest/api/2/projectCategory/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<ProjectCategoryModel>(`${this.configuration.basePath}/rest/api/3/projectCategory/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -261,7 +261,7 @@ export class ProjectCategoriesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/projectCategory/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/projectCategory/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -322,7 +322,7 @@ export class ProjectCategoriesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<UpdatedProjectCategoryModel>(`${this.configuration.basePath}/rest/api/2/projectCategory/${encodeURIComponent(String(id))}`,
+        return this.httpClient.put<UpdatedProjectCategoryModel>(`${this.configuration.basePath}/rest/api/3/projectCategory/${encodeURIComponent(String(id))}`,
             projectCategoryModel,
             {
                 withCredentials: this.configuration.withCredentials,

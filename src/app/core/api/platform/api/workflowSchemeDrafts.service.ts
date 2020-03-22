@@ -98,7 +98,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.post<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/createdraft`,
+        return this.httpClient.post<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/createdraft`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -143,7 +143,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/default`,
+        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/default`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -195,7 +195,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/workflow`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/workflow`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -239,7 +239,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -287,7 +287,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/issuetype/${encodeURIComponent(String(issueType))}`,
+        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/issuetype/${encodeURIComponent(String(issueType))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -331,7 +331,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<DefaultWorkflowModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/default`,
+        return this.httpClient.get<DefaultWorkflowModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/default`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -381,7 +381,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueTypesWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/workflow`,
+        return this.httpClient.get<IssueTypesWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/workflow`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -426,7 +426,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft`,
+        return this.httpClient.get<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -474,7 +474,7 @@ export class WorkflowSchemeDraftsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueTypeWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/issuetype/${encodeURIComponent(String(issueType))}`,
+        return this.httpClient.get<IssueTypeWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/issuetype/${encodeURIComponent(String(issueType))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -531,7 +531,7 @@ export class WorkflowSchemeDraftsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/issuetype/${encodeURIComponent(String(issueType))}`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/issuetype/${encodeURIComponent(String(issueType))}`,
             issueTypeWorkflowMappingModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -585,7 +585,7 @@ export class WorkflowSchemeDraftsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/default`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/default`,
             defaultWorkflowModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -648,7 +648,7 @@ export class WorkflowSchemeDraftsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft/workflow`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft/workflow`,
             issueTypesWorkflowMappingModel,
             {
                 params: queryParameters,
@@ -703,7 +703,7 @@ export class WorkflowSchemeDraftsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/draft`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/draft`,
             workflowSchemeModel,
             {
                 withCredentials: this.configuration.withCredentials,

@@ -111,7 +111,7 @@ export class IssueTypesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<IssueTypeDetailsModel>(`${this.configuration.basePath}/rest/api/2/issuetype`,
+        return this.httpClient.post<IssueTypeDetailsModel>(`${this.configuration.basePath}/rest/api/3/issuetype`,
             issueTypeCreateBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -124,7 +124,7 @@ export class IssueTypesService {
 
     /**
      * Load issue type avatar
-     * Loads an avatar for the issue type.  Specify the avatar\&#39;s local file location in the body of the request. Also, include the following headers:   *  &#x60;X-Atlassian-Token: no-check&#x60; To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers).  *  &#x60;Content-Type: image/image type&#x60; Valid image types are JPEG, GIF, or PNG.  For example:   &#x60;curl --request POST \\ --user email@example.com:&lt;api_token&gt; \\ --header \&#39;X-Atlassian-Token: no-check\&#39; \\ --header \&#39;Content-Type: image/&lt; image_type&gt;\&#39; \\ --data-binary \&quot;&lt;@/path/to/file/with/your/avatar&gt;\&quot; \\ --url \&#39;https://your-domain.atlassian.net/rest/api/2/issuetype/{issueTypeId}\&#39;This&#x60;  The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square\&#39;s sides is set to the smaller of the height or width of the image.  The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size.  After creating the avatar, use [ Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type\&#39;s displayed avatar.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * Loads an avatar for the issue type.  Specify the avatar\&#39;s local file location in the body of the request. Also, include the following headers:   *  &#x60;X-Atlassian-Token: no-check&#x60; To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers).  *  &#x60;Content-Type: image/image type&#x60; Valid image types are JPEG, GIF, or PNG.  For example:   &#x60;curl --request POST \\ --user email@example.com:&lt;api_token&gt; \\ --header \&#39;X-Atlassian-Token: no-check\&#39; \\ --header \&#39;Content-Type: image/&lt; image_type&gt;\&#39; \\ --data-binary \&quot;&lt;@/path/to/file/with/your/avatar&gt;\&quot; \\ --url \&#39;https://your-domain.atlassian.net/rest/api/3/issuetype/{issueTypeId}\&#39;This&#x60;  The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square\&#39;s sides is set to the smaller of the height or width of the image.  The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size.  After creating the avatar, use [ Update issue type](#api-rest-api-3-issuetype-id-put) to set it as the issue type\&#39;s displayed avatar.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param id The ID of the issue type.
      * @param size The length of each side of the crop region.
      * @param body 
@@ -189,7 +189,7 @@ export class IssueTypesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<AvatarModel>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(id))}/avatar2`,
+        return this.httpClient.post<AvatarModel>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(id))}/avatar2`,
             body,
             {
                 params: queryParameters,
@@ -203,7 +203,7 @@ export class IssueTypesService {
 
     /**
      * Delete issue type
-     * Deletes the issue type. If the issue type is in use, all uses are updated with the alternative issue type (&#x60;alternativeIssueTypeId&#x60;). A list of alternative issue types are obtained from the [Get alternative issue types](#api-rest-api-2-issuetype-id-alternatives-get) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * Deletes the issue type. If the issue type is in use, all uses are updated with the alternative issue type (&#x60;alternativeIssueTypeId&#x60;). A list of alternative issue types are obtained from the [Get alternative issue types](#api-rest-api-3-issuetype-id-alternatives-get) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param id The ID of the issue type.
      * @param alternativeIssueTypeId The ID of the replacement issue type.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -248,7 +248,7 @@ export class IssueTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -301,7 +301,7 @@ export class IssueTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<IssueTypeDetailsModel>>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(id))}/alternatives`,
+        return this.httpClient.get<Array<IssueTypeDetailsModel>>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(id))}/alternatives`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -349,7 +349,7 @@ export class IssueTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<IssueTypeDetailsModel>>(`${this.configuration.basePath}/rest/api/2/issuetype`,
+        return this.httpClient.get<Array<IssueTypeDetailsModel>>(`${this.configuration.basePath}/rest/api/3/issuetype`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -401,7 +401,7 @@ export class IssueTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueTypeDetailsModel>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<IssueTypeDetailsModel>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -462,7 +462,7 @@ export class IssueTypesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<IssueTypeDetailsModel>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(id))}`,
+        return this.httpClient.put<IssueTypeDetailsModel>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(id))}`,
             issueTypeUpdateBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,

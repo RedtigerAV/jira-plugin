@@ -21,7 +21,7 @@ export interface VisibilityModel {
 
 
     /**
-     * Indicates whether visibility of this item is restricted to a group or role.
+     * Whether visibility of this item is restricted to a group or role.
      */
     type?: VisibilityModel.TypeModelEnum;
     /**

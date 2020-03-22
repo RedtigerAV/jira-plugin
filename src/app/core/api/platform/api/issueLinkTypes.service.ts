@@ -109,7 +109,7 @@ export class IssueLinkTypesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<IssueLinkTypeModel>(`${this.configuration.basePath}/rest/api/2/issueLinkType`,
+        return this.httpClient.post<IssueLinkTypeModel>(`${this.configuration.basePath}/rest/api/3/issueLinkType`,
             issueLinkTypeModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -161,7 +161,7 @@ export class IssueLinkTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issueLinkType/${encodeURIComponent(String(issueLinkTypeId))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issueLinkType/${encodeURIComponent(String(issueLinkTypeId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -213,7 +213,7 @@ export class IssueLinkTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueLinkTypeModel>(`${this.configuration.basePath}/rest/api/2/issueLinkType/${encodeURIComponent(String(issueLinkTypeId))}`,
+        return this.httpClient.get<IssueLinkTypeModel>(`${this.configuration.basePath}/rest/api/3/issueLinkType/${encodeURIComponent(String(issueLinkTypeId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -261,7 +261,7 @@ export class IssueLinkTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueLinkTypesModel>(`${this.configuration.basePath}/rest/api/2/issueLinkType`,
+        return this.httpClient.get<IssueLinkTypesModel>(`${this.configuration.basePath}/rest/api/3/issueLinkType`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -314,7 +314,7 @@ export class IssueLinkTypesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<IssueLinkTypeModel>(`${this.configuration.basePath}/rest/api/2/issueLinkType/${encodeURIComponent(String(issueLinkTypeId))}`,
+        return this.httpClient.put<IssueLinkTypeModel>(`${this.configuration.basePath}/rest/api/3/issueLinkType/${encodeURIComponent(String(issueLinkTypeId))}`,
             issueLinkTypeModel,
             {
                 withCredentials: this.configuration.withCredentials,

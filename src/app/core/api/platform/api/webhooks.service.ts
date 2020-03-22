@@ -114,7 +114,7 @@ export class WebhooksService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/webhook`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/webhook`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -172,7 +172,7 @@ export class WebhooksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanWebhookModel>(`${this.configuration.basePath}/rest/api/2/webhook`,
+        return this.httpClient.get<PageBeanWebhookModel>(`${this.configuration.basePath}/rest/api/3/webhook`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -231,7 +231,7 @@ export class WebhooksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<FailedWebhooksModel>(`${this.configuration.basePath}/rest/api/2/webhook/failed`,
+        return this.httpClient.get<FailedWebhooksModel>(`${this.configuration.basePath}/rest/api/3/webhook/failed`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -289,7 +289,7 @@ export class WebhooksService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WebhooksExpirationDateModel>(`${this.configuration.basePath}/rest/api/2/webhook/refresh`,
+        return this.httpClient.put<WebhooksExpirationDateModel>(`${this.configuration.basePath}/rest/api/3/webhook/refresh`,
             containerForWebhookIDsModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -347,7 +347,7 @@ export class WebhooksService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ContainerForRegisteredWebhooksModel>(`${this.configuration.basePath}/rest/api/2/webhook`,
+        return this.httpClient.post<ContainerForRegisteredWebhooksModel>(`${this.configuration.basePath}/rest/api/3/webhook`,
             webhookRegistrationDetailsModel,
             {
                 withCredentials: this.configuration.withCredentials,

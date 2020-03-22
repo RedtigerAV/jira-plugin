@@ -71,7 +71,7 @@ export interface ProjectModel {
      */
     readonly assigneeType?: ProjectModel.AssigneeTypeModelEnum;
     /**
-     * The versions defined in the project. For more information, see [Create version](#api-rest-api-2-version-post).
+     * The versions defined in the project. For more information, see [Create version](#api-rest-api-3-version-post).
      */
     readonly versions?: Array<VersionModel>;
     /**
@@ -79,7 +79,7 @@ export interface ProjectModel {
      */
     readonly name?: string;
     /**
-     * The name and self URL for each role defined in the project. For more information, see [Create project role](#api-rest-api-2-role-post).
+     * The name and self URL for each role defined in the project. For more information, see [Create project role](#api-rest-api-3-role-post).
      */
     readonly roles?: { [key: string]: string; };
     /**
@@ -146,6 +146,18 @@ export interface ProjectModel {
      * The user who marked the project as deleted.
      */
     readonly deletedBy?: UserModel;
+    /**
+     * Whether the project is archived.
+     */
+    readonly archived?: boolean;
+    /**
+     * The date when the project was archived.
+     */
+    readonly archivedDate?: Date;
+    /**
+     * The user who archived the project.
+     */
+    readonly archivedBy?: UserModel;
 }
 export namespace ProjectModel {
     export type AssigneeTypeModelEnum = 'PROJECT_LEAD' | 'UNASSIGNED';

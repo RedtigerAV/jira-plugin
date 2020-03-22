@@ -113,7 +113,7 @@ export class IssueRemoteLinksService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<RemoteIssueLinkIdentifiesModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink`,
+        return this.httpClient.post<RemoteIssueLinkIdentifiesModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink`,
             requestBody,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -174,7 +174,7 @@ export class IssueRemoteLinksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -230,7 +230,7 @@ export class IssueRemoteLinksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink/${encodeURIComponent(String(linkId))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink/${encodeURIComponent(String(linkId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -286,7 +286,7 @@ export class IssueRemoteLinksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<RemoteIssueLinkModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink/${encodeURIComponent(String(linkId))}`,
+        return this.httpClient.get<RemoteIssueLinkModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink/${encodeURIComponent(String(linkId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -344,7 +344,7 @@ export class IssueRemoteLinksService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<RemoteIssueLinkModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink`,
+        return this.httpClient.get<RemoteIssueLinkModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -410,7 +410,7 @@ export class IssueRemoteLinksService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink/${encodeURIComponent(String(linkId))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/remotelink/${encodeURIComponent(String(linkId))}`,
             requestBody,
             {
                 withCredentials: this.configuration.withCredentials,

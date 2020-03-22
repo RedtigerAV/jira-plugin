@@ -65,7 +65,7 @@ export class IssueSecuritySchemesService {
     /**
      * Get issue security scheme
      * Returns an issue security scheme along with its security levels.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).  *  *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for a project that uses the requested issue security scheme.
-     * @param id The ID of the issue security scheme. Use the [Get issue security schemes](#api-rest-api-2-issuesecurityschemes-get) operation to get a list of issue security scheme IDs.
+     * @param id The ID of the issue security scheme. Use the [Get issue security schemes](#api-rest-api-3-issuesecurityschemes-get) operation to get a list of issue security scheme IDs.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -104,7 +104,7 @@ export class IssueSecuritySchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<SecuritySchemeModel>(`${this.configuration.basePath}/rest/api/2/issuesecurityschemes/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<SecuritySchemeModel>(`${this.configuration.basePath}/rest/api/3/issuesecurityschemes/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -152,7 +152,7 @@ export class IssueSecuritySchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<SecuritySchemesModel>(`${this.configuration.basePath}/rest/api/2/issuesecurityschemes`,
+        return this.httpClient.get<SecuritySchemesModel>(`${this.configuration.basePath}/rest/api/3/issuesecurityschemes`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -26,7 +26,7 @@ export interface IssueFilterForBulkPropertySetModel {
      */
     currentValue?: object;
     /**
-     * Indicates whether the bulk operation occurs only when the property is present on or absent from an issue.
+     * Whether the bulk operation occurs only when the property is present on or absent from an issue.
      */
     hasProperty?: boolean;
 }

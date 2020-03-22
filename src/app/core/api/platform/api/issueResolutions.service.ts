@@ -103,7 +103,7 @@ export class IssueResolutionsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ResolutionModel>(`${this.configuration.basePath}/rest/api/2/resolution/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<ResolutionModel>(`${this.configuration.basePath}/rest/api/3/resolution/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -151,7 +151,7 @@ export class IssueResolutionsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ResolutionModel>>(`${this.configuration.basePath}/rest/api/2/resolution`,
+        return this.httpClient.get<Array<ResolutionModel>>(`${this.configuration.basePath}/rest/api/3/resolution`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

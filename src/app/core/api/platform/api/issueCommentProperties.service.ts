@@ -107,7 +107,7 @@ export class IssueCommentPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/comment/${encodeURIComponent(String(commentId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/comment/${encodeURIComponent(String(commentId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -163,7 +163,7 @@ export class IssueCommentPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/2/comment/${encodeURIComponent(String(commentId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/3/comment/${encodeURIComponent(String(commentId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -215,7 +215,7 @@ export class IssueCommentPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/2/comment/${encodeURIComponent(String(commentId))}/properties`,
+        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/3/comment/${encodeURIComponent(String(commentId))}/properties`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -280,7 +280,7 @@ export class IssueCommentPropertiesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/comment/${encodeURIComponent(String(commentId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/comment/${encodeURIComponent(String(commentId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
