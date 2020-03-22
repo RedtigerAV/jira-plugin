@@ -67,46 +67,6 @@ export class PermissionsService {
 
 
     /**
-     * Get all permissions
-     * Returns all permissions, including:   *  global permissions.  *  project permissions.  *  global permissions added by plugins.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllPermissions(observe?: 'body', reportProgress?: boolean): Observable<PermissionsModel>;
-    public getAllPermissions(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PermissionsModel>>;
-    public getAllPermissions(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PermissionsModel>>;
-    public getAllPermissions(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<PermissionsModel>(`${this.configuration.basePath}/rest/api/2/permissions`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Get bulk permissions
      * Returns:   *  for a list of global permissions, the global permissions granted to the user.  *  for a list of project permissions and lists of projects and issues, for each project permission a list of the projects and issues the user can access or manipulate.  Note that:   *  Invalid project and issue IDs are ignored.  *  A maximum of 1000 projects and 1000 issues can be checked.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** None.
      * @param bulkPermissionsRequestBeanModel Details of the permissions to check.
@@ -153,7 +113,7 @@ export class PermissionsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<BulkPermissionGrantsModel>(`${this.configuration.basePath}/rest/api/2/permissions/check`,
+        return this.httpClient.post<BulkPermissionGrantsModel>(`${this.configuration.basePath}/rest/api/3/permissions/check`,
             bulkPermissionsRequestBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -171,7 +131,7 @@ export class PermissionsService {
      * @param projectId The ID of project.
      * @param issueKey The key of the issue. Ignored if &#x60;issueId&#x60; is provided.
      * @param issueId The ID of the issue.
-     * @param permissions A list of permission keys. This parameter accepts a comma-separated list. [ Omitting this parameter is **deprecated**.](https://developer.atlassian.com/cloud/jira/platform/change-notice-get-my-permissions-requires-permissions-query-parameter/) To get the list of available permissions, use [Get all permissions](#api-rest-api-2-permissions-get). Note that deprecated keys cannot be used. Deprecated keys are not returned by [Get all permissions](#api-rest-api-2-permissions-get) but are returned by this operation if &#x60;permissions&#x60; is omitted.
+     * @param permissions A list of permission keys. This parameter accepts a comma-separated list. [ Omitting this parameter is **deprecated**.](https://developer.atlassian.com/cloud/jira/platform/change-notice-get-my-permissions-requires-permissions-query-parameter/) To get the list of available permissions, use [Get all permissions](#api-rest-api-3-permissions-get). Note that deprecated keys cannot be used. Deprecated keys are not returned by [Get all permissions](#api-rest-api-3-permissions-get) but are returned by this operation if &#x60;permissions&#x60; is omitted.
      * @param projectUuid 
      * @param projectConfigurationUuid 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -232,7 +192,7 @@ export class PermissionsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PermissionsModel>(`${this.configuration.basePath}/rest/api/2/mypermissions`,
+        return this.httpClient.get<PermissionsModel>(`${this.configuration.basePath}/rest/api/3/mypermissions`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -290,7 +250,7 @@ export class PermissionsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<PermittedProjectsModel>(`${this.configuration.basePath}/rest/api/2/permissions/project`,
+        return this.httpClient.post<PermittedProjectsModel>(`${this.configuration.basePath}/rest/api/3/permissions/project`,
             permissionsKeysBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,

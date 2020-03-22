@@ -117,7 +117,7 @@ export class UserPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/user/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/user/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -130,7 +130,7 @@ export class UserPropertiesService {
 
     /**
      * Get user property
-     * Returns the value of a user\&#39;s property. If no property key is provided [Get user property keys](#api-rest-api-2-user-properties-get) is called.  Note: This operation does not access the [user properties](https://confluence.atlassian.com/x/8YxjL) created and maintained in Jira.  **[Permissions](#permissions) required:**   *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to get a property from any user.  *  Access to Jira, to get a property from the calling user\&#39;s record.
+     * Returns the value of a user\&#39;s property. If no property key is provided [Get user property keys](#api-rest-api-3-user-properties-get) is called.  Note: This operation does not access the [user properties](https://confluence.atlassian.com/x/8YxjL) created and maintained in Jira.  **[Permissions](#permissions) required:**   *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to get a property from any user.  *  Access to Jira, to get a property from the calling user\&#39;s record.
      * @param propertyKey The key of the user\&#39;s property.
      * @param accountId The account ID of the user, which uniquely identifies the user across all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
      * @param userKey This parameter is no longer available and will be removed from the documentation soon. See the [deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/) for details.
@@ -184,7 +184,7 @@ export class UserPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/2/user/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/3/user/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -247,7 +247,7 @@ export class UserPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/2/user/properties`,
+        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/3/user/properties`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -323,7 +323,7 @@ export class UserPropertiesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/user/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/user/properties/${encodeURIComponent(String(propertyKey))}`,
             body,
             {
                 params: queryParameters,

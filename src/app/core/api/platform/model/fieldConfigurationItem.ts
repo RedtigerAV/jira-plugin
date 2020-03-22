@@ -26,12 +26,12 @@ export interface FieldConfigurationItemModel {
      */
     description?: string;
     /**
-     * Whether the field is hidden or visible in the field configuration.
+     * Whether the field is hidden in the field configuration.
      */
-    isHidden?: string;
+    isHidden?: boolean;
     /**
      * Whether the field is required in the field configuration.
      */
-    isRequired?: string;
+    isRequired?: boolean;
 }
 

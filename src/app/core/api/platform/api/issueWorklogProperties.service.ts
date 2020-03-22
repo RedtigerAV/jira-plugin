@@ -111,7 +111,7 @@ export class IssueWorklogPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -171,7 +171,7 @@ export class IssueWorklogPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -227,7 +227,7 @@ export class IssueWorklogPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties`,
+        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -296,7 +296,7 @@ export class IssueWorklogPropertiesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/worklog/${encodeURIComponent(String(worklogId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,

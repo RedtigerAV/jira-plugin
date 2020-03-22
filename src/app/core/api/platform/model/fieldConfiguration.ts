@@ -28,6 +28,10 @@ export interface FieldConfigurationModel {
     /**
      * The description of the field configuration.
      */
-    description?: string;
+    description: string;
+    /**
+     * Whether the field configuration is the default.
+     */
+    isDefault?: boolean;
 }
 

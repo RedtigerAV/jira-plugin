@@ -65,7 +65,7 @@ export class WorkflowsService {
 
     /**
      * Get all workflows
-     * Returns all workflows in Jira or a workflow. Deprecated, use [Get workflows paginated](#api-rest-api-2-workflow-search-get).  If the &#x60;workflowName&#x60; parameter is specified, the workflow is returned as an object (not in an array). Otherwise, an array of workflow objects is returned.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * Returns all workflows in Jira or a workflow. Deprecated, use [Get workflows paginated](#api-rest-api-3-workflow-search-get).  If the &#x60;workflowName&#x60; parameter is specified, the workflow is returned as an object (not in an array). Otherwise, an array of workflow objects is returned.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param workflowName The name of the workflow to be returned. Only one workflow can be specified.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -107,7 +107,7 @@ export class WorkflowsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<DeprecatedWorkflowModel>>(`${this.configuration.basePath}/rest/api/2/workflow`,
+        return this.httpClient.get<Array<DeprecatedWorkflowModel>>(`${this.configuration.basePath}/rest/api/3/workflow`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -176,7 +176,7 @@ export class WorkflowsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanWorkflowModel>(`${this.configuration.basePath}/rest/api/2/workflow/search`,
+        return this.httpClient.get<PageBeanWorkflowModel>(`${this.configuration.basePath}/rest/api/3/workflow/search`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

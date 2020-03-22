@@ -103,7 +103,7 @@ export class IssueVotesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/votes`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/votes`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -156,7 +156,7 @@ export class IssueVotesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<VotesModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/votes`,
+        return this.httpClient.get<VotesModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/votes`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -207,7 +207,7 @@ export class IssueVotesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/votes`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/votes`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

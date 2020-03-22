@@ -67,7 +67,7 @@ export class IssueAttachmentsService {
 
     /**
      * Add attachment
-     * Adds one or more attachments to an issue. Attachments are posted as multipart/form-data ([RFC 1867](https://www.ietf.org/rfc/rfc1867.txt)).  Note that:   *  The request must have a &#x60;X-Atlassian-Token: no-check&#x60; header, if not it is blocked. See [Special headers](#special-request-headers) for more information.  *  The name of the multipart/form-data parameter that contains the attachments must be &#x60;file&#x60;.  The following example uploads a file called *myfile.txt* to the issue *TEST-123*:  &#x60;curl -D- -u admin:admin -X POST -H \&quot;X-Atlassian-Token: no-check\&quot; -F \&quot;file&#x3D;@myfile.txt\&quot; https://your-domain.atlassian.net/rest/api/2/issue/TEST-123/attachments&#x60;  Tip: Use a client library. Many client libraries have classes for handling multipart POST operations. For example, in Java, the Apache HTTP Components library provides a [MultiPartEntity](http://hc.apache.org/httpcomponents-client-ga/httpmime/apidocs/org/apache/http/entity/mime/MultipartEntity.html) class for multipart POST operations.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**    *  *Browse Projects* and *Create attachments* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     * Adds one or more attachments to an issue. Attachments are posted as multipart/form-data ([RFC 1867](https://www.ietf.org/rfc/rfc1867.txt)).  Note that:   *  The request must have a &#x60;X-Atlassian-Token: no-check&#x60; header, if not it is blocked. See [Special headers](#special-request-headers) for more information.  *  The name of the multipart/form-data parameter that contains the attachments must be &#x60;file&#x60;.  The following example uploads a file called *myfile.txt* to the issue *TEST-123*:  &#x60;curl -D- -u admin:admin -X POST -H \&quot;X-Atlassian-Token: no-check\&quot; -F \&quot;file&#x3D;@myfile.txt\&quot; https://your-domain.atlassian.net/rest/api/3/issue/TEST-123/attachments&#x60;  Tip: Use a client library. Many client libraries have classes for handling multipart POST operations. For example, in Java, the Apache HTTP Components library provides a [MultiPartEntity](http://hc.apache.org/httpcomponents-client-ga/httpmime/apidocs/org/apache/http/entity/mime/MultipartEntity.html) class for multipart POST operations.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**    *  *Browse Projects* and *Create attachments* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
      * @param issueIdOrKey The ID or key of the issue that attachments are added to.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -108,7 +108,7 @@ export class IssueAttachmentsService {
             'multipart/form-data'
         ];
 
-        return this.httpClient.post<Array<AttachmentModel>>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/attachments`,
+        return this.httpClient.post<Array<AttachmentModel>>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/attachments`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -121,7 +121,7 @@ export class IssueAttachmentsService {
 
     /**
      * Get all metadata for an expanded attachment
-     * Returns the metadata for the contents of an attachment, if it is an archive, and metadata for the attachment itself. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned and metadata for the ZIP archive. Currently, only the ZIP archive format is supported.  Use this operation to retrieve data that is presented to the user, as this operation returns the metadata for the attachment itself, such as the attachment\&#39;s ID and name. Otherwise, use [ Get contents metadata for an expanded attachment](#api-rest-api-2-attachment-id-expand-raw-get), which only returns the metadata for the attachment\&#39;s contents.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** For the issue containing the attachment:   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     * Returns the metadata for the contents of an attachment, if it is an archive, and metadata for the attachment itself. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned and metadata for the ZIP archive. Currently, only the ZIP archive format is supported.  Use this operation to retrieve data that is presented to the user, as this operation returns the metadata for the attachment itself, such as the attachment\&#39;s ID and name. Otherwise, use [ Get contents metadata for an expanded attachment](#api-rest-api-3-attachment-id-expand-raw-get), which only returns the metadata for the attachment\&#39;s contents.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** For the issue containing the attachment:   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
      * @param id The ID of the attachment.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -161,7 +161,7 @@ export class IssueAttachmentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<AttachmentArchiveMetadataReadableModel>(`${this.configuration.basePath}/rest/api/2/attachment/${encodeURIComponent(String(id))}/expand/human`,
+        return this.httpClient.get<AttachmentArchiveMetadataReadableModel>(`${this.configuration.basePath}/rest/api/3/attachment/${encodeURIComponent(String(id))}/expand/human`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -173,7 +173,7 @@ export class IssueAttachmentsService {
 
     /**
      * Get contents metadata for an expanded attachment
-     * Returns the metadata for the contents of an attachment, if it is an archive. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned. Currently, only the ZIP archive format is supported.  Use this operation if you are processing the data without presenting it to the user, as this operation only returns the metadata for the contents of the attachment. Otherwise, to retrieve data to present to the user, use [ Get all metadata for an expanded attachment](#api-rest-api-2-attachment-id-expand-human-get) which also returns the metadata for the attachment itself, such as the attachment\&#39;s ID and name.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** For the issue containing the attachment:   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     * Returns the metadata for the contents of an attachment, if it is an archive. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned. Currently, only the ZIP archive format is supported.  Use this operation if you are processing the data without presenting it to the user, as this operation only returns the metadata for the contents of the attachment. Otherwise, to retrieve data to present to the user, use [ Get all metadata for an expanded attachment](#api-rest-api-3-attachment-id-expand-human-get) which also returns the metadata for the attachment itself, such as the attachment\&#39;s ID and name.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** For the issue containing the attachment:   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
      * @param id The ID of the attachment.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -213,7 +213,7 @@ export class IssueAttachmentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<AttachmentArchiveImplModel>(`${this.configuration.basePath}/rest/api/2/attachment/${encodeURIComponent(String(id))}/expand/raw`,
+        return this.httpClient.get<AttachmentArchiveImplModel>(`${this.configuration.basePath}/rest/api/3/attachment/${encodeURIComponent(String(id))}/expand/raw`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -265,7 +265,7 @@ export class IssueAttachmentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<AttachmentMetadataModel>(`${this.configuration.basePath}/rest/api/2/attachment/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<AttachmentMetadataModel>(`${this.configuration.basePath}/rest/api/3/attachment/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -313,7 +313,7 @@ export class IssueAttachmentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<AttachmentSettingsModel>(`${this.configuration.basePath}/rest/api/2/attachment/meta`,
+        return this.httpClient.get<AttachmentSettingsModel>(`${this.configuration.basePath}/rest/api/3/attachment/meta`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -364,7 +364,7 @@ export class IssueAttachmentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/attachment/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/attachment/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -53,7 +53,7 @@ export interface UserModel {
      */
     readonly displayName?: string;
     /**
-     * Indicates whether the user is active.
+     * Whether the user is active.
      */
     readonly active?: boolean;
     /**

@@ -32,7 +32,7 @@ export interface AuditRecordBeanModel {
      */
     readonly remoteAddress?: string;
     /**
-     * The key of the user who created the audit record.
+     * Deprecated, use `authorAccountId` instead. The key of the user who created the audit record.
      */
     readonly authorKey?: string;
     /**

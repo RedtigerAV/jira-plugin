@@ -99,7 +99,7 @@ export class ServerInfoService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ServerInformationModel>(`${this.configuration.basePath}/rest/api/2/serverInfo`,
+        return this.httpClient.get<ServerInformationModel>(`${this.configuration.basePath}/rest/api/3/serverInfo`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

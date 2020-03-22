@@ -63,7 +63,7 @@ export interface ComponentModel {
      */
     readonly realAssignee?: UserModel;
     /**
-     * Indicates whether a user is associated with `assigneeType`. For example, if the `assigneeType` is set to `COMPONENT_LEAD` but the component lead is not set, then `false` is returned.
+     * Whether a user is associated with `assigneeType`. For example, if the `assigneeType` is set to `COMPONENT_LEAD` but the component lead is not set, then `false` is returned.
      */
     readonly isAssigneeTypeValid?: boolean;
     /**

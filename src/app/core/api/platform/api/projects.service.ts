@@ -114,7 +114,7 @@ export class ProjectsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ProjectIdentifiersModel>(`${this.configuration.basePath}/rest/api/2/project`,
+        return this.httpClient.post<ProjectIdentifiersModel>(`${this.configuration.basePath}/rest/api/3/project`,
             projectInputBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -172,7 +172,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -185,7 +185,7 @@ export class ProjectsService {
 
     /**
      * Get all projects
-     * Returns all projects visible to the user. Deprecated, use [ Get projects paginated](#api-rest-api-2-project-search-get) that supports search and pagination.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** Projects are returned only where the user has *Browse Projects* or *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     * Returns all projects visible to the user. Deprecated, use [ Get projects paginated](#api-rest-api-3-project-search-get) that supports search and pagination.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** Projects are returned only where the user has *Browse Projects* or *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
      * @param expand Use [expand](#expansion) to include additional information in the response. This parameter accepts a comma-separated list. Expanded options include:   *  &#x60;description&#x60; Returns the project description.  *  &#x60;issueTypes&#x60; Returns all issue types associated with the project.  *  &#x60;lead&#x60; Returns information about the the project lead.  *  &#x60;projectKeys&#x60; Returns all project keys associated with the project.
      * @param recent Returns the user\&#39;s most recently accessed projects. You may specify the number of results to return up to a maximum of 20. If access is anonymous, then the recently accessed projects are based on the current HTTP session.
      * @param properties A list of project properties to return for the project. This parameter accepts a comma-separated list.
@@ -237,7 +237,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ProjectModel>>(`${this.configuration.basePath}/rest/api/2/project`,
+        return this.httpClient.get<Array<ProjectModel>>(`${this.configuration.basePath}/rest/api/3/project`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -290,7 +290,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<IssueTypeWithStatusModel>>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/statuses`,
+        return this.httpClient.get<Array<IssueTypeWithStatusModel>>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/statuses`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -342,7 +342,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ProjectIssueTypeHierarchyModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectId))}/hierarchy`,
+        return this.httpClient.get<ProjectIssueTypeHierarchyModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectId))}/hierarchy`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -354,7 +354,7 @@ export class ProjectsService {
 
     /**
      * Get project notification scheme
-     * Gets a [notification scheme](https://confluence.atlassian.com/x/8YdKLg) associated with the project. See the [Get notification scheme](#api-rest-api-2-notificationscheme-id-get) resource for more information about notification schemes.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg).
+     * Gets a [notification scheme](https://confluence.atlassian.com/x/8YdKLg) associated with the project. See the [Get notification scheme](#api-rest-api-3-notificationscheme-id-get) resource for more information about notification schemes.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg).
      * @param projectKeyOrId The project ID or project key (case sensitive).
      * @param expand Use [expand](#expansion) to include additional information in the response. This parameter accepts a comma-separated list. Expand options include:   *  &#x60;all&#x60; Returns all expandable information.  *  &#x60;field&#x60; Returns information about any custom fields assigned to receive an event.  *  &#x60;group&#x60; Returns information about any groups assigned to receive an event.  *  &#x60;notificationSchemeEvents&#x60; Returns a list of event associations. This list is returned for all expandable information.  *  &#x60;projectRole&#x60; Returns information about any project roles assigned to receive an event.  *  &#x60;user&#x60; Returns information about any users assigned to receive an event.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -400,7 +400,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<NotificationSchemeModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectKeyOrId))}/notificationscheme`,
+        return this.httpClient.get<NotificationSchemeModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectKeyOrId))}/notificationscheme`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -465,7 +465,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ProjectModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}`,
+        return this.httpClient.get<ProjectModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -478,24 +478,24 @@ export class ProjectsService {
 
     /**
      * Get projects paginated
-     * Returns projects visible to the user.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** Projects are returned only where the user has *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     * Returns projects visible to the user.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** Projects are returned only where the user has one of:   *  *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.  *  *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.  *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param startAt The index of the first item to return in a page of results (page offset).
      * @param maxResults The maximum number of items to return per page.
-     * @param orderBy [Order](#ordering) the results by a field.   *  &#x60;category&#x60; Sorts by project category. A complete list of category IDs is found using [Get all project categories](#api-rest-api-2-projectCategory-get).  *  &#x60;issueCount&#x60; Sorts by the total number of issues in each project.  *  &#x60;key&#x60; Sorts by project key.  *  &#x60;lastIssueUpdatedTime&#x60; Sorts by the last issue update time.  *  &#x60;name&#x60; Sorts by project name.  *  &#x60;owner&#x60; Sorts by project lead.
+     * @param orderBy [Order](#ordering) the results by a field.   *  &#x60;category&#x60; Sorts by project category. A complete list of category IDs is found using [Get all project categories](#api-rest-api-3-projectCategory-get).  *  &#x60;issueCount&#x60; Sorts by the total number of issues in each project.  *  &#x60;key&#x60; Sorts by project key.  *  &#x60;lastIssueUpdatedTime&#x60; Sorts by the last issue update time.  *  &#x60;name&#x60; Sorts by project name.  *  &#x60;owner&#x60; Sorts by project lead.  *  &#x60;archivedDate&#x60; EXPERIMENTAL. Sorts by project archived date.  *  &#x60;deletedDate&#x60; EXPERIMENTAL. Sorts by project deleted date.
      * @param query Filter the results using a literal string. Projects with a matching &#x60;key&#x60; or &#x60;name&#x60; are returned (case insensitive).
      * @param typeKey Orders results by the [project type](https://confluence.atlassian.com/x/GwiiLQ#Jiraapplicationsoverview-Productfeaturesandprojecttypes). This parameter accepts a comma-separated list. Valid values are &#x60;business&#x60;, &#x60;service_desk&#x60;, and &#x60;software&#x60;.
-     * @param categoryId The ID of the project\&#39;s category. A complete list of category IDs is found using the [Get all project categories](#api-rest-api-2-projectCategory-get) operation.
+     * @param categoryId The ID of the project\&#39;s category. A complete list of category IDs is found using the [Get all project categories](#api-rest-api-3-projectCategory-get) operation.
      * @param searchBy 
-     * @param action Filter results by projects for which the user can:   *  &#x60;view&#x60; the project, meaning that they have one of the following permissions:           *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.      *  *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.      *  site administration (that is, member of the *site-admin* [group](https://confluence.atlassian.com/x/24xjL\&quot;)).  *  &#x60;browse&#x60; the project, meaning that they have the *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.  *  &#x60;edit&#x60; the project, meaning that they have one of the following permissions:           *  *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.      *  site administration (that is, member of the *site-admin* [group](https://confluence.atlassian.com/x/24xjL\&quot;)).
+     * @param action Filter results by projects for which the user can:   *  &#x60;view&#x60; the project, meaning that they have one of the following permissions:           *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.      *  *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.      *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).  *  &#x60;browse&#x60; the project, meaning that they have the *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.  *  &#x60;edit&#x60; the project, meaning that they have one of the following permissions:           *  *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.      *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param expand Use [expand](#expansion) to include additional information in the response. This parameter accepts a comma-separated list. Expanded options include:   *  &#x60;description&#x60; Returns the project description.  *  &#x60;projectKeys&#x60; Returns all project keys associated with a project.  *  &#x60;lead&#x60; Returns information about the the project lead.  *  &#x60;issueTypes&#x60; Returns all issue types associated with the project.  *  &#x60;url&#x60; Returns the URL associated with the project.  *  &#x60;insight&#x60; EXPERIMENTAL. Returns the insight details of total issue count and last issue update time for the project.
-     * @param status EXPERIMENTAL. Filter results by project delete status:   *  &#x60;live&#x60; Search live (undeleted) projects.  *  &#x60;deleted&#x60; Search deleted projects, those in the recycle bin.
+     * @param status EXPERIMENTAL. Filter results by project status:   *  &#x60;live&#x60; Search live projects.  *  &#x60;archived&#x60; Search archived projects.  *  &#x60;deleted&#x60; Search deleted projects, those in the recycle bin.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'size' | '+size' | '-size', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe?: 'body', reportProgress?: boolean): Observable<PageBeanProjectModel>;
-    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'size' | '+size' | '-size', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanProjectModel>>;
-    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'size' | '+size' | '-size', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanProjectModel>>;
-    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'size' | '+size' | '-size', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'archivedDate' | '+archivedDate' | '-archivedDate' | 'deletedDate' | '+deletedDate' | '-deletedDate', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe?: 'body', reportProgress?: boolean): Observable<PageBeanProjectModel>;
+    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'archivedDate' | '+archivedDate' | '-archivedDate' | 'deletedDate' | '+deletedDate' | '-deletedDate', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanProjectModel>>;
+    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'archivedDate' | '+archivedDate' | '-archivedDate' | 'deletedDate' | '+deletedDate' | '-deletedDate', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanProjectModel>>;
+    public searchProjects(startAt?: number, maxResults?: number, orderBy?: 'category' | '-category' | '+category' | 'key' | '-key' | '+key' | 'name' | '-name' | '+name' | 'owner' | '-owner' | '+owner' | 'issueCount' | '-issueCount' | '+issueCount' | 'lastIssueUpdatedDate' | '-lastIssueUpdatedDate' | '+lastIssueUpdatedDate' | 'archivedDate' | '+archivedDate' | '-archivedDate' | 'deletedDate' | '+deletedDate' | '-deletedDate', query?: string, typeKey?: string, categoryId?: number, searchBy?: string, action?: 'view' | 'browse' | 'edit', expand?: string, status?: Array<string>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (startAt !== undefined && startAt !== null) {
@@ -558,7 +558,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanProjectModel>(`${this.configuration.basePath}/rest/api/2/project/search`,
+        return this.httpClient.get<PageBeanProjectModel>(`${this.configuration.basePath}/rest/api/3/project/search`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -626,7 +626,7 @@ export class ProjectsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<ProjectModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}`,
+        return this.httpClient.put<ProjectModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}`,
             projectInputBeanModel,
             {
                 params: queryParameters,
@@ -684,7 +684,7 @@ export class ProjectsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.put<ProjectModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/type/${encodeURIComponent(String(newProjectTypeKey))}`,
+        return this.httpClient.put<ProjectModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/type/${encodeURIComponent(String(newProjectTypeKey))}`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,

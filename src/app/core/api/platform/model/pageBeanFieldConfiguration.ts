@@ -39,7 +39,7 @@ export interface PageBeanFieldConfigurationModel {
      */
     readonly total?: number;
     /**
-     * Indicates whether this is the last page.
+     * Whether this is the last page.
      */
     readonly isLast?: boolean;
     /**

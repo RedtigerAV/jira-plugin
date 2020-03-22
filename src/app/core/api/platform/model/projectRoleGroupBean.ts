@@ -13,6 +13,9 @@
  */
 
 
+/**
+ * Details of the role actor group.
+ */
 export interface ProjectRoleGroupBeanModel { 
     displayName?: string;
     name?: string;

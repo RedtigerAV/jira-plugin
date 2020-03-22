@@ -47,6 +47,10 @@ export interface IssueTransitionModel {
      */
     readonly isInitial?: boolean;
     /**
+     * Whether the transition is available to be performed.
+     */
+    readonly isAvailable?: boolean;
+    /**
      * Whether the issue has to meet criteria before the issue transition is applied.
      */
     readonly isConditional?: boolean;

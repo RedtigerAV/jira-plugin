@@ -110,7 +110,7 @@ export class ProjectComponentsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ComponentModel>(`${this.configuration.basePath}/rest/api/2/component`,
+        return this.httpClient.post<ComponentModel>(`${this.configuration.basePath}/rest/api/3/component`,
             componentModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -168,7 +168,7 @@ export class ProjectComponentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/component/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/component/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -221,7 +221,7 @@ export class ProjectComponentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ComponentModel>(`${this.configuration.basePath}/rest/api/2/component/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<ComponentModel>(`${this.configuration.basePath}/rest/api/3/component/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -273,7 +273,7 @@ export class ProjectComponentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ComponentIssuesCountModel>(`${this.configuration.basePath}/rest/api/2/component/${encodeURIComponent(String(id))}/relatedIssueCounts`,
+        return this.httpClient.get<ComponentIssuesCountModel>(`${this.configuration.basePath}/rest/api/3/component/${encodeURIComponent(String(id))}/relatedIssueCounts`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -285,7 +285,7 @@ export class ProjectComponentsService {
 
     /**
      * Get project components
-     * Returns all components in a project. See the [Get project components paginated](#api-rest-api-2-project-projectIdOrKey-component-get) resource if you want to get a full list of components with pagination.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     * Returns all components in a project. See the [Get project components paginated](#api-rest-api-3-project-projectIdOrKey-component-get) resource if you want to get a full list of components with pagination.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
      * @param projectIdOrKey The project ID or project key (case sensitive).
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -325,7 +325,7 @@ export class ProjectComponentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ComponentModel>>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/components`,
+        return this.httpClient.get<Array<ComponentModel>>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/components`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -337,7 +337,7 @@ export class ProjectComponentsService {
 
     /**
      * Get project components paginated
-     * Returns a [paginated](#pagination) representation of all components in a project. See the [Get project components](#api-rest-api-2-project-projectIdOrKey-components-get) resource if you want to get a full list of versions without pagination.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     * Returns a [paginated](#pagination) representation of all components in a project. See the [Get project components](#api-rest-api-3-project-projectIdOrKey-components-get) resource if you want to get a full list of versions without pagination.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
      * @param projectIdOrKey The project ID or project key (case sensitive).
      * @param startAt The index of the first item to return in a page of results (page offset).
      * @param maxResults The maximum number of items to return per page.
@@ -395,7 +395,7 @@ export class ProjectComponentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanComponentWithIssueCountModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/component`,
+        return this.httpClient.get<PageBeanComponentWithIssueCountModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/component`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -457,7 +457,7 @@ export class ProjectComponentsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<ComponentModel>(`${this.configuration.basePath}/rest/api/2/component/${encodeURIComponent(String(id))}`,
+        return this.httpClient.put<ComponentModel>(`${this.configuration.basePath}/rest/api/3/component/${encodeURIComponent(String(id))}`,
             componentModel,
             {
                 withCredentials: this.configuration.withCredentials,

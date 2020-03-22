@@ -22,7 +22,6 @@ import { Observable }                                        from 'rxjs';
 
 import { AddFieldBeanModel } from '../model/addFieldBean';
 import { MoveFieldBeanModel } from '../model/moveFieldBean';
-import { PageBeanIssueTypeScreenSchemeItemModel } from '../model/pageBeanIssueTypeScreenSchemeItem';
 import { PageBeanScreenModel } from '../model/pageBeanScreen';
 import { PageBeanScreenSchemeModel } from '../model/pageBeanScreenScheme';
 import { ScreenableFieldModel } from '../model/screenableField';
@@ -109,7 +108,7 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/screens/addToDefault/${encodeURIComponent(String(fieldId))}`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/screens/addToDefault/${encodeURIComponent(String(fieldId))}`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -171,7 +170,7 @@ export class ScreensService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ScreenableTabModel>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs`,
+        return this.httpClient.post<ScreenableTabModel>(`${this.configuration.basePath}/rest/api/3/screens/${encodeURIComponent(String(screenId))}/tabs`,
             screenableTabModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -237,55 +236,8 @@ export class ScreensService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ScreenableFieldModel>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/fields`,
+        return this.httpClient.post<ScreenableFieldModel>(`${this.configuration.basePath}/rest/api/3/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/fields`,
             addFieldBeanModel,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Delete screen tab
-     * Deletes a screen tab.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param screenId The ID of the screen.
-     * @param tabId The ID of the screen tab.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public deleteScreenTab(screenId: number, tabId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteScreenTab(screenId: number, tabId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteScreenTab(screenId: number, tabId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteScreenTab(screenId: number, tabId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (screenId === null || screenId === undefined) {
-            throw new Error('Required parameter screenId was null or undefined when calling deleteScreenTab.');
-        }
-        if (tabId === null || tabId === undefined) {
-            throw new Error('Required parameter tabId was null or undefined when calling deleteScreenTab.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -343,7 +295,7 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanScreenSchemeModel>(`${this.configuration.basePath}/rest/api/2/screenscheme`,
+        return this.httpClient.get<PageBeanScreenSchemeModel>(`${this.configuration.basePath}/rest/api/3/screenscheme`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -406,7 +358,7 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ScreenableFieldModel>>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/fields`,
+        return this.httpClient.get<Array<ScreenableFieldModel>>(`${this.configuration.basePath}/rest/api/3/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/fields`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -465,7 +417,7 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ScreenableTabModel>>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs`,
+        return this.httpClient.get<Array<ScreenableTabModel>>(`${this.configuration.basePath}/rest/api/3/screens/${encodeURIComponent(String(screenId))}/tabs`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -524,7 +476,7 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanScreenModel>(`${this.configuration.basePath}/rest/api/2/screens`,
+        return this.httpClient.get<PageBeanScreenModel>(`${this.configuration.basePath}/rest/api/3/screens`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -577,65 +529,8 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ScreenableFieldModel>>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/availableFields`,
+        return this.httpClient.get<Array<ScreenableFieldModel>>(`${this.configuration.basePath}/rest/api/3/screens/${encodeURIComponent(String(screenId))}/availableFields`,
             {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get issue type screen scheme items
-     * Returns a list of issue type screen scheme items.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param startAt The index of the first item to return in a page of results (page offset).
-     * @param maxResults The maximum number of items to return per page.
-     * @param issueTypeScreenSchemeId The list of issue type screen scheme IDs. To include multiple issue type screen schemes, separate IDs with ampersand: &#x60;issueTypeScreenSchemeId&#x3D;10000&amp;issueTypeScreenSchemeId&#x3D;10001&#x60;.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getIssueTypeScreenSchemeMappings(startAt?: number, maxResults?: number, issueTypeScreenSchemeId?: Array<number>, observe?: 'body', reportProgress?: boolean): Observable<PageBeanIssueTypeScreenSchemeItemModel>;
-    public getIssueTypeScreenSchemeMappings(startAt?: number, maxResults?: number, issueTypeScreenSchemeId?: Array<number>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanIssueTypeScreenSchemeItemModel>>;
-    public getIssueTypeScreenSchemeMappings(startAt?: number, maxResults?: number, issueTypeScreenSchemeId?: Array<number>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanIssueTypeScreenSchemeItemModel>>;
-    public getIssueTypeScreenSchemeMappings(startAt?: number, maxResults?: number, issueTypeScreenSchemeId?: Array<number>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (startAt !== undefined && startAt !== null) {
-            queryParameters = queryParameters.set('startAt', <any>startAt);
-        }
-        if (maxResults !== undefined && maxResults !== null) {
-            queryParameters = queryParameters.set('maxResults', <any>maxResults);
-        }
-        if (issueTypeScreenSchemeId) {
-            issueTypeScreenSchemeId.forEach((element) => {
-                queryParameters = queryParameters.append('issueTypeScreenSchemeId', <any>element);
-            })
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<PageBeanIssueTypeScreenSchemeItemModel>(`${this.configuration.basePath}/rest/api/2/issuetypescreenscheme/mapping`,
-            {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -688,7 +583,7 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanScreenModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldId))}/screens`,
+        return this.httpClient.get<PageBeanScreenModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldId))}/screens`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -749,7 +644,7 @@ export class ScreensService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/move/${encodeURIComponent(String(pos))}`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/move/${encodeURIComponent(String(pos))}`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -819,117 +714,8 @@ export class ScreensService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/fields/${encodeURIComponent(String(id))}/move`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/fields/${encodeURIComponent(String(id))}/move`,
             moveFieldBeanModel,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Remove screen tab field
-     * Removes a field from a screen tab.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param screenId The ID of the screen.
-     * @param tabId The ID of the screen tab.
-     * @param id The ID of the field.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public removeScreenTabField(screenId: number, tabId: number, id: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeScreenTabField(screenId: number, tabId: number, id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeScreenTabField(screenId: number, tabId: number, id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeScreenTabField(screenId: number, tabId: number, id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (screenId === null || screenId === undefined) {
-            throw new Error('Required parameter screenId was null or undefined when calling removeScreenTabField.');
-        }
-        if (tabId === null || tabId === undefined) {
-            throw new Error('Required parameter tabId was null or undefined when calling removeScreenTabField.');
-        }
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling removeScreenTabField.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}/fields/${encodeURIComponent(String(id))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Update screen tab
-     * Updates the name of a screen tab.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param screenId The ID of the screen.
-     * @param tabId The ID of the screen tab.
-     * @param screenableTabModel 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public renameScreenTab(screenId: number, tabId: number, screenableTabModel: ScreenableTabModel, observe?: 'body', reportProgress?: boolean): Observable<ScreenableTabModel>;
-    public renameScreenTab(screenId: number, tabId: number, screenableTabModel: ScreenableTabModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ScreenableTabModel>>;
-    public renameScreenTab(screenId: number, tabId: number, screenableTabModel: ScreenableTabModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ScreenableTabModel>>;
-    public renameScreenTab(screenId: number, tabId: number, screenableTabModel: ScreenableTabModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (screenId === null || screenId === undefined) {
-            throw new Error('Required parameter screenId was null or undefined when calling renameScreenTab.');
-        }
-        if (tabId === null || tabId === undefined) {
-            throw new Error('Required parameter tabId was null or undefined when calling renameScreenTab.');
-        }
-        if (screenableTabModel === null || screenableTabModel === undefined) {
-            throw new Error('Required parameter screenableTabModel was null or undefined when calling renameScreenTab.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.put<ScreenableTabModel>(`${this.configuration.basePath}/rest/api/2/screens/${encodeURIComponent(String(screenId))}/tabs/${encodeURIComponent(String(tabId))}`,
-            screenableTabModel,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

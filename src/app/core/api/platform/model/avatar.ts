@@ -26,15 +26,15 @@ export interface AvatarModel {
      */
     readonly owner?: string;
     /**
-     * Indicates whether the avatar is a system avatar.
+     * Whether the avatar is a system avatar.
      */
     readonly isSystemAvatar?: boolean;
     /**
-     * Indicates whether the avatar is used in Jira. For example, shown as a project\'s avatar.
+     * Whether the avatar is used in Jira. For example, shown as a project\'s avatar.
      */
     readonly isSelected?: boolean;
     /**
-     * Indicates whether the avatar can be deleted.
+     * Whether the avatar can be deleted.
      */
     readonly isDeletable?: boolean;
     /**

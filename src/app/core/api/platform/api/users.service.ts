@@ -135,7 +135,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanUserModel>(`${this.configuration.basePath}/rest/api/2/user/bulk`,
+        return this.httpClient.get<PageBeanUserModel>(`${this.configuration.basePath}/rest/api/3/user/bulk`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -206,175 +206,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<UserMigrationBeanModel>>(`${this.configuration.basePath}/rest/api/2/user/bulk/migration`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Create user
-     * Creates a user. This resource is retained for legacy compatibility. As soon as a more suitable alternative is available this resource will be deprecated.  The option is provided to set or generate a password for the user. When using the option to generate a password, by omitting &#x60;password&#x60; from the request, include &#x60;\&quot;notification\&quot;: \&quot;true\&quot;&#x60; to ensure the user is sent an email advising them that their account is created. This email includes a link for the user to set their password. If the notification isn\&#39;t sent for a generated password, the user will need to be sent a reset password request from Jira.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param requestBody 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public createUser(requestBody: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean): Observable<UserModel>;
-    public createUser(requestBody: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserModel>>;
-    public createUser(requestBody: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserModel>>;
-    public createUser(requestBody: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (requestBody === null || requestBody === undefined) {
-            throw new Error('Required parameter requestBody was null or undefined when calling createUser.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<UserModel>(`${this.configuration.basePath}/rest/api/2/user`,
-            requestBody,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get all users
-     * Returns a list of all (active and inactive) users.  **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param startAt The index of the first item to return.
-     * @param maxResults The maximum number of items to return.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllUsers(startAt?: number, maxResults?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<UserModel>>;
-    public getAllUsers(startAt?: number, maxResults?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<UserModel>>>;
-    public getAllUsers(startAt?: number, maxResults?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<UserModel>>>;
-    public getAllUsers(startAt?: number, maxResults?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (startAt !== undefined && startAt !== null) {
-            queryParameters = queryParameters.set('startAt', <any>startAt);
-        }
-        if (maxResults !== undefined && maxResults !== null) {
-            queryParameters = queryParameters.set('maxResults', <any>maxResults);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<Array<UserModel>>(`${this.configuration.basePath}/rest/api/2/users/search`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get all users default
-     * Returns a list of all (active and inactive) users.  **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg).
-     * @param startAt The index of the first item to return.
-     * @param maxResults The maximum number of items to return.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllUsersDefault(startAt?: number, maxResults?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<UserModel>>;
-    public getAllUsersDefault(startAt?: number, maxResults?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<UserModel>>>;
-    public getAllUsersDefault(startAt?: number, maxResults?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<UserModel>>>;
-    public getAllUsersDefault(startAt?: number, maxResults?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (startAt !== undefined && startAt !== null) {
-            queryParameters = queryParameters.set('startAt', <any>startAt);
-        }
-        if (maxResults !== undefined && maxResults !== null) {
-            queryParameters = queryParameters.set('maxResults', <any>maxResults);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<Array<UserModel>>(`${this.configuration.basePath}/rest/api/2/users`,
+        return this.httpClient.get<Array<UserMigrationBeanModel>>(`${this.configuration.basePath}/rest/api/3/user/bulk/migration`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -441,7 +273,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<UserModel>(`${this.configuration.basePath}/rest/api/2/user`,
+        return this.httpClient.get<UserModel>(`${this.configuration.basePath}/rest/api/3/user`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -500,7 +332,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ColumnItemModel>>(`${this.configuration.basePath}/rest/api/2/user/columns`,
+        return this.httpClient.get<Array<ColumnItemModel>>(`${this.configuration.basePath}/rest/api/3/user/columns`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -550,7 +382,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<UnrestrictedUserEmailModel>(`${this.configuration.basePath}/rest/api/2/user/email`,
+        return this.httpClient.get<UnrestrictedUserEmailModel>(`${this.configuration.basePath}/rest/api/3/user/email`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -602,7 +434,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<UnrestrictedUserEmailModel>(`${this.configuration.basePath}/rest/api/2/user/email/bulk`,
+        return this.httpClient.get<UnrestrictedUserEmailModel>(`${this.configuration.basePath}/rest/api/3/user/email/bulk`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -668,168 +500,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<GroupNameModel>>(`${this.configuration.basePath}/rest/api/2/user/groups`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Delete user
-     * Deletes a user.  **[Permissions](#permissions) required:** Site administration (that is, membership of the *site-admin* [group](https://confluence.atlassian.com/x/24xjL)).
-     * @param accountId The account ID of the user, which uniquely identifies the user across all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
-     * @param username This parameter is no longer available and will be removed from the documentation soon. See the [deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/) for details.
-     * @param key This parameter is no longer available and will be removed from the documentation soon. See the [deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/) for details.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public removeUser(accountId: string, username?: string, key?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeUser(accountId: string, username?: string, key?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeUser(accountId: string, username?: string, key?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeUser(accountId: string, username?: string, key?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (accountId === null || accountId === undefined) {
-            throw new Error('Required parameter accountId was null or undefined when calling removeUser.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (accountId !== undefined && accountId !== null) {
-            queryParameters = queryParameters.set('accountId', <any>accountId);
-        }
-        if (username !== undefined && username !== null) {
-            queryParameters = queryParameters.set('username', <any>username);
-        }
-        if (key !== undefined && key !== null) {
-            queryParameters = queryParameters.set('key', <any>key);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/user`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Reset user default columns
-     * Resets the default [ issue table columns](https://confluence.atlassian.com/x/XYdKLg) for the user to the system default. If &#x60;accountId&#x60; is not passed, the calling user\&#39;s default columns are reset.  **[Permissions](#permissions) required:**   *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to set the columns on any user.  *  Permission to access Jira, to set the calling user\&#39;s columns.
-     * @param accountId The account ID of the user, which uniquely identifies the user across all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
-     * @param username This parameter is no longer available and will be removed from the documentation soon. See the [deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/) for details.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public resetUserColumns(accountId?: string, username?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public resetUserColumns(accountId?: string, username?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public resetUserColumns(accountId?: string, username?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public resetUserColumns(accountId?: string, username?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (accountId !== undefined && accountId !== null) {
-            queryParameters = queryParameters.set('accountId', <any>accountId);
-        }
-        if (username !== undefined && username !== null) {
-            queryParameters = queryParameters.set('username', <any>username);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/user/columns`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Set user default columns
-     * Sets the default [ issue table columns](https://confluence.atlassian.com/x/XYdKLg) for the user. If an account ID is not passed, the calling user\&#39;s default columns are set. If no column details are sent, then all default columns are removed.  The parameters for this resource are expressed as HTML form data. For example, in curl:  &#x60;curl -X PUT -d columns&#x3D;summary -d columns&#x3D;description https://your-domain.atlassian.net/rest/api/2/user/columns?accountId&#x3D;5b10ac8d82e05b22cc7d4ef5\&#39;&#x60;  **[Permissions](#permissions) required:**   *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to set the columns on any user.  *  Permission to access Jira, to set the calling user\&#39;s columns.
-     * @param accountId The account ID of the user, which uniquely identifies the user across all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
-     * @param requestBody The ID of a column to set. To set multiple columns, send multiple &#x60;columns&#x60; parameters.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public setUserColumns(accountId?: string, requestBody?: Array<string>, observe?: 'body', reportProgress?: boolean): Observable<object>;
-    public setUserColumns(accountId?: string, requestBody?: Array<string>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<object>>;
-    public setUserColumns(accountId?: string, requestBody?: Array<string>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<object>>;
-    public setUserColumns(accountId?: string, requestBody?: Array<string>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (accountId !== undefined && accountId !== null) {
-            queryParameters = queryParameters.set('accountId', <any>accountId);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'multipart/form-data',
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/user/columns`,
-            requestBody,
+        return this.httpClient.get<Array<GroupNameModel>>(`${this.configuration.basePath}/rest/api/3/user/groups`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

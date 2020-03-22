@@ -110,7 +110,7 @@ export class WorkflowSchemeProjectAssociationsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ContainerOfWorkflowSchemeAssociationsModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/project`,
+        return this.httpClient.get<ContainerOfWorkflowSchemeAssociationsModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/project`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

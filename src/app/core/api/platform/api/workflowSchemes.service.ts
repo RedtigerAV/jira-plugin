@@ -23,6 +23,7 @@ import { Observable }                                        from 'rxjs';
 import { DefaultWorkflowModel } from '../model/defaultWorkflow';
 import { IssueTypeWorkflowMappingModel } from '../model/issueTypeWorkflowMapping';
 import { IssueTypesWorkflowMappingModel } from '../model/issueTypesWorkflowMapping';
+import { PageBeanWorkflowSchemeModel } from '../model/pageBeanWorkflowScheme';
 import { WorkflowSchemeModel } from '../model/workflowScheme';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -103,7 +104,7 @@ export class WorkflowSchemesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme`,
+        return this.httpClient.post<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme`,
             workflowSchemeModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -154,7 +155,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/default`,
+        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/default`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -211,7 +212,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/workflow`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/workflow`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -255,7 +256,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -309,7 +310,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/issuetype/${encodeURIComponent(String(issueType))}`,
+        return this.httpClient.delete<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/issuetype/${encodeURIComponent(String(issueType))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -328,9 +329,9 @@ export class WorkflowSchemesService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllWorkflowSchemes(startAt?: number, maxResults?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<WorkflowSchemeModel>>;
-    public getAllWorkflowSchemes(startAt?: number, maxResults?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<WorkflowSchemeModel>>>;
-    public getAllWorkflowSchemes(startAt?: number, maxResults?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<WorkflowSchemeModel>>>;
+    public getAllWorkflowSchemes(startAt?: number, maxResults?: number, observe?: 'body', reportProgress?: boolean): Observable<PageBeanWorkflowSchemeModel>;
+    public getAllWorkflowSchemes(startAt?: number, maxResults?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanWorkflowSchemeModel>>;
+    public getAllWorkflowSchemes(startAt?: number, maxResults?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanWorkflowSchemeModel>>;
     public getAllWorkflowSchemes(startAt?: number, maxResults?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -360,7 +361,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<WorkflowSchemeModel>>(`${this.configuration.basePath}/rest/api/2/workflowscheme`,
+        return this.httpClient.get<PageBeanWorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -411,7 +412,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<DefaultWorkflowModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/default`,
+        return this.httpClient.get<DefaultWorkflowModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/default`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -466,7 +467,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueTypesWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/workflow`,
+        return this.httpClient.get<IssueTypesWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/workflow`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -517,7 +518,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -572,7 +573,7 @@ export class WorkflowSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueTypeWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/issuetype/${encodeURIComponent(String(issueType))}`,
+        return this.httpClient.get<IssueTypeWorkflowMappingModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/issuetype/${encodeURIComponent(String(issueType))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -630,7 +631,7 @@ export class WorkflowSchemesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/issuetype/${encodeURIComponent(String(issueType))}`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/issuetype/${encodeURIComponent(String(issueType))}`,
             issueTypeWorkflowMappingModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -684,7 +685,7 @@ export class WorkflowSchemesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/default`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/default`,
             defaultWorkflowModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -747,7 +748,7 @@ export class WorkflowSchemesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}/workflow`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}/workflow`,
             issueTypesWorkflowMappingModel,
             {
                 params: queryParameters,
@@ -802,7 +803,7 @@ export class WorkflowSchemesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/2/workflowscheme/${encodeURIComponent(String(id))}`,
+        return this.httpClient.put<WorkflowSchemeModel>(`${this.configuration.basePath}/rest/api/3/workflowscheme/${encodeURIComponent(String(id))}`,
             workflowSchemeModel,
             {
                 withCredentials: this.configuration.withCredentials,

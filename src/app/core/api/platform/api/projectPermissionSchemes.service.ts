@@ -121,7 +121,7 @@ export class ProjectPermissionSchemesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<PermissionSchemeModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectKeyOrId))}/permissionscheme`,
+        return this.httpClient.put<PermissionSchemeModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectKeyOrId))}/permissionscheme`,
             idBeanModel,
             {
                 params: queryParameters,
@@ -181,7 +181,7 @@ export class ProjectPermissionSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PermissionSchemeModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectKeyOrId))}/permissionscheme`,
+        return this.httpClient.get<PermissionSchemeModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectKeyOrId))}/permissionscheme`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -234,7 +234,7 @@ export class ProjectPermissionSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<SecuritySchemeModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectKeyOrId))}/issuesecuritylevelscheme`,
+        return this.httpClient.get<SecuritySchemeModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectKeyOrId))}/issuesecuritylevelscheme`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -286,7 +286,7 @@ export class ProjectPermissionSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ProjectIssueSecurityLevelsModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectKeyOrId))}/securitylevel`,
+        return this.httpClient.get<ProjectIssueSecurityLevelsModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectKeyOrId))}/securitylevel`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

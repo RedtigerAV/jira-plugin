@@ -123,7 +123,7 @@ export class WorkflowTransitionRulesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanWorkflowTransitionRulesModel>(`${this.configuration.basePath}/rest/api/2/workflow/rule/config`,
+        return this.httpClient.get<PageBeanWorkflowTransitionRulesModel>(`${this.configuration.basePath}/rest/api/3/workflow/rule/config`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -173,7 +173,7 @@ export class WorkflowTransitionRulesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<WorkflowTransitionRulesUpdateErrorsModel>(`${this.configuration.basePath}/rest/api/2/workflow/rule/config`,
+        return this.httpClient.put<WorkflowTransitionRulesUpdateErrorsModel>(`${this.configuration.basePath}/rest/api/3/workflow/rule/config`,
             workflowTransitionRulesUpdateModel,
             {
                 withCredentials: this.configuration.withCredentials,

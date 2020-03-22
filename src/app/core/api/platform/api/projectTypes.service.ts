@@ -103,7 +103,55 @@ export class ProjectTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ProjectTypeModel>(`${this.configuration.basePath}/rest/api/2/project/type/${encodeURIComponent(String(projectTypeKey))}/accessible`,
+        return this.httpClient.get<ProjectTypeModel>(`${this.configuration.basePath}/rest/api/3/project/type/${encodeURIComponent(String(projectTypeKey))}/accessible`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get licensed project types
+     * Returns all [project types](https://confluence.atlassian.com/x/Var1Nw) with a valid license.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllAccessibleProjectTypes(observe?: 'body', reportProgress?: boolean): Observable<Array<ProjectTypeModel>>;
+    public getAllAccessibleProjectTypes(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ProjectTypeModel>>>;
+    public getAllAccessibleProjectTypes(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ProjectTypeModel>>>;
+    public getAllAccessibleProjectTypes(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (OAuth2) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+        // authentication (basicAuth) required
+        if (this.configuration.username || this.configuration.password) {
+            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
+        }
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Array<ProjectTypeModel>>(`${this.configuration.basePath}/rest/api/3/project/type/accessible`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -151,7 +199,7 @@ export class ProjectTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<ProjectTypeModel>>(`${this.configuration.basePath}/rest/api/2/project/type`,
+        return this.httpClient.get<Array<ProjectTypeModel>>(`${this.configuration.basePath}/rest/api/3/project/type`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -203,7 +251,7 @@ export class ProjectTypesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<ProjectTypeModel>(`${this.configuration.basePath}/rest/api/2/project/type/${encodeURIComponent(String(projectTypeKey))}`,
+        return this.httpClient.get<ProjectTypeModel>(`${this.configuration.basePath}/rest/api/3/project/type/${encodeURIComponent(String(projectTypeKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

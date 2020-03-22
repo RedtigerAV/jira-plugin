@@ -65,7 +65,7 @@ export class FilterSharingService {
 
     /**
      * Add share permission
-     * Add a share permissions to a filter. If you add a global share permission (one for all logged-in users or the public) it will overwrite all share permissions for the filter.  Be aware that this operation uses different objects for updating share permissions compared to [Update filter](#api-rest-api-2-filter-id-put).  **[Permissions](#permissions) required:** *Share dashboards and filters* [global permission](https://confluence.atlassian.com/x/x4dKLg) and the user must own the filter.
+     * Add a share permissions to a filter. If you add a global share permission (one for all logged-in users or the public) it will overwrite all share permissions for the filter.  Be aware that this operation uses different objects for updating share permissions compared to [Update filter](#api-rest-api-3-filter-id-put).  **[Permissions](#permissions) required:** *Share dashboards and filters* [global permission](https://confluence.atlassian.com/x/x4dKLg) and the user must own the filter.
      * @param id The ID of the filter.
      * @param sharePermissionInputBeanModel 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -114,7 +114,7 @@ export class FilterSharingService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<Array<SharePermissionModel>>(`${this.configuration.basePath}/rest/api/2/filter/${encodeURIComponent(String(id))}/permission`,
+        return this.httpClient.post<Array<SharePermissionModel>>(`${this.configuration.basePath}/rest/api/3/filter/${encodeURIComponent(String(id))}/permission`,
             sharePermissionInputBeanModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -170,7 +170,7 @@ export class FilterSharingService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/filter/${encodeURIComponent(String(id))}/permission/${encodeURIComponent(String(permissionId))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/filter/${encodeURIComponent(String(id))}/permission/${encodeURIComponent(String(permissionId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -218,7 +218,7 @@ export class FilterSharingService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<DefaultShareScopeModel>(`${this.configuration.basePath}/rest/api/2/filter/defaultShareScope`,
+        return this.httpClient.get<DefaultShareScopeModel>(`${this.configuration.basePath}/rest/api/3/filter/defaultShareScope`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -274,7 +274,7 @@ export class FilterSharingService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<SharePermissionModel>(`${this.configuration.basePath}/rest/api/2/filter/${encodeURIComponent(String(id))}/permission/${encodeURIComponent(String(permissionId))}`,
+        return this.httpClient.get<SharePermissionModel>(`${this.configuration.basePath}/rest/api/3/filter/${encodeURIComponent(String(id))}/permission/${encodeURIComponent(String(permissionId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -326,7 +326,7 @@ export class FilterSharingService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<SharePermissionModel>>(`${this.configuration.basePath}/rest/api/2/filter/${encodeURIComponent(String(id))}/permission`,
+        return this.httpClient.get<Array<SharePermissionModel>>(`${this.configuration.basePath}/rest/api/3/filter/${encodeURIComponent(String(id))}/permission`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -383,7 +383,7 @@ export class FilterSharingService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<DefaultShareScopeModel>(`${this.configuration.basePath}/rest/api/2/filter/defaultShareScope`,
+        return this.httpClient.put<DefaultShareScopeModel>(`${this.configuration.basePath}/rest/api/3/filter/defaultShareScope`,
             defaultShareScopeModel,
             {
                 withCredentials: this.configuration.withCredentials,

@@ -27,7 +27,7 @@ export interface VotesModel {
      */
     readonly votes?: number;
     /**
-     * Indicates whether the user making this request has voted on the issue.
+     * Whether the user making this request has voted on the issue.
      */
     readonly hasVoted?: boolean;
     /**

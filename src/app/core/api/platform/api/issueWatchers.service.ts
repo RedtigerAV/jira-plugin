@@ -112,7 +112,7 @@ export class IssueWatchersService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/watchers`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/watchers`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -165,7 +165,7 @@ export class IssueWatchersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<WatchersModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/watchers`,
+        return this.httpClient.get<WatchersModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/watchers`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -226,7 +226,7 @@ export class IssueWatchersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/watchers`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/watchers`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

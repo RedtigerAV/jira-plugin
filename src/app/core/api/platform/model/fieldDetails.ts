@@ -32,19 +32,19 @@ export interface FieldDetailsModel {
      */
     name?: string;
     /**
-     * Indicates whether the field is a custom field.
+     * Whether the field is a custom field.
      */
     custom?: boolean;
     /**
-     * Indicates whether the content of the field can be used to order lists.
+     * Whether the content of the field can be used to order lists.
      */
     orderable?: boolean;
     /**
-     * Indicates whether the field can be used as a column on the issue navigator.
+     * Whether the field can be used as a column on the issue navigator.
      */
     navigable?: boolean;
     /**
-     * Indicates whether the content of the field can be searched.
+     * Whether the content of the field can be searched.
      */
     searchable?: boolean;
     /**

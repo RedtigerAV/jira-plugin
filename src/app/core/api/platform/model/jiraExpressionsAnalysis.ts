@@ -11,7 +11,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { JiraExpressionValidationErrorModel } from './jiraExpressionValidationError';
+import { JiraExpressionAnalysisModel } from './jiraExpressionAnalysis';
 
 
 /**
@@ -19,16 +19,8 @@ import { JiraExpressionValidationErrorModel } from './jiraExpressionValidationEr
  */
 export interface JiraExpressionsAnalysisModel { 
     /**
-     * The analysed expression.
+     * The results of Jira expressions analysis.
      */
-    expression: string;
-    /**
-     * A list of validation errors. Not included if the expression is valid.
-     */
-    errors?: Array<JiraExpressionValidationErrorModel>;
-    /**
-     * Whether the expression is valid and the interpreter will evaluate it. Note that the expression may fail at runtime (for example, if it executes too many expensive operations).
-     */
-    valid: boolean;
+    results: Array<JiraExpressionAnalysisModel>;
 }
 

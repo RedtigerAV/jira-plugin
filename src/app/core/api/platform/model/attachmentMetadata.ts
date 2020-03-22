@@ -58,5 +58,9 @@ export interface AttachmentMetadataModel {
      * The URL of a thumbnail representing the attachment.
      */
     readonly thumbnail?: string;
+    /**
+     * The media file id representing the attachment.
+     */
+    readonly mediaFileId?: string;
 }
 

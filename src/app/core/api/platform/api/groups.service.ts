@@ -64,135 +64,9 @@ export class GroupsService {
 
 
     /**
-     * Add user to group
-     * Adds a user to a group.  **[Permissions](#permissions) required:** Site administration (that is, member of the *site-admin* [group](https://confluence.atlassian.com/x/24xjL)).
-     * @param groupname The name of the group (case sensitive).
-     * @param requestBody The user to add to the group.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public addUserToGroup(groupname: string, requestBody: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean): Observable<GroupModel>;
-    public addUserToGroup(groupname: string, requestBody: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupModel>>;
-    public addUserToGroup(groupname: string, requestBody: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupModel>>;
-    public addUserToGroup(groupname: string, requestBody: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (groupname === null || groupname === undefined) {
-            throw new Error('Required parameter groupname was null or undefined when calling addUserToGroup.');
-        }
-        if (requestBody === null || requestBody === undefined) {
-            throw new Error('Required parameter requestBody was null or undefined when calling addUserToGroup.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (groupname !== undefined && groupname !== null) {
-            queryParameters = queryParameters.set('groupname', <any>groupname);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<GroupModel>(`${this.configuration.basePath}/rest/api/2/group/user`,
-            requestBody,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Create group
-     * Creates a group.  **[Permissions](#permissions) required:** Site administration (that is, member of the *site-admin* [group](https://confluence.atlassian.com/x/24xjL)).
-     * @param requestBody The name of the group.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public createGroup(requestBody: { [key: string]: object; }, observe?: 'body', reportProgress?: boolean): Observable<GroupModel>;
-    public createGroup(requestBody: { [key: string]: object; }, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GroupModel>>;
-    public createGroup(requestBody: { [key: string]: object; }, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GroupModel>>;
-    public createGroup(requestBody: { [key: string]: object; }, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (requestBody === null || requestBody === undefined) {
-            throw new Error('Required parameter requestBody was null or undefined when calling createGroup.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<GroupModel>(`${this.configuration.basePath}/rest/api/2/group`,
-            requestBody,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Find groups
      * Returns a list of groups whose names contain a query string. A list of group names can be provided to exclude groups from the results.  The primary use case for this resource is to populate a group picker suggestions list. To this end, the returned object includes the &#x60;html&#x60; field where the matched query term is highlighted in the group name with the HTML strong tag. Also, the groups list is wrapped in a response object that contains a header for use in the picker, specifically *Showing X of Y matching groups*.  The list returns with the groups sorted. If no groups match the list criteria, an empty list is returned.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg). Anonymous calls and calls by users without the required permission return an empty list.
-     * @param accountId This parameter is deprecated, setting it does not affect the results. To find groups containing a particular user, use [Get user groups](#api-rest-api-2-user-groups-get).
+     * @param accountId This parameter is deprecated, setting it does not affect the results. To find groups containing a particular user, use [Get user groups](#api-rest-api-3-user-groups-get).
      * @param query The string to find in group names.
      * @param exclude A group to exclude from the result. To exclude multiple groups, provide an ampersand-separated list. For example, &#x60;exclude&#x3D;group1&amp;exclude&#x3D;group2&#x60;.
      * @param maxResults The maximum number of groups to return. The maximum number of groups that can be returned is limited by the system property &#x60;jira.ajax.autocomplete.limit&#x60;.
@@ -243,7 +117,7 @@ export class GroupsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<FoundGroupsModel>(`${this.configuration.basePath}/rest/api/2/groups/picker`,
+        return this.httpClient.get<FoundGroupsModel>(`${this.configuration.basePath}/rest/api/3/groups/picker`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -256,7 +130,7 @@ export class GroupsService {
 
     /**
      * Get group
-     * This operation is deprecated, use [&#x60;group/member&#x60;](#api-rest-api-2-group-member-get).  Returns all users in a group.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     * This operation is deprecated, use [&#x60;group/member&#x60;](#api-rest-api-3-group-member-get).  Returns all users in a group.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param groupname The name of the group.
      * @param expand List of fields to expand.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -305,7 +179,7 @@ export class GroupsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<GroupModel>(`${this.configuration.basePath}/rest/api/2/group`,
+        return this.httpClient.get<GroupModel>(`${this.configuration.basePath}/rest/api/3/group`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -375,136 +249,7 @@ export class GroupsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanUserDetailsModel>(`${this.configuration.basePath}/rest/api/2/group/member`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Remove group
-     * Deletes a group.  **[Permissions](#permissions) required:** Site administration (that is, member of the *site-admin* strategic [group](https://confluence.atlassian.com/x/24xjL)).
-     * @param groupname The name of the group.
-     * @param swapGroup The group to transfer restrictions to. Only comments and worklogs are transferred. If restrictions are not transferred, comments and worklogs are inaccessible after the deletion.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public removeGroup(groupname: string, swapGroup?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeGroup(groupname: string, swapGroup?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeGroup(groupname: string, swapGroup?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeGroup(groupname: string, swapGroup?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (groupname === null || groupname === undefined) {
-            throw new Error('Required parameter groupname was null or undefined when calling removeGroup.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (groupname !== undefined && groupname !== null) {
-            queryParameters = queryParameters.set('groupname', <any>groupname);
-        }
-        if (swapGroup !== undefined && swapGroup !== null) {
-            queryParameters = queryParameters.set('swapGroup', <any>swapGroup);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/group`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Remove user from group
-     * Removes a user from a group.  **[Permissions](#permissions) required:** Site administration (that is, member of the *site-admin* [group](https://confluence.atlassian.com/x/24xjL)).
-     * @param groupname The name of the group.
-     * @param accountId The account ID of the user, which uniquely identifies the user across all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
-     * @param username This parameter is no longer available and will be removed from the documentation soon. See the [deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/) for details.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public removeUserFromGroup(groupname: string, accountId: string, username?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeUserFromGroup(groupname: string, accountId: string, username?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeUserFromGroup(groupname: string, accountId: string, username?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeUserFromGroup(groupname: string, accountId: string, username?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (groupname === null || groupname === undefined) {
-            throw new Error('Required parameter groupname was null or undefined when calling removeUserFromGroup.');
-        }
-        if (accountId === null || accountId === undefined) {
-            throw new Error('Required parameter accountId was null or undefined when calling removeUserFromGroup.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (groupname !== undefined && groupname !== null) {
-            queryParameters = queryParameters.set('groupname', <any>groupname);
-        }
-        if (username !== undefined && username !== null) {
-            queryParameters = queryParameters.set('username', <any>username);
-        }
-        if (accountId !== undefined && accountId !== null) {
-            queryParameters = queryParameters.set('accountId', <any>accountId);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/group/user`,
+        return this.httpClient.get<PageBeanUserDetailsModel>(`${this.configuration.basePath}/rest/api/3/group/member`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

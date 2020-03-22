@@ -120,7 +120,7 @@ export class IssuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/assignee`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/assignee`,
             userModel,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -133,7 +133,7 @@ export class IssuesService {
 
     /**
      * Create issue
-     * Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. A transition may be applied, to move the issue or subtask to a workflow step other than the default start step, and issue properties set.  The content of the issue or subtask is defined using &#x60;update&#x60; and &#x60;fields&#x60;. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get). These are the same fields that appear on the issue\&#39;s create screen.  Creating a subtask differs from creating an issue as follows:   *  &#x60;issueType&#x60; must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get) to find subtask issue types).  *  &#x60;parent&#x60; must contain the ID or key of the parent issue.  **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which the issue or subtask is created.
+     * Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. A transition may be applied, to move the issue or subtask to a workflow step other than the default start step, and issue properties set.  The content of the issue or subtask is defined using &#x60;update&#x60; and &#x60;fields&#x60;. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get). These are the same fields that appear on the issue\&#39;s create screen. Note that the &#x60;description&#x60;, &#x60;environment&#x60;, and any &#x60;textarea&#x60; type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (&#x60;textfield&#x60;) accept a string and don\&#39;t handle Atlassian Document Format content.  Creating a subtask differs from creating an issue as follows:   *  &#x60;issueType&#x60; must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get) to find subtask issue types).  *  &#x60;parent&#x60; must contain the ID or key of the parent issue.  In a next-gen project any issue may be made a child providing that the parent and child are members of the same project. In a classic project the parent field is only valid for subtasks.  **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which the issue or subtask is created.
      * @param requestBody 
      * @param updateHistory Whether the project in which the issue is created is added to the user\&#39;s **Recently viewed** project list, as shown under **Projects** in Jira.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -184,7 +184,7 @@ export class IssuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<CreatedIssueModel>(`${this.configuration.basePath}/rest/api/2/issue`,
+        return this.httpClient.post<CreatedIssueModel>(`${this.configuration.basePath}/rest/api/3/issue`,
             requestBody,
             {
                 params: queryParameters,
@@ -198,7 +198,7 @@ export class IssuesService {
 
     /**
      * Bulk create issue
-     * Creates issues and, where the option to create subtasks is enabled in Jira, subtasks. Transitions may be applied, to move the issues or subtasks to a workflow step other than the default start step, and issue properties set.  The content of each issue or subtask is defined using &#x60;update&#x60; and &#x60;fields&#x60;. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get). These are the same fields that appear on the issues\&#39; create screens.  Creating a subtask differs from creating an issue as follows:   *  &#x60;issueType&#x60; must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get) to find subtask issue types).  *  &#x60;parent&#x60; the must contain the ID or key of the parent issue.  **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which each issue or subtask is created.
+     * Creates issues and, where the option to create subtasks is enabled in Jira, subtasks. Transitions may be applied, to move the issues or subtasks to a workflow step other than the default start step, and issue properties set.  The content of each issue or subtask is defined using &#x60;update&#x60; and &#x60;fields&#x60;. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get). These are the same fields that appear on the issues\&#39; create screens. Note that the &#x60;description&#x60;, &#x60;environment&#x60;, and any &#x60;textarea&#x60; type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (&#x60;textfield&#x60;) accept a string and don\&#39;t handle Atlassian Document Format content.  Creating a subtask differs from creating an issue as follows:   *  &#x60;issueType&#x60; must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get) to find subtask issue types).  *  &#x60;parent&#x60; the must contain the ID or key of the parent issue.  **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which each issue or subtask is created.
      * @param requestBody 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -243,7 +243,7 @@ export class IssuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<CreatedIssuesModel>(`${this.configuration.basePath}/rest/api/2/issue/bulk`,
+        return this.httpClient.post<CreatedIssuesModel>(`${this.configuration.basePath}/rest/api/3/issue/bulk`,
             requestBody,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -258,7 +258,7 @@ export class IssuesService {
      * Delete issue
      * Deletes an issue.  An issue cannot be deleted if it has one or more subtasks. To delete an issue with subtasks, set &#x60;deleteSubtasks&#x60;. This causes the issue\&#39;s subtasks to be deleted with the issue.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* and *Delete issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
      * @param issueIdOrKey The ID or key of the issue.
-     * @param deleteSubtasks Indicates whether the issue\&#39;s subtasks are deleted when the issue is deleted.
+     * @param deleteSubtasks Whether the issue\&#39;s subtasks are deleted when the issue is deleted.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -301,7 +301,7 @@ export class IssuesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -314,7 +314,7 @@ export class IssuesService {
 
     /**
      * Transition issue
-     * Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen.  To update the fields on the transition screen, specify the fields in the &#x60;fields&#x60; or &#x60;update&#x60; parameters in the request body. Get details about the fields using [ Get transitions](#api-rest-api-2-issue-issueIdOrKey-transitions-get) with the &#x60;transitions.fields&#x60; expand.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* and *Transition issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     * Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen.  To update the fields on the transition screen, specify the fields in the &#x60;fields&#x60; or &#x60;update&#x60; parameters in the request body. Get details about the fields using [ Get transitions](#api-rest-api-3-issue-issueIdOrKey-transitions-get) with the &#x60;transitions.fields&#x60; expand.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* and *Transition issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
      * @param issueIdOrKey The ID or key of the issue.
      * @param requestBody 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -363,7 +363,7 @@ export class IssuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/transitions`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/transitions`,
             requestBody,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -376,12 +376,12 @@ export class IssuesService {
 
     /**
      * Edit issue
-     * Edits an issue. A transition may be applied and issue properties updated as part of the edit.  The edits to the issue\&#39;s fields are defined using &#x60;update&#x60; and &#x60;fields&#x60;. The fields that can be edited are determined using [ Get edit issue metadata](#api-rest-api-2-issue-issueIdOrKey-editmeta-get).  The parent field may be set by key or ID. For standard issue types, the parent may be removed by setting &#x60;update.parent.set.none&#x60; to *true*.  Connect app users with admin permissions (from user permissions and app scopes) can override the screen security configuration using &#x60;overrideScreenSecurity&#x60; and &#x60;overrideEditableFlag&#x60;.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* and *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     * Edits an issue. A transition may be applied and issue properties updated as part of the edit.  The edits to the issue\&#39;s fields are defined using &#x60;update&#x60; and &#x60;fields&#x60;. The fields that can be edited are determined using [ Get edit issue metadata](#api-rest-api-3-issue-issueIdOrKey-editmeta-get).  The parent field may be set by key or ID. For standard issue types, the parent may be removed by setting &#x60;update.parent.set.none&#x60; to *true*. Note that the &#x60;description&#x60;, &#x60;environment&#x60;, and any &#x60;textarea&#x60; type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (&#x60;textfield&#x60;) accept a string and don\&#39;t handle Atlassian Document Format content.  Connect app users with admin permissions (from user permissions and app scopes) can override the screen security configuration using &#x60;overrideScreenSecurity&#x60; and &#x60;overrideEditableFlag&#x60;.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* and *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
      * @param issueIdOrKey The ID or key of the issue.
      * @param requestBody 
-     * @param notifyUsers Indicates whether a notification email about the issue update is sent to all watchers. To disable the notification, administer Jira or administer project permissions are required. If the user doesn\&#39;t have the necessary permission the request is ignored.
-     * @param overrideScreenSecurity Indicates whether screen security should be overridden to enable hidden fields to be edited. Available to Connect app users with admin permissions.
-     * @param overrideEditableFlag Indicates whether screen security should be overridden to enable uneditable fields to be edited. Available to Connect app users with admin permissions.
+     * @param notifyUsers Whether a notification email about the issue update is sent to all watchers. To disable the notification, administer Jira or administer project permissions are required. If the user doesn\&#39;t have the necessary permission the request is ignored.
+     * @param overrideScreenSecurity Whether screen security should be overridden to enable hidden fields to be edited. Available to Connect app users with admin permissions.
+     * @param overrideEditableFlag Whether screen security should be overridden to enable uneditable fields to be edited. Available to Connect app users with admin permissions.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -439,7 +439,7 @@ export class IssuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}`,
             requestBody,
             {
                 params: queryParameters,
@@ -503,7 +503,7 @@ export class IssuesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanChangelogModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/changelog`,
+        return this.httpClient.get<PageBeanChangelogModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/changelog`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -516,12 +516,12 @@ export class IssuesService {
 
     /**
      * Get create issue metadata
-     * Returns details of projects, issue types within projects, and, when requested, the create screen fields for each issue type for the user. Use the information to populate the requests in [ Create issue](#api-rest-api-2-issue-post) and [Create issues](#api-rest-api-2-issue-bulk-post).  The request can be restricted to specific projects or issue types using the query parameters. The response will contain information for the valid projects, issue types, or project and issue type combinations requested. Note that invalid project, issue type, or project and issue type combinations do not generate errors.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects.
+     * Returns details of projects, issue types within projects, and, when requested, the create screen fields for each issue type for the user. Use the information to populate the requests in [ Create issue](#api-rest-api-3-issue-post) and [Create issues](#api-rest-api-3-issue-bulk-post).  The request can be restricted to specific projects or issue types using the query parameters. The response will contain information for the valid projects, issue types, or project and issue type combinations requested. Note that invalid project, issue type, or project and issue type combinations do not generate errors.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects.
      * @param projectIds List of project IDs. This parameter accepts a comma-separated list. Multiple project IDs can also be provided using an ampersand-separated list. For example, &#x60;projectIds&#x3D;10000,10001&amp;projectIds&#x3D;10020,10021&#x60;. This parameter may be provided with &#x60;projectKeys&#x60;.
      * @param projectKeys List of project keys. This parameter accepts a comma-separated list. Multiple project keys can also be provided using an ampersand-separated list. For example, &#x60;projectKeys&#x3D;proj1,proj2&amp;projectKeys&#x3D;proj3&#x60;. This parameter may be provided with &#x60;projectIds&#x60;.
      * @param issuetypeIds List of issue type IDs. This parameter accepts a comma-separated list. Multiple issue type IDs can also be provided using an ampersand-separated list. For example, &#x60;issuetypeIds&#x3D;10000,10001&amp;issuetypeIds&#x3D;10020,10021&#x60;. This parameter may be provided with &#x60;issuetypeNames&#x60;.
      * @param issuetypeNames List of issue type names. This parameter accepts a comma-separated list. Multiple issue type names can also be provided using an ampersand-separated list. For example, &#x60;issuetypeNames&#x3D;name1,name2&amp;issuetypeNames&#x3D;name3&#x60;. This parameter may be provided with &#x60;issuetypeIds&#x60;.
-     * @param expand Use [expand](#expansion) to include additional information about issue metadata in the response. This parameter accepts &#x60;projects.issuetypes.fields&#x60;, which returns information about the fields in the issue creation screen for each issue type. Fields hidden from the screen are not returned. Use the information to populate the &#x60;fields&#x60; and &#x60;update&#x60; fields in [Create issue](#api-rest-api-2-issue-post) and [Create issues](#api-rest-api-2-issue-bulk-post).
+     * @param expand Use [expand](#expansion) to include additional information about issue metadata in the response. This parameter accepts &#x60;projects.issuetypes.fields&#x60;, which returns information about the fields in the issue creation screen for each issue type. Fields hidden from the screen are not returned. Use the information to populate the &#x60;fields&#x60; and &#x60;update&#x60; fields in [Create issue](#api-rest-api-3-issue-post) and [Create issues](#api-rest-api-3-issue-bulk-post).
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -582,7 +582,7 @@ export class IssuesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueCreateMetadataModel>(`${this.configuration.basePath}/rest/api/2/issue/createmeta`,
+        return this.httpClient.get<IssueCreateMetadataModel>(`${this.configuration.basePath}/rest/api/3/issue/createmeta`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -595,10 +595,10 @@ export class IssuesService {
 
     /**
      * Get edit issue metadata
-     * Returns the edit screen fields for an issue that are visible to and editable by the user. Use the information to populate the requests in [Edit issue](#api-rest-api-2-issue-issueIdOrKey-put).  Connect app users with admin permissions (from user permissions and app scopes) can return additional details using:   *  &#x60;overrideScreenSecurity&#x60; Returns hidden fields.  *  &#x60;overrideEditableFlag&#x60; Returns uneditable fields. For example, where an issue has a workflow status of closed none of its fields are editable.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.  Note: For any fields to be editable the user must have the *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the issue.
+     * Returns the edit screen fields for an issue that are visible to and editable by the user. Use the information to populate the requests in [Edit issue](#api-rest-api-3-issue-issueIdOrKey-put).  Connect app users with admin permissions (from user permissions and app scopes) can return additional details using:   *  &#x60;overrideScreenSecurity&#x60; Returns hidden fields.  *  &#x60;overrideEditableFlag&#x60; Returns uneditable fields. For example, where an issue has a workflow status of closed none of its fields are editable.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.  Note: For any fields to be editable the user must have the *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the issue.
      * @param issueIdOrKey The ID or key of the issue.
-     * @param overrideScreenSecurity Indicates whether hidden fields should be returned. Available to connect app users with admin permissions.
-     * @param overrideEditableFlag Indicates whether non-editable fields should be returned. Available to connect app users with admin permissions.
+     * @param overrideScreenSecurity Whether hidden fields should be returned. Available to connect app users with admin permissions.
+     * @param overrideEditableFlag Whether non-editable fields should be returned. Available to connect app users with admin permissions.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -645,7 +645,7 @@ export class IssuesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueUpdateMetadataModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/editmeta`,
+        return this.httpClient.get<IssueUpdateMetadataModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/editmeta`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -660,11 +660,11 @@ export class IssuesService {
      * Get issue
      * Returns the details for an issue.  The issue is identified by its ID or key, however, if the identifier doesn\&#39;t match an issue, a case-insensitive search and check for moved issues is performed. If a matching issue is found its details are returned, a 302 or other redirect is **not** returned. The issue key returned in the response is the key of the issue found.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
      * @param issueIdOrKey The ID or key of the issue.
-     * @param fields A list of fields to return for the issue. This parameter accepts a comma-separated list. Use it to retrieve a subset of fields. Allowed values:   *  &#x60;*all&#x60; Returns all fields.  *  &#x60;*navigable&#x60; Returns navigable fields.  *  Any issue field, prefixed with a minus to exclude.  Examples:   *  &#x60;summary,comment&#x60; Returns only the summary and comments fields.  *  &#x60;-description&#x60; Returns all (default) fields except description.  *  &#x60;*navigable,-comment&#x60; Returns all navigable fields except comment.  This parameter may be specified multiple times. For example, &#x60;fields&#x3D;field1,field2&amp; fields&#x3D;field3&#x60;.  Note: All fields are returned by default. This differs from [Search for issues using JQL (GET)](#api-rest-api-2-search-get) and [Search for issues using JQL (POST)](#api-rest-api-2-search-post) where the default is all navigable fields.
-     * @param fieldsByKeys Indicates whether fields in &#x60;fields&#x60; are referenced by keys rather than IDs. This parameter is useful where fields have been added by a connect app and a field\&#39;s key may differ from its ID.
+     * @param fields A list of fields to return for the issue. This parameter accepts a comma-separated list. Use it to retrieve a subset of fields. Allowed values:   *  &#x60;*all&#x60; Returns all fields.  *  &#x60;*navigable&#x60; Returns navigable fields.  *  Any issue field, prefixed with a minus to exclude.  Examples:   *  &#x60;summary,comment&#x60; Returns only the summary and comments fields.  *  &#x60;-description&#x60; Returns all (default) fields except description.  *  &#x60;*navigable,-comment&#x60; Returns all navigable fields except comment.  This parameter may be specified multiple times. For example, &#x60;fields&#x3D;field1,field2&amp; fields&#x3D;field3&#x60;.  Note: All fields are returned by default. This differs from [Search for issues using JQL (GET)](#api-rest-api-3-search-get) and [Search for issues using JQL (POST)](#api-rest-api-3-search-post) where the default is all navigable fields.
+     * @param fieldsByKeys Whether fields in &#x60;fields&#x60; are referenced by keys rather than IDs. This parameter is useful where fields have been added by a connect app and a field\&#39;s key may differ from its ID.
      * @param expand Use [expand](#expansion) to include additional information about the issues in the response. This parameter accepts a comma-separated list. Expand options include:   *  &#x60;renderedFields&#x60; Returns field values rendered in HTML format.  *  &#x60;names&#x60; Returns the display name of each field.  *  &#x60;schema&#x60; Returns the schema describing a field type.  *  &#x60;transitions&#x60; Returns all possible transitions for the issue.  *  &#x60;editmeta&#x60; Returns information about how each field can be edited.  *  &#x60;changelog&#x60; Returns a list of recent updates to an issue, sorted by date, starting from the most recent.  *  &#x60;versionedRepresentations&#x60; Returns a JSON array for each version of a field\&#39;s value, with the highest number representing the most recent version. Note: When included in the request, the &#x60;fields&#x60; parameter is ignored.
      * @param properties A list of issue properties to return for the issue. This parameter accepts a comma-separated list. Allowed values:   *  &#x60;*all&#x60; Returns all issue properties.  *  Any issue property key, prefixed with a minus to exclude.  Examples:   *  &#x60;*all&#x60; Returns all properties.  *  &#x60;*all,-prop1&#x60; Returns all properties except &#x60;prop1&#x60;.  *  &#x60;prop1,prop2&#x60; Returns &#x60;prop1&#x60; and &#x60;prop2&#x60; properties.  This parameter may be specified multiple times. For example, &#x60;properties&#x3D;prop1,prop2&amp; properties&#x3D;prop3&#x60;.
-     * @param updateHistory Whether the project in which the issue is created is added to the user\&#39;s **Recently viewed** project list, as shown under **Projects** in Jira. This also populates the [JQL issues search](#api-rest-api-2-search-get) &#x60;lastViewed&#x60; field.
+     * @param updateHistory Whether the project in which the issue is created is added to the user\&#39;s **Recently viewed** project list, as shown under **Projects** in Jira. This also populates the [JQL issues search](#api-rest-api-3-search-get) &#x60;lastViewed&#x60; field.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -724,7 +724,7 @@ export class IssuesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueBeanModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}`,
+        return this.httpClient.get<IssueBeanModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -739,16 +739,17 @@ export class IssuesService {
      * Get transitions
      * Returns either all transitions or a transition that can be performed by the user on an issue, based on the issue\&#39;s status.  Note, if a request is made for a transition that does not exist or cannot be performed on the issue, given its status, the response will return any empty transitions list.  This operation can be accessed anonymously.  **[Permissions](#permissions) required: A list or transition is returned only when the user has:**   *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.  However, if the user does not have the *Transition issues* [ project permission](https://confluence.atlassian.com/x/yodKLg) the response will not list any transitions.
      * @param issueIdOrKey The ID or key of the issue.
-     * @param expand Use [expand](#expansion) to include additional information about transitions in the response. This parameter accepts &#x60;transitions.fields&#x60;, which returns information about the fields in the transition screen for each transition. Fields hidden from the screen are not returned. Use this information to populate the &#x60;fields&#x60; and &#x60;update&#x60; fields in [Transition issue](#api-rest-api-2-issue-issueIdOrKey-transitions-post).
+     * @param expand Use [expand](#expansion) to include additional information about transitions in the response. This parameter accepts &#x60;transitions.fields&#x60;, which returns information about the fields in the transition screen for each transition. Fields hidden from the screen are not returned. Use this information to populate the &#x60;fields&#x60; and &#x60;update&#x60; fields in [Transition issue](#api-rest-api-3-issue-issueIdOrKey-transitions-post).
      * @param transitionId The ID of the transition.
-     * @param skipRemoteOnlyCondition Indicates whether transitions with the condition *Hide From User Condition* are included in the response.
+     * @param skipRemoteOnlyCondition Whether transitions with the condition *Hide From User Condition* are included in the response.
+     * @param includeUnavailableTransitions Whether details of transitions that fail a condition are included in the response
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, observe?: 'body', reportProgress?: boolean): Observable<TransitionsModel>;
-    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TransitionsModel>>;
-    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TransitionsModel>>;
-    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, includeUnavailableTransitions?: boolean, observe?: 'body', reportProgress?: boolean): Observable<TransitionsModel>;
+    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, includeUnavailableTransitions?: boolean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TransitionsModel>>;
+    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, includeUnavailableTransitions?: boolean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TransitionsModel>>;
+    public getTransitions(issueIdOrKey: string, expand?: string, transitionId?: string, skipRemoteOnlyCondition?: boolean, includeUnavailableTransitions?: boolean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (issueIdOrKey === null || issueIdOrKey === undefined) {
             throw new Error('Required parameter issueIdOrKey was null or undefined when calling getTransitions.');
         }
@@ -762,6 +763,9 @@ export class IssuesService {
         }
         if (skipRemoteOnlyCondition !== undefined && skipRemoteOnlyCondition !== null) {
             queryParameters = queryParameters.set('skipRemoteOnlyCondition', <any>skipRemoteOnlyCondition);
+        }
+        if (includeUnavailableTransitions !== undefined && includeUnavailableTransitions !== null) {
+            queryParameters = queryParameters.set('includeUnavailableTransitions', <any>includeUnavailableTransitions);
         }
 
         let headers = this.defaultHeaders;
@@ -791,7 +795,7 @@ export class IssuesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<TransitionsModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/transitions`,
+        return this.httpClient.get<TransitionsModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/transitions`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -853,7 +857,7 @@ export class IssuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/notify`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/notify`,
             requestBody,
             {
                 withCredentials: this.configuration.withCredentials,

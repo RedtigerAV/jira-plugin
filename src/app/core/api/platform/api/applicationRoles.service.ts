@@ -1,5 +1,9 @@
 /* tslint:disable */
 
+/* tslint:disable */
+
+/* tslint:disable */
+
 /**
  * The Jira Cloud platform REST API
  * Jira Cloud platform REST API documentation

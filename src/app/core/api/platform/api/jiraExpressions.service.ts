@@ -22,9 +22,7 @@ import { Observable }                                        from 'rxjs';
 
 import { ErrorCollectionModel } from '../model/errorCollection';
 import { JiraExpressionEvalRequestBeanModel } from '../model/jiraExpressionEvalRequestBean';
-import { JiraExpressionForAnalysisModel } from '../model/jiraExpressionForAnalysis';
 import { JiraExpressionResultModel } from '../model/jiraExpressionResult';
-import { JiraExpressionsAnalysisModel } from '../model/jiraExpressionsAnalysis';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -64,64 +62,6 @@ export class JiraExpressionsService {
         return false;
     }
 
-
-    /**
-     * Analyse Jira expression
-     * Analyses and validates Jira expressions.  Learn more about Jira expressions in the [documentation](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/).  **[Permissions](#permissions) required**: None.
-     * @param jiraExpressionForAnalysisModel The Jira expressions to analyse.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public analyseExpression(jiraExpressionForAnalysisModel: JiraExpressionForAnalysisModel, observe?: 'body', reportProgress?: boolean): Observable<JiraExpressionsAnalysisModel>;
-    public analyseExpression(jiraExpressionForAnalysisModel: JiraExpressionForAnalysisModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<JiraExpressionsAnalysisModel>>;
-    public analyseExpression(jiraExpressionForAnalysisModel: JiraExpressionForAnalysisModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<JiraExpressionsAnalysisModel>>;
-    public analyseExpression(jiraExpressionForAnalysisModel: JiraExpressionForAnalysisModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (jiraExpressionForAnalysisModel === null || jiraExpressionForAnalysisModel === undefined) {
-            throw new Error('Required parameter jiraExpressionForAnalysisModel was null or undefined when calling analyseExpression.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<JiraExpressionsAnalysisModel>(`${this.configuration.basePath}/rest/api/2/expression/analyse`,
-            jiraExpressionForAnalysisModel,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
 
     /**
      * Evaluate Jira expression
@@ -176,7 +116,7 @@ export class JiraExpressionsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<JiraExpressionResultModel>(`${this.configuration.basePath}/rest/api/2/expression/eval`,
+        return this.httpClient.post<JiraExpressionResultModel>(`${this.configuration.basePath}/rest/api/3/expression/eval`,
             jiraExpressionEvalRequestBeanModel,
             {
                 params: queryParameters,

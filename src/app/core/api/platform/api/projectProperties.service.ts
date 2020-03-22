@@ -66,7 +66,7 @@ export class ProjectPropertiesService {
      * Delete project property
      * Deletes the [property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties) from a project.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the property.
      * @param projectIdOrKey The project ID or project key (case sensitive).
-     * @param propertyKey The project property key. Use [Get project property keys](#api-rest-api-2-project-projectIdOrKey-properties-get) to get a list of all project property keys.
+     * @param propertyKey The project property key. Use [Get project property keys](#api-rest-api-3-project-projectIdOrKey-properties-get) to get a list of all project property keys.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -107,7 +107,7 @@ export class ProjectPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -121,7 +121,7 @@ export class ProjectPropertiesService {
      * Get project property
      * Returns the value of a [project property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties).  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the property.
      * @param projectIdOrKey The project ID or project key (case sensitive).
-     * @param propertyKey The project property key. Use [Get project property keys](#api-rest-api-2-project-projectIdOrKey-properties-get) to get a list of all project property keys.
+     * @param propertyKey The project property key. Use [Get project property keys](#api-rest-api-3-project-projectIdOrKey-properties-get) to get a list of all project property keys.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -163,7 +163,7 @@ export class ProjectPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -215,7 +215,7 @@ export class ProjectPropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/properties`,
+        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/properties`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -280,7 +280,7 @@ export class ProjectPropertiesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/project/${encodeURIComponent(String(projectIdOrKey))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/project/${encodeURIComponent(String(projectIdOrKey))}/properties/${encodeURIComponent(String(propertyKey))}`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,

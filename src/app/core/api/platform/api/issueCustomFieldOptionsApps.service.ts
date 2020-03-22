@@ -66,7 +66,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Create issue field option
      * Creates an option for a select list issue field.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are not required for the app providing the field.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param requestBody 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -114,7 +114,7 @@ export class IssueCustomFieldOptionsAppsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<IssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option`,
+        return this.httpClient.post<IssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option`,
             requestBody,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -128,7 +128,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Delete issue field option
      * Deletes an option from a select list issue field.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are not required for the app providing the field.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param optionId The ID of the option to be deleted.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -171,7 +171,7 @@ export class IssueCustomFieldOptionsAppsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<object>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}`,
+        return this.httpClient.delete<object>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -184,7 +184,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Get all issue field options
      * Returns all the options of a select list issue field. A select list issue field is a type of [issue field](https://developer.atlassian.com/cloud/jira/platform/modules/issue-field/) that enables a user to select a value from a list of options.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are not required for the app providing the field.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param startAt The index of the first item to return in a page of results (page offset).
      * @param maxResults The maximum number of items to return per page.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -233,7 +233,7 @@ export class IssueCustomFieldOptionsAppsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanIssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option`,
+        return this.httpClient.get<PageBeanIssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -247,7 +247,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Get issue field option
      * Returns an option from a select list issue field.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are not required for the app providing the field.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param optionId The ID of the option to be returned.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -290,7 +290,7 @@ export class IssueCustomFieldOptionsAppsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<IssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}`,
+        return this.httpClient.get<IssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -303,7 +303,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Get selectable issue field options
      * Returns options for a select list issue field that can be viewed and selected by the user.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** Permission to access Jira.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param startAt The index of the first item to return in a page of results (page offset).
      * @param maxResults The maximum number of items to return per page.
      * @param projectId Filters the results to options that are only available in the specified project.
@@ -356,7 +356,7 @@ export class IssueCustomFieldOptionsAppsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanIssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option/suggestions/edit`,
+        return this.httpClient.get<PageBeanIssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option/suggestions/edit`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -370,7 +370,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Get visible issue field options
      * Returns options for a select list issue field that can be viewed by the user.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** Permission to access Jira.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param startAt The index of the first item to return in a page of results (page offset).
      * @param maxResults The maximum number of items to return per page.
      * @param projectId Filters the results to options that are only available in the specified project.
@@ -423,7 +423,7 @@ export class IssueCustomFieldOptionsAppsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanIssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option/suggestions/search`,
+        return this.httpClient.get<PageBeanIssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option/suggestions/search`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -437,7 +437,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Replace issue field option
      * Deselects an issue-field select-list option from all issues where it is selected. A different option can be selected to replace the deselected option. The update can also be limited to a smaller set of issues by using a JQL query.  This is an [asynchronous operation](#async). The response object contains a link to the long-running task.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are not required for the app providing the field.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param optionId The ID of the option to be deselected.
      * @param replaceWith The ID of the option that will replace the currently selected option.
      * @param jql A JQL query that specifies the issues to be updated. For example, *project&#x3D;10000*.
@@ -490,7 +490,7 @@ export class IssueCustomFieldOptionsAppsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}/issue`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}/issue`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -504,7 +504,7 @@ export class IssueCustomFieldOptionsAppsService {
     /**
      * Update issue field option
      * Updates or creates an option for a select list issue field. This operation requires that the option ID is provided when creating an option, therefore, the option ID needs to be specified as a path and body parameter. The option ID provided in the path and body must be identical.  Note that this operation **only works for issue field select list options added by Connect apps**, it cannot be used with issue field select list options created in Jira or using operations from the [Issue custom field options](#api-group-Issue-custom-field-options) resource.  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are not required for the app providing the field.
-     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-2-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
+     * @param fieldKey The field key is specified in the following format: **$(app-key)\\_\\_$(field-key)**. For example, *example-add-on\\_\\_example-issue-field*. To determine the &#x60;fieldKey&#x60; value, do one of the following:   *  open the app\&#39;s plugin descriptor, then **app-key** is the key at the top and **field-key** is the key in the &#x60;jiraIssueFields&#x60; module. **app-key** can also be found in the app listing in the Atlassian Universal Plugin Manager.  *  run [Get fields](#api-rest-api-3-field-get) and in the field details the value is returned in &#x60;key&#x60;. For example, &#x60;\&quot;key\&quot;: \&quot;teams-add-on__team-issue-field\&quot;&#x60;
      * @param optionId The ID of the option to be updated.
      * @param issueFieldOptionModel 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -556,7 +556,7 @@ export class IssueCustomFieldOptionsAppsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<IssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/2/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}`,
+        return this.httpClient.put<IssueFieldOptionModel>(`${this.configuration.basePath}/rest/api/3/field/${encodeURIComponent(String(fieldKey))}/option/${encodeURIComponent(String(optionId))}`,
             issueFieldOptionModel,
             {
                 withCredentials: this.configuration.withCredentials,

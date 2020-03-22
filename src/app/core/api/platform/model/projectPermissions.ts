@@ -18,7 +18,7 @@
  */
 export interface ProjectPermissionsModel { 
     /**
-     * Indicates whether the logged user can edit the project.
+     * Whether the logged user can edit the project.
      */
     readonly canEdit?: boolean;
 }

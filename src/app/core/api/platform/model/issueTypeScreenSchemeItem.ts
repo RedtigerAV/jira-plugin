@@ -14,7 +14,7 @@
 
 
 /**
- * An issue type screen scheme item showing the screen scheme for an issue type.
+ * The screen scheme for an issue type.
  */
 export interface IssueTypeScreenSchemeItemModel { 
     /**

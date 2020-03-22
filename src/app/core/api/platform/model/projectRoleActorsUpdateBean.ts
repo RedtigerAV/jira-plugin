@@ -15,7 +15,7 @@
 
 export interface ProjectRoleActorsUpdateBeanModel { 
     /**
-     * The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+     * The ID of the project role. Use [Get all project roles](#api-rest-api-3-role-get) to get a list of project role IDs.
      */
     readonly id?: number;
     /**

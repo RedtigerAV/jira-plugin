@@ -66,7 +66,7 @@ export class IssueTypePropertiesService {
      * Delete issue type property
      * Deletes the [issue type property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties).  **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
      * @param issueTypeId The ID of the issue type.
-     * @param propertyKey The key of the property. Use [Get issue type property keys](#api-rest-api-2-issuetype-issueTypeId-properties-get) to get a list of all issue type property keys.
+     * @param propertyKey The key of the property. Use [Get issue type property keys](#api-rest-api-3-issuetype-issueTypeId-properties-get) to get a list of all issue type property keys.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -107,7 +107,7 @@ export class IssueTypePropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(issueTypeId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(issueTypeId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -121,7 +121,7 @@ export class IssueTypePropertiesService {
      * Get issue type property
      * Returns the key and value of the [issue type property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties).  This operation can be accessed anonymously.  **[Permissions](#permissions) required:**   *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) to get the details of any issue type.  *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) to get the details of any issue types associated with the projects the user has permission to browse.
      * @param issueTypeId The ID of the issue type.
-     * @param propertyKey The key of the property. Use [Get issue type property keys](#api-rest-api-2-issuetype-issueTypeId-properties-get) to get a list of all issue type property keys.
+     * @param propertyKey The key of the property. Use [Get issue type property keys](#api-rest-api-3-issuetype-issueTypeId-properties-get) to get a list of all issue type property keys.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -163,7 +163,7 @@ export class IssueTypePropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(issueTypeId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.get<EntityPropertyModel>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(issueTypeId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -215,7 +215,7 @@ export class IssueTypePropertiesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(issueTypeId))}/properties`,
+        return this.httpClient.get<PropertyKeysModel>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(issueTypeId))}/properties`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -280,7 +280,7 @@ export class IssueTypePropertiesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/2/issuetype/${encodeURIComponent(String(issueTypeId))}/properties/${encodeURIComponent(String(propertyKey))}`,
+        return this.httpClient.put<object>(`${this.configuration.basePath}/rest/api/3/issuetype/${encodeURIComponent(String(issueTypeId))}/properties/${encodeURIComponent(String(propertyKey))}`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,

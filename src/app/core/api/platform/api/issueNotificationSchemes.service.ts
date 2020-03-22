@@ -65,7 +65,7 @@ export class IssueNotificationSchemesService {
     /**
      * Get notification scheme
      * Returns a [notification scheme](https://confluence.atlassian.com/x/8YdKLg), including the list of events and the recipients who will receive notifications for those events.  **[Permissions](#permissions) required:** Permission to access Jira, however the user must have permission to administer at least one project associated with the notification scheme.
-     * @param id The ID of the notification scheme. Use [Get notification schemes paginated](#api-rest-api-2-notificationscheme-get) to get a list of notification scheme IDs.
+     * @param id The ID of the notification scheme. Use [Get notification schemes paginated](#api-rest-api-3-notificationscheme-get) to get a list of notification scheme IDs.
      * @param expand Use [expand](#expansion) to include additional information in the response. This parameter accepts a comma-separated list. Expand options include:   *  &#x60;all&#x60; Returns all expandable information.  *  &#x60;field&#x60; Returns information about any custom fields assigned to receive an event.  *  &#x60;group&#x60; Returns information about any groups assigned to receive an event.  *  &#x60;notificationSchemeEvents&#x60; Returns a list of event associations. This list is returned for all expandable information.  *  &#x60;projectRole&#x60; Returns information about any project roles assigned to receive an event.  *  &#x60;user&#x60; Returns information about any users assigned to receive an event.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -110,7 +110,7 @@ export class IssueNotificationSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<NotificationSchemeModel>(`${this.configuration.basePath}/rest/api/2/notificationscheme/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<NotificationSchemeModel>(`${this.configuration.basePath}/rest/api/3/notificationscheme/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -173,7 +173,7 @@ export class IssueNotificationSchemesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageBeanNotificationSchemeModel>(`${this.configuration.basePath}/rest/api/2/notificationscheme`,
+        return this.httpClient.get<PageBeanNotificationSchemeModel>(`${this.configuration.basePath}/rest/api/3/notificationscheme`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

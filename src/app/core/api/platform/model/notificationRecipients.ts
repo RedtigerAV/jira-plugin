@@ -23,19 +23,19 @@ export interface NotificationRecipientsModel {
 
 
     /**
-     * Indicates whether the notification should be sent to the issue\'s reporter.
+     * Whether the notification should be sent to the issue\'s reporter.
      */
     reporter?: boolean;
     /**
-     * Indicates whether the notification should be sent to the issue\'s assignees.
+     * Whether the notification should be sent to the issue\'s assignees.
      */
     assignee?: boolean;
     /**
-     * Indicates whether the notification should be sent to the issue\'s watchers.
+     * Whether the notification should be sent to the issue\'s watchers.
      */
     watchers?: boolean;
     /**
-     * Indicates whether the notification should be sent to the issue\'s voters.
+     * Whether the notification should be sent to the issue\'s voters.
      */
     voters?: boolean;
     /**

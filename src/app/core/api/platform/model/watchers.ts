@@ -23,7 +23,7 @@ export interface WatchersModel {
      */
     readonly self?: string;
     /**
-     * Indicates whether the calling user is watching this issue.
+     * Whether the calling user is watching this issue.
      */
     readonly isWatching?: boolean;
     /**

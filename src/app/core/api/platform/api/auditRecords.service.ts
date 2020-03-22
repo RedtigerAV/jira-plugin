@@ -113,7 +113,7 @@ export class AuditRecordsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<AuditRecordsModel>(`${this.configuration.basePath}/rest/api/2/auditing/record`,
+        return this.httpClient.get<AuditRecordsModel>(`${this.configuration.basePath}/rest/api/3/auditing/record`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

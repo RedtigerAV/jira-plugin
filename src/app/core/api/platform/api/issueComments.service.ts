@@ -21,8 +21,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { CommentModel } from '../model/comment';
-import { IssueCommentListRequestBeanModel } from '../model/issueCommentListRequestBean';
-import { PageBeanCommentModel } from '../model/pageBeanComment';
 import { PageOfCommentsModel } from '../model/pageOfComments';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -121,7 +119,7 @@ export class IssueCommentsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<CommentModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/comment`,
+        return this.httpClient.post<CommentModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/comment`,
             requestBody,
             {
                 params: queryParameters,
@@ -178,7 +176,7 @@ export class IssueCommentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/comment/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/comment/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -240,7 +238,7 @@ export class IssueCommentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<CommentModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/comment/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<CommentModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/comment/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -311,72 +309,7 @@ export class IssueCommentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<PageOfCommentsModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/comment`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get comments by IDs
-     * Returns the comments for a list of comment IDs.  This operation can be accessed anonymously.  **[Permissions](#permissions) required:** Comments are returned where the user:   *  has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the comment.  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.  *  If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to.
-     * @param issueCommentListRequestBeanModel The list of comment IDs.
-     * @param expand Use [expand](#expansion) to include additional information about comments in the response. This parameter accepts a comma-separated list. Expand options include:   *  &#x60;renderedBody&#x60; Returns the comment body rendered in HTML.  *  &#x60;properties&#x60; Returns the comment\&#39;s properties.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getCommentsByIds(issueCommentListRequestBeanModel: IssueCommentListRequestBeanModel, expand?: string, observe?: 'body', reportProgress?: boolean): Observable<PageBeanCommentModel>;
-    public getCommentsByIds(issueCommentListRequestBeanModel: IssueCommentListRequestBeanModel, expand?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageBeanCommentModel>>;
-    public getCommentsByIds(issueCommentListRequestBeanModel: IssueCommentListRequestBeanModel, expand?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageBeanCommentModel>>;
-    public getCommentsByIds(issueCommentListRequestBeanModel: IssueCommentListRequestBeanModel, expand?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (issueCommentListRequestBeanModel === null || issueCommentListRequestBeanModel === undefined) {
-            throw new Error('Required parameter issueCommentListRequestBeanModel was null or undefined when calling getCommentsByIds.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (expand !== undefined && expand !== null) {
-            queryParameters = queryParameters.set('expand', <any>expand);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (OAuth2) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
-
-        // authentication (basicAuth) required
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<PageBeanCommentModel>(`${this.configuration.basePath}/rest/api/2/comment/list`,
-            issueCommentListRequestBeanModel,
+        return this.httpClient.get<PageOfCommentsModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/comment`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -448,7 +381,7 @@ export class IssueCommentsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<CommentModel>(`${this.configuration.basePath}/rest/api/2/issue/${encodeURIComponent(String(issueIdOrKey))}/comment/${encodeURIComponent(String(id))}`,
+        return this.httpClient.put<CommentModel>(`${this.configuration.basePath}/rest/api/3/issue/${encodeURIComponent(String(issueIdOrKey))}/comment/${encodeURIComponent(String(id))}`,
             requestBody,
             {
                 params: queryParameters,

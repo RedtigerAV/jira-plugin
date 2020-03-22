@@ -6,9 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { AppPropertiesService } from './api/appProperties.service';
-import { ApplicationRolesService } from './api/applicationRoles.service';
 import { AuditRecordsService } from './api/auditRecords.service';
-import { AvatarsService } from './api/avatars.service';
 import { DashboardsService } from './api/dashboards.service';
 import { DynamicModulesService } from './api/dynamicModules.service';
 import { FilterSharingService } from './api/filterSharing.service';
@@ -23,14 +21,12 @@ import { IssueCustomFieldOptionsAppsService } from './api/issueCustomFieldOption
 import { IssueFieldsService } from './api/issueFields.service';
 import { IssueLinkTypesService } from './api/issueLinkTypes.service';
 import { IssueLinksService } from './api/issueLinks.service';
-import { IssueNavigatorSettingsService } from './api/issueNavigatorSettings.service';
 import { IssueNotificationSchemesService } from './api/issueNotificationSchemes.service';
 import { IssuePrioritiesService } from './api/issuePriorities.service';
 import { IssuePropertiesService } from './api/issueProperties.service';
 import { IssueRemoteLinksService } from './api/issueRemoteLinks.service';
 import { IssueResolutionsService } from './api/issueResolutions.service';
 import { IssueSearchService } from './api/issueSearch.service';
-import { IssueSecurityLevelService } from './api/issueSecurityLevel.service';
 import { IssueSecuritySchemesService } from './api/issueSecuritySchemes.service';
 import { IssueTypePropertiesService } from './api/issueTypeProperties.service';
 import { IssueTypesService } from './api/issueTypes.service';
@@ -44,12 +40,10 @@ import { JiraExpressionsService } from './api/jiraExpressions.service';
 import { JiraSettingsService } from './api/jiraSettings.service';
 import { LabelsService } from './api/labels.service';
 import { MyselfService } from './api/myself.service';
-import { PermissionSchemesService } from './api/permissionSchemes.service';
 import { PermissionsService } from './api/permissions.service';
 import { ProjectAvatarsService } from './api/projectAvatars.service';
 import { ProjectCategoriesService } from './api/projectCategories.service';
 import { ProjectComponentsService } from './api/projectComponents.service';
-import { ProjectKeyAndNameValidationService } from './api/projectKeyAndNameValidation.service';
 import { ProjectPermissionSchemesService } from './api/projectPermissionSchemes.service';
 import { ProjectPropertiesService } from './api/projectProperties.service';
 import { ProjectRoleActorsService } from './api/projectRoleActors.service';
@@ -80,9 +74,7 @@ import { WorkflowsService } from './api/workflows.service';
   exports:      [],
   providers: [
     AppPropertiesService,
-    ApplicationRolesService,
     AuditRecordsService,
-    AvatarsService,
     DashboardsService,
     DynamicModulesService,
     FilterSharingService,
@@ -97,14 +89,12 @@ import { WorkflowsService } from './api/workflows.service';
     IssueFieldsService,
     IssueLinkTypesService,
     IssueLinksService,
-    IssueNavigatorSettingsService,
     IssueNotificationSchemesService,
     IssuePrioritiesService,
     IssuePropertiesService,
     IssueRemoteLinksService,
     IssueResolutionsService,
     IssueSearchService,
-    IssueSecurityLevelService,
     IssueSecuritySchemesService,
     IssueTypePropertiesService,
     IssueTypesService,
@@ -118,12 +108,10 @@ import { WorkflowsService } from './api/workflows.service';
     JiraSettingsService,
     LabelsService,
     MyselfService,
-    PermissionSchemesService,
     PermissionsService,
     ProjectAvatarsService,
     ProjectCategoriesService,
     ProjectComponentsService,
-    ProjectKeyAndNameValidationService,
     ProjectPermissionSchemesService,
     ProjectPropertiesService,
     ProjectRoleActorsService,

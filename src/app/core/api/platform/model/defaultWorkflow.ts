@@ -22,7 +22,7 @@ export interface DefaultWorkflowModel {
      */
     workflow: string;
     /**
-     * Indicates whether a draft workflow scheme is created or updated when updating an active workflow scheme. The draft is updated with the new default workflow. Defaults to `false`.
+     * Whether a draft workflow scheme is created or updated when updating an active workflow scheme. The draft is updated with the new default workflow. Defaults to `false`.
      */
     updateDraftIfNeeded?: boolean;
 }

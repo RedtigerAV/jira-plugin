@@ -99,7 +99,7 @@ export class WorkflowStatusCategoriesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<StatusCategoryModel>>(`${this.configuration.basePath}/rest/api/2/statuscategory`,
+        return this.httpClient.get<Array<StatusCategoryModel>>(`${this.configuration.basePath}/rest/api/3/statuscategory`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -111,7 +111,7 @@ export class WorkflowStatusCategoriesService {
 
     /**
      * Get status category
-     * Returns a status category. Status categories provided a mechanism for categorizing [statuses](#api-rest-api-2-status-idOrName-get).  **[Permissions](#permissions) required:** Permission to access Jira.
+     * Returns a status category. Status categories provided a mechanism for categorizing [statuses](#api-rest-api-3-status-idOrName-get).  **[Permissions](#permissions) required:** Permission to access Jira.
      * @param idOrKey The ID or key of the status category.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -151,7 +151,7 @@ export class WorkflowStatusCategoriesService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<StatusCategoryModel>(`${this.configuration.basePath}/rest/api/2/statuscategory/${encodeURIComponent(String(idOrKey))}`,
+        return this.httpClient.get<StatusCategoryModel>(`${this.configuration.basePath}/rest/api/3/statuscategory/${encodeURIComponent(String(idOrKey))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
