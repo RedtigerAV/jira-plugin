@@ -14,6 +14,7 @@
 @import "src/app/styles/tg-typography";
 @import "src/app/styles/components/tg-snackbar";
 @import "src/app/styles/material-upgrade";
+@import "src/app/styles/components/ag-grid";
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: var(--tg-color-background-darker) }
