@@ -8,6 +8,10 @@ import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/ta
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, startWith } from 'rxjs/operators';
 import { BoardsDataSource } from '@core/datasources/boards.datasource';
+import { ProjectsService } from '@core/api/platform/api/projects.service';
+import { HttpClient } from '@angular/common/http';
+import { BoardsService } from '@core/api/software/api/boards.service';
+import { SprintsService } from '@core/api/software/api/sprints.service';
 
 @Component({
   selector: 'app-table-settings',
@@ -29,7 +33,10 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
   private currentProject$: BehaviorSubject<string>;
   private currentBoard$: BehaviorSubject<string>;
 
-  constructor() { }
+  constructor(private readonly projectService: ProjectsService,
+              private readonly boardsService: BoardsService,
+              private readonly sprintsService: SprintsService) {
+  }
 
   ngOnInit(): void {
     this.initSubscriptions();
@@ -44,9 +51,9 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
   }
 
   private initDataSources(): void {
-    this.projectsDataSource = new ProjectsDataSource();
-    this.boardsDataSource = new BoardsDataSource(this.currentProject$);
-    this.sprintDataSource = new SprintsDataSource(this.currentBoard$);
+    this.projectsDataSource = new ProjectsDataSource(this.projectService);
+    this.boardsDataSource = new BoardsDataSource(this.currentProject$, this.boardsService);
+    this.sprintDataSource = new SprintsDataSource(this.currentBoard$, this.sprintsService);
     this.periodTypeDataSource = new PeriodTypeDataSource();
   }
 

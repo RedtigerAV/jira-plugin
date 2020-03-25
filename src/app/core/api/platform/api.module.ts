@@ -18,6 +18,7 @@ import { IssueCommentPropertiesService } from './api/issueCommentProperties.serv
 import { IssueCommentsService } from './api/issueComments.service';
 import { IssueCustomFieldOptionsService } from './api/issueCustomFieldOptions.service';
 import { IssueCustomFieldOptionsAppsService } from './api/issueCustomFieldOptionsApps.service';
+import { IssueFieldConfigurationsService } from './api/issueFieldConfigurations.service';
 import { IssueFieldsService } from './api/issueFields.service';
 import { IssueLinkTypesService } from './api/issueLinkTypes.service';
 import { IssueLinksService } from './api/issueLinks.service';
@@ -29,6 +30,7 @@ import { IssueResolutionsService } from './api/issueResolutions.service';
 import { IssueSearchService } from './api/issueSearch.service';
 import { IssueSecuritySchemesService } from './api/issueSecuritySchemes.service';
 import { IssueTypePropertiesService } from './api/issueTypeProperties.service';
+import { IssueTypeSchemesService } from './api/issueTypeSchemes.service';
 import { IssueTypesService } from './api/issueTypes.service';
 import { IssueVotesService } from './api/issueVotes.service';
 import { IssueWatchersService } from './api/issueWatchers.service';
@@ -86,6 +88,7 @@ import { WorkflowsService } from './api/workflows.service';
     IssueCommentsService,
     IssueCustomFieldOptionsService,
     IssueCustomFieldOptionsAppsService,
+    IssueFieldConfigurationsService,
     IssueFieldsService,
     IssueLinkTypesService,
     IssueLinksService,
@@ -97,6 +100,7 @@ import { WorkflowsService } from './api/workflows.service';
     IssueSearchService,
     IssueSecuritySchemesService,
     IssueTypePropertiesService,
+    IssueTypeSchemesService,
     IssueTypesService,
     IssueVotesService,
     IssueWatchersService,

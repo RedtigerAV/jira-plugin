@@ -15,7 +15,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.apiService.getIssue('JTT-1').subscribe(x => console.log(x));
-    // this.httpClient.get('https://timgo.atlassian.net/rest/agile/1.0/board').subscribe(x => console.log(x));
+    // this.apiService.getChangeLogs('JTT-9').subscribe(x => console.log(x));
+    // this.apiService.getIssue('JTT-9', [], false, 'transitions,changelog')
+    //   .subscribe(x => console.log(x));
   }
 }

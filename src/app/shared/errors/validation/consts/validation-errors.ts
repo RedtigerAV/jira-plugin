@@ -40,7 +40,7 @@ export enum ValidationErrorsNames {
  */
 export const validationErrorsEntries: IErrorsEntries = {
   [ValidationErrorsNames.INCORRECT_URL]: 'Неверный формат URL',
-  [ValidationErrorsNames.REQUIRED]: 'Поле обязательно для заполнения',
+  [ValidationErrorsNames.REQUIRED]: 'Field is required',
   [ValidationErrorsNames.INCORRECT_SLUG]: 'Неверный формат слага',
   [ValidationErrorsNames.INTEGER]: 'Только целые числа',
   [ValidationErrorsNames.REQUIRED_SOME]: 'Минимум одно поле обязательно',
