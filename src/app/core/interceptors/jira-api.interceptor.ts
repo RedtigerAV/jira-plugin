@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { parse } from 'url';
 
 @Injectable({
@@ -15,7 +15,8 @@ export class JiraApiInterceptor implements HttpInterceptor {
       const request = window['AP'].request;
       const url = parse(req.url);
       const options = {
-        url: url.path,
+        // url: url.path
+        url: req.urlWithParams,
         type: req.method,
         data: JSON.stringify(req.body),
         contentType: req.detectContentTypeHeader(),

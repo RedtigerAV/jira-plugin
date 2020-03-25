@@ -1,42 +1,33 @@
 import { ISelectDataSource } from '@shared/components/reactive-forms/select/select.component';
 import { of, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-
-interface ISprintDataSourceOption {
-  id: string;
-  name: string;
-}
-
-const JTTSprints: Observable<ISprintDataSourceOption[]> = of([
-  { id: undefined, name: '------' },
-  { id: '1', name: 'Спринт 1' }
-]);
-
-const clearSprints: Observable<ISprintDataSourceOption[]> = of([
-  { id: undefined, name: '------' }
-]);
+import { map, switchMap } from 'rxjs/operators';
+import { Sprint } from '@core/api/software/model/sprint';
+import { SprintsService } from '@core/api/software/api/sprints.service';
+import { PaginatedSprints } from '@core/api/software/model/paginatedSprints';
 
 export class SprintsDataSource implements ISelectDataSource {
-  public data$: Observable<ISprintDataSourceOption[]>;
+  public data$: Observable<Sprint[]>;
 
-  constructor(boardId$: Observable<string>) {
+  constructor(boardId$: Observable<string>, sprintsService: SprintsService) {
     this.data$ = boardId$
       .pipe(
         switchMap(id => {
-          if (id === '1') {
-            return JTTSprints;
+          if (!id) {
+            return of({values: []});
           }
 
-          return clearSprints;
-        })
+          return sprintsService.searchSprint(id, 'active,closed');
+        }),
+        map(({values}: PaginatedSprints) =>
+          values.length ? [{id: undefined, name: '---------'}, ...values] : [])
       );
   }
 
-  public getValue(option: ISprintDataSourceOption): string {
-    return option.id;
+  public getValue(option: Sprint): string {
+    return option.id && option.id.toString();
   }
 
-  public displayWith(option: ISprintDataSourceOption): string {
+  public displayWith(option: Sprint): string {
     return option.name;
   }
 }
