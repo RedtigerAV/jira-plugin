@@ -1,12 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { ITableSettingsForm, TableSettingsPeriodTypesEnum } from '../../shared/table-settings/interfaces/table-settings-form.interface';
-import { TableMainInfo } from '@core/interfaces/table-main-info.interface';
-import { tablesMainInfo } from '@core/static/tables-main-info.const';
-import { ReportTableTypesEnum } from '@core/enums/tables.enum';
 import { Validators } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
+import { IReportContext } from './interfaces/report-context.interfaces';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -16,10 +15,11 @@ import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/ta
 })
 export class ReportComponent implements OnInit, OnDestroy {
   public form: FormGroup<ITableSettingsForm>;
-  public mainInfo: TableMainInfo = tablesMainInfo
-    .find(({type}) => type === ReportTableTypesEnum.LIFECYCLE);
 
-  constructor(private readonly fb: FormBuilder) {
+  public readonly context: IReportContext;
+
+  constructor(private readonly fb: FormBuilder,
+              private readonly activatedRoute: ActivatedRoute) {
     this.form = this.fb.group<ITableSettingsForm>({
       project: ['', Validators.required],
       board: ['', Validators.required],
@@ -28,6 +28,8 @@ export class ReportComponent implements OnInit, OnDestroy {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
     });
+
+    this.context = this.activatedRoute.snapshot.data.context;
   }
 
   ngOnInit(): void {

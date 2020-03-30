@@ -1,19 +1,17 @@
-import { RecordTableTypesEnum, ReportTableTypesEnum } from '@core/enums/tables.enum';
-
-export type TableMainInfo = IReportTableMainInfo | IRecordTableMainInfo;
-
-export interface IReportTableMainInfo extends ITableMainInfo {
-  type: ReportTableTypesEnum;
+export enum TableTypeEnum {
+  REPORT = 'report',
+  RECORD = 'record'
 }
 
-export interface IRecordTableMainInfo extends ITableMainInfo {
-  type: RecordTableTypesEnum;
+export enum TableID {
+  LIFECYCLE = 'lifecycle',
+  DYNAMIC = 'dynamic',
+  TIME_SPENT = 'time-spent',
+  PLANNING = 'planning'
 }
-
-export type ReportID = 'lifecycle' | 'dynamic' | 'time-spent' | 'planning';
 
 export interface ITableMainInfo {
   name: string;
-  routerLink: string;
-  reportID: ReportID;
+  type: TableTypeEnum;
+  tableID: TableID;
 }

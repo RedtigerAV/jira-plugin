@@ -9,8 +9,7 @@ export enum ReportMediatorEventsEnum {
   SAVE_SORT = 'save_sort',
   APPLY_FILTER = 'apply_filter',
   APPLY_SORT = 'apply_sort',
-  EXPORT_AS_CSV = 'export_as_csv',
-  EXPORT_AS_EXCEL = 'export_as_excel'
+  EXPORT_AS_CSV = 'export_as_csv'
 }
 
 export interface IReportMediator {

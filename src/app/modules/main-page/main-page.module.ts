@@ -5,6 +5,7 @@ import { MainPageComponent } from './main-page.component';
 import { MatDividerModule, MatIconModule } from '@angular/material';
 import { TgCardModule } from '@shared/components/tg-card/tg-card.module';
 import { RouterModule } from '@angular/router';
+import { CachePipeModule } from '@shared/pipes/cache/cache-pipe.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { RouterModule } from '@angular/router';
     MatDividerModule,
     TgCardModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    CachePipeModule
   ],
   exports: [MainPageComponent]
 })

@@ -1,7 +1,22 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { IReportTableComponent } from '../interfaces/report-table.interfaces';
 import { IReportSettings } from '../interfaces/report-settings.interfaces';
 import { ReportMediator } from '../report.mediator';
+import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
+import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
+import { IReportContext } from '../interfaces/report-context.interfaces';
+import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
+import { DatePipe } from '@angular/common';
+
+enum TableStateEnum {
+  NOT_LOADED = 'not-loaded',
+  LOADING = 'loading',
+  LOADED = 'loaded',
+  NEED_TO_UPDATE = 'need-to-update'
+}
 
 @Component({
   selector: 'app-report-table',
@@ -9,35 +24,83 @@ import { ReportMediator } from '../report.mediator';
   styleUrls: ['./report-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReportTableComponent implements OnInit, IReportTableComponent {
+export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComponent {
+  @Input() context: IReportContext;
 
-  constructor(private readonly mediator: ReportMediator) {
+  public columnDefs$: ReplaySubject<ITableColumn[]>;
+  public defaultColDef$: ReplaySubject<ITableDefaultColumn>;
+  public rowData$: ReplaySubject<any[]>;
+  public tableState$ = new BehaviorSubject<TableStateEnum>(TableStateEnum.NOT_LOADED);
+  public tableStateEnum = TableStateEnum;
+
+  private gridApi: GridApi;
+  private gridColumnApi: ColumnApi;
+  private readonly datePipe: DatePipe;
+
+  constructor(@Inject(LOCALE_ID) locale: string,
+              private readonly mediator: ReportMediator,
+              private readonly http: HttpClient) {
     mediator.reportTableComponent = this;
+    this.rowData$ = new ReplaySubject<any[]>(1);
+    this.columnDefs$ = new ReplaySubject<any[]>(1);
+    this.defaultColDef$ = new ReplaySubject<any>(1);
+    this.datePipe = new DatePipe(locale);
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
+    this.context.getTableColumnsDef()
+      .pipe(takeUntilDestroyed(this))
+      .subscribe(result => this.columnDefs$.next(result));
+
+    this.context.getTableDefaultColumnsDef()
+      .pipe(takeUntilDestroyed(this))
+      .subscribe(result => this.defaultColDef$.next(result));
   }
 
-  applyFilter(filterState: object): void {
+  public ngOnDestroy(): void {}
+
+  public applyFilter(filterState: ITableFilterState): void {
+    this.gridApi.setFilterModel(filterState);
   }
 
-  applySort(sortState: object): void {
+  public applySort(sortState: object): void {
   }
 
-  exportAsCSV(): void {
+  public exportAsCSV(): void {
+    let fileName = this.context.title.toLowerCase().split(' ').join('-');
+    const currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
+
+    fileName = fileName + '_' + currentDate;
+
+    this.gridApi.exportDataAsCsv({ fileName });
   }
 
-  exportAsExcel(): void {
+  public exportAsExcel(): void {
   }
 
-  generateTable(settings: IReportSettings): void {
+  public generateTable(settings: IReportSettings): void {
+    this.tableState$.next(TableStateEnum.LOADING);
+
+    this.context.getTableData(this.context.tableID, settings)
+      .pipe(takeUntilDestroyed(this))
+      .subscribe(result => {
+        this.rowData$.next(result);
+        this.tableState$.next(TableStateEnum.LOADED);
+      });
   }
 
-  getFilterState(): object {
+  public getFilterState(): ITableFilterState {
+    console.log(this.gridApi.getFilterModel());
+
+    return this.gridApi.getFilterModel();
+  }
+
+  public getSortState(): object {
     return undefined;
   }
 
-  getSortState(): object {
-    return undefined;
+  public onGridReady(params: DetailGridInfo) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
   }
 }

@@ -1,4 +1,6 @@
+import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
+
 export interface IReportFiltersComponent {
-  saveFilter(filterState: object): void;
+  saveFilter(filterState: ITableFilterState): void;
   applyFilter(): void;
 }

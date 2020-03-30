@@ -1,37 +1,32 @@
-import { IRecordTableMainInfo, IReportTableMainInfo, TableMainInfo } from '@core/interfaces/table-main-info.interface';
-import { RecordTableTypesEnum, ReportTableTypesEnum } from '@core/enums/tables.enum';
+import { ITableMainInfo, TableID, TableTypeEnum } from '@core/interfaces/table-main-info.interface';
 
-export const reportsTableMainInfo: IReportTableMainInfo[] = [
+export const reportsTableMainInfo: ITableMainInfo[] = [
   {
     name: 'Tasks lifecycle registry',
-    type: ReportTableTypesEnum.LIFECYCLE,
-    routerLink: '/lifecycle-table',
-    reportID: 'lifecycle'
+    type: TableTypeEnum.REPORT,
+    tableID: TableID.LIFECYCLE
   },
   {
     name: 'Dynamics of the tasks',
-    type: ReportTableTypesEnum.DYNAMIC,
-    routerLink: '/dynamic-table',
-    reportID: 'dynamic'
+    type: TableTypeEnum.REPORT,
+    tableID: TableID.DYNAMIC
   },
   {
     name: 'Total time spent',
-    type: ReportTableTypesEnum.TIME_SPENT,
-    routerLink: '/time-spent-table',
-    reportID: 'time-spent'
+    type: TableTypeEnum.REPORT,
+    tableID: TableID.TIME_SPENT
   }
 ];
 
-export const recordsTableMainInfo: IRecordTableMainInfo[] = [
+export const recordsTableMainInfo: ITableMainInfo[] = [
   {
     name: 'Planning',
-    type: RecordTableTypesEnum.PLANNING,
-    routerLink: '/planning-table',
-    reportID: 'planning'
+    type: TableTypeEnum.RECORD,
+    tableID: TableID.PLANNING
   }
 ];
 
-export const tablesMainInfo: Array<TableMainInfo> = [
+export const tablesMainInfo: Array<ITableMainInfo> = [
   ...reportsTableMainInfo,
   ...recordsTableMainInfo
 ];

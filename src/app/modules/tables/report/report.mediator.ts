@@ -14,5 +14,26 @@ export class ReportMediator implements IReportMediator {
   reportTableComponent: IReportTableComponent;
 
   notify(event: ReportMediatorEventsEnum): void {
+    switch (event) {
+      case ReportMediatorEventsEnum.GENERATE_TABLE:
+        this.generateTable();
+        break;
+      case ReportMediatorEventsEnum.EXPORT_AS_CSV:
+        this.exportAsCSV();
+        break;
+      default:
+        break;
+    }
+  }
+
+  private generateTable(): void {
+    // const settings = this.reportSettingsComponent.form.getRawValue();
+    const settings = null;
+
+    this.reportTableComponent.generateTable(settings);
+  }
+
+  private exportAsCSV(): void {
+    this.reportTableComponent.exportAsCSV();
   }
 }
