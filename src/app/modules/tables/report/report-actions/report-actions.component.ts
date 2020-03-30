@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ReportMediator } from '../report.mediator';
+import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
 
 @Component({
   selector: 'app-report-actions',
@@ -7,14 +8,14 @@ import { ReportMediator } from '../report.mediator';
   styleUrls: ['./report-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReportActionsComponent implements OnInit {
-  @Output() generateTable = new EventEmitter();
+export class ReportActionsComponent {
+  public actionEventsEnum = ReportMediatorEventsEnum;
 
   constructor(private readonly mediator: ReportMediator) {
     mediator.reportActionsComponent = this;
   }
 
-  ngOnInit() {
+  public emit(event: ReportMediatorEventsEnum): void {
+    this.mediator.notify(event);
   }
-
 }

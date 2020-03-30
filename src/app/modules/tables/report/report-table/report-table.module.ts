@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportTableComponent } from './report-table.component';
-import { TableGridModule } from '../../../shared/table-grid/table-grid.module';
+import { AgGridModule } from 'ag-grid-angular';
+import { MatProgressSpinnerModule } from '@angular/material';
 
 
 
@@ -9,7 +10,8 @@ import { TableGridModule } from '../../../shared/table-grid/table-grid.module';
   declarations: [ReportTableComponent],
   imports: [
     CommonModule,
-    TableGridModule
+    MatProgressSpinnerModule,
+    AgGridModule.withComponents([]),
   ],
   exports: [ReportTableComponent]
 })

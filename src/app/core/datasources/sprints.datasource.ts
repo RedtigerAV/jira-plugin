@@ -9,18 +9,20 @@ export class SprintsDataSource implements ISelectDataSource {
   public data$: Observable<Sprint[]>;
 
   constructor(boardId$: Observable<string>, sprintsService: SprintsService) {
-    this.data$ = boardId$
-      .pipe(
-        switchMap(id => {
-          if (!id) {
-            return of({values: []});
-          }
+    // this.data$ = boardId$
+    //   .pipe(
+    //     switchMap(id => {
+    //       if (!id) {
+    //         return of({values: []});
+    //       }
+    //
+    //       return sprintsService.searchSprint(id, 'active,closed');
+    //     }),
+    //     map(({values}: PaginatedSprints) =>
+    //       values.length ? [{id: undefined, name: '---------'}, ...values] : [])
+    //   );
 
-          return sprintsService.searchSprint(id, 'active,closed');
-        }),
-        map(({values}: PaginatedSprints) =>
-          values.length ? [{id: undefined, name: '---------'}, ...values] : [])
-      );
+    this.data$ = of([]);
   }
 
   public getValue(option: Sprint): string {

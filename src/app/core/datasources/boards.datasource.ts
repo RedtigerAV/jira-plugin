@@ -9,18 +9,20 @@ export class BoardsDataSource implements ISelectDataSource {
   public data$: Observable<Board[]>;
 
   constructor(projectId$: Observable<string>, boardsService: BoardsService) {
-    this.data$ = projectId$
-      .pipe(
-        switchMap(id => {
-          if (!id) {
-            return of({values: []});
-          }
+    // this.data$ = projectId$
+    //   .pipe(
+    //     switchMap(id => {
+    //       if (!id) {
+    //         return of({values: []});
+    //       }
+    //
+    //       return boardsService.searchBoards('', id);
+    //     }),
+    //     map(({values}: PaginatedBoards) =>
+    //       values.length ? [{id: undefined, name: '---------'}, ...values] : [])
+    //   );
 
-          return boardsService.searchBoards('', id);
-        }),
-        map(({values}: PaginatedBoards) =>
-          values.length ? [{id: undefined, name: '---------'}, ...values] : [])
-      );
+    this.data$ = of([]);
   }
 
   public getValue(option: Board): string | undefined {

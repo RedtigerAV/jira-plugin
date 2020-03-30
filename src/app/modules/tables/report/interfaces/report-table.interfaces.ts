@@ -1,10 +1,11 @@
 import { IReportSettings } from './report-settings.interfaces';
+import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
 
 export interface IReportTableComponent {
   generateTable(settings: IReportSettings): void;
-  getFilterState(): object;
+  getFilterState(): ITableFilterState;
   getSortState(): object;
-  applyFilter(filterState: object): void;
+  applyFilter(filterState: ITableFilterState): void;
   applySort(sortState: object): void;
   exportAsCSV(): void;
   exportAsExcel(): void;

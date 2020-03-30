@@ -1,0 +1,21 @@
+.table-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100px;
+  will-change: height;
+}
+
+.placeholder-text {
+  margin: auto;
+  color: var(--tg-color-secondary-text);
+}
+
+.spinner {
+  margin: auto;
+}
+
+.table-content {
+  width: 100%;
+  height: 500px;
+}
