@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { IReportTableComponent } from '../interfaces/report-table.interfaces';
-import { IReportSettings } from '../interfaces/report-settings.interfaces';
 import { ReportMediator } from '../report.mediator';
 import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -10,6 +9,7 @@ import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DatePipe } from '@angular/common';
+import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
 
 enum TableStateEnum {
   NOT_LOADED = 'not-loaded',

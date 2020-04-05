@@ -1,23 +1,23 @@
 import { ISelectDataSource } from '@shared/components/reactive-forms/select/select.component';
 import { of, Observable } from 'rxjs';
-import { TableSettingsPeriodTypesEnum } from '../../modules/shared/table-settings/interfaces/table-settings-form.interface';
+import { ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
 
 interface IPeriodTypeDataSourceOption {
-  id: TableSettingsPeriodTypesEnum;
+  id: ReportPeriodTypesEnum;
   name: string;
 }
 
 export class PeriodTypeDataSource implements ISelectDataSource {
   public data$: Observable<IPeriodTypeDataSourceOption[]> = of([
-    { id: TableSettingsPeriodTypesEnum.DATE, name: 'Date' },
-    { id: TableSettingsPeriodTypesEnum.SPRINT, name: 'Sprint' }
+    { id: ReportPeriodTypesEnum.DATE, name: 'Date' },
+    { id: ReportPeriodTypesEnum.SPRINT, name: 'Sprint' }
   ]);
 
   public getValue(option: IPeriodTypeDataSourceOption): string {
-    return option.id;
+    return option && option.id;
   }
 
   public displayWith(option: IPeriodTypeDataSourceOption): string {
-    return option.name;
+    return option && option.name;
   }
 }

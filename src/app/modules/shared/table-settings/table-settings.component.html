@@ -3,48 +3,81 @@
     [formGroup]="form"
     class="table-settings table-settings--{{controlsDisplay}}"
   >
-    <div class="table-settings__item">
+    <div *ngIf="!hiddenControls.project" class="table-settings__item">
       <app-select
         label="Project"
         [dataSource]="projectsDataSource"
         [formControl]="form.controls.project"
-      ></app-select>
+        [previewFormControl]="form.controls.projectPreview"
+      >
+        <ng-template appCustomOption let-option>
+          <div style="display: flex; align-items: center; width: 100%">
+            <ng-container *ngIf="(option?.avatarUrls && option?.avatarUrls['16x16']) as avatar">
+              <img [src]="avatar" [srcset]="avatar" style="width: 30px; height: 30px; margin-right: 5px">
+            </ng-container>
+            <span>{{ option?.name }}</span>
+          </div>
+        </ng-template>
+      </app-select>
     </div>
 
-    <div class="table-settings__item">
+    <div *ngIf="!hiddenControls.board" class="table-settings__item">
       <app-select
         label="Board"
         [dataSource]="boardsDataSource"
         [formControl]="form.controls.board"
+        [previewFormControl]="form.controls.boardPreview"
       ></app-select>
     </div>
 
-    <div class="table-settings__item">
+    <div *ngIf="!hiddenControls.userOrGroup" class="table-settings__item">
+      <app-select
+        label="User or Group"
+        [dataSource]="boardsDataSource"
+        [formControl]="form.controls.userOrGroup"
+        [previewFormControl]="form.controls.userOrGroupPreview"
+      ></app-select>
+    </div>
+
+    <div *ngIf="!hiddenControls.periodBy" class="table-settings__item">
       <app-select
         label="Period by"
         [dataSource]="periodTypeDataSource"
-        [formControl]="form.controls.periodType"
+        [formControl]="form.controls.periodBy"
+        [previewFormControl]="form.controls.periodBy"
       ></app-select>
     </div>
 
     <ng-container *ngIf="{type: periodType$ | async} as period">
-      <div class="table-settings__item" *ngIf="period.type === periodTypeEnum.SPRINT">
-        <app-select
-          label="Sprint"
-          [dataSource]="sprintDataSource"
-          [formControl]="form.controls.sprint"
-        ></app-select>
+      <div class="table-settings__grouped-item" *ngIf="period.type === periodTypeEnum.SPRINT">
+        <div *ngIf="!hiddenControls.fromSprint" class="table-settings__item">
+          <app-select
+            label="From sprint"
+            [dataSource]="sprintDataSource"
+            [formControl]="form.controls.fromSprint"
+            [previewFormControl]="form.controls.fromSprintPreview"
+          ></app-select>
+        </div>
+
+        <div *ngIf="!hiddenControls.toSprint" class="table-settings__item">
+          <app-select
+            label="To sprint"
+            [dataSource]="sprintDataSource"
+            [formControl]="form.controls.toSprint"
+            [previewFormControl]="form.controls.toSprintPreview"
+          ></app-select>
+        </div>
       </div>
 
       <div class="table-settings__grouped-item" *ngIf="period.type === periodTypeEnum.DATE">
-        <div class="table-settings__item">
+        <div *ngIf="!hiddenControls.startDate" class="table-settings__item">
           <app-datepicker
             label="Start date"
             [formControl]="form.controls.startDate"
           ></app-datepicker>
         </div>
 
-        <div class="table-settings__item">
+        <div *ngIf="!hiddenControls.endDate" class="table-settings__item">
           <app-datepicker
             label="End date"
             [formControl]="form.controls.endDate"

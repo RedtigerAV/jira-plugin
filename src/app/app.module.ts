@@ -10,6 +10,7 @@ import { ApiModule as SoftwareApiModule } from '@core/api/software/api.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.module';
 import { DatesProviders } from '@core/common-configuration/dates.configuration';
+import { NgStackFormsModule } from '@ng-stack/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DatesProviders } from '@core/common-configuration/dates.configuration';
     HttpClientModule,
     PlatformApiModule,
     SoftwareApiModule,
-    TgSnackbarModule
+    TgSnackbarModule,
+    NgStackFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JiraApiInterceptor, multi: true },

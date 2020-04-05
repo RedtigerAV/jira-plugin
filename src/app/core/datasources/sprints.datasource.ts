@@ -26,10 +26,10 @@ export class SprintsDataSource implements ISelectDataSource {
   }
 
   public getValue(option: Sprint): string {
-    return option.id && option.id.toString();
+    return option && option.id && option.id.toString();
   }
 
   public displayWith(option: Sprint): string {
-    return option.name;
+    return option && option.name;
   }
 }

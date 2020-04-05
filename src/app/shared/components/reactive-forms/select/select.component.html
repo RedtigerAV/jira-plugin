@@ -11,12 +11,7 @@
       [formControl]="control"
       (selectionChange)="selectionChange.emit($event)"
     >
-      <ng-container
-        *ngIf="
-          getOptions(data.options) && getOptions(data.options).length;
-          else notFound
-        "
-      >
+      <ng-container *ngIf="getOptions(data.options)?.length; else notFound">
         <mat-option
           *ngFor="let option of getOptions(data.options)"
           [value]="dataSource.getValue(option)"

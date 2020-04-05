@@ -1,5 +1,5 @@
-import { IReportSettings } from './report-settings.interfaces';
 import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
+import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
 
 export interface IReportTableComponent {
   generateTable(settings: IReportSettings): void;

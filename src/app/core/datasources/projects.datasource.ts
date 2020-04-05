@@ -11,14 +11,14 @@ export class ProjectsDataSource implements ISelectDataSource {
     // this.data$ = projectsService.searchProjects(0, 1000)
     //   .pipe(map(result => [{id: undefined, name: '---------'}, ...result.values]));
 
-    this.data$ = of([]);
+    this.data$ = of([{id: undefined, name: '---------'}, {id: '1234', name: 'LOL'}]);
   }
 
   public getValue(option: ProjectModel): string {
-    return option.id;
+    return option && option.id;
   }
 
   public displayWith(option: ProjectModel): string {
-    return option.name;
+    return option && option.name;
   }
 }
