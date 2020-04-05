@@ -11,9 +11,9 @@
         [previewFormControl]="form.controls.projectPreview"
       >
         <ng-template appCustomOption let-option>
-          <div style="display: flex; align-items: center; width: 100%">
+          <div class="project-preview">
             <ng-container *ngIf="(option?.avatarUrls && option?.avatarUrls['16x16']) as avatar">
-              <img [src]="avatar" [srcset]="avatar" style="width: 30px; height: 30px; margin-right: 5px">
+              <img [src]="avatar" [srcset]="avatar" class="project-preview__img">
             </ng-container>
             <span>{{ option?.name }}</span>
           </div>
@@ -44,7 +44,6 @@
         label="Period by"
         [dataSource]="periodTypeDataSource"
         [formControl]="form.controls.periodBy"
-        [previewFormControl]="form.controls.periodBy"
       ></app-select>
     </div>
 
