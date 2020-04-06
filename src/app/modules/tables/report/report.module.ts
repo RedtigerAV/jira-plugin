@@ -12,6 +12,7 @@ import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.mod
 import { ReportMediator } from './report.mediator';
 import { ReportSettingsModule } from './report-settings/report-settings.module';
 import { TableSettingsModule } from '../../shared/table-settings/table-settings.module';
+import { NgStackFormsModule } from '@ng-stack/forms';
 
 
 
@@ -30,7 +31,8 @@ import { TableSettingsModule } from '../../shared/table-settings/table-settings.
     ReportSettingsModule,
     MatProgressSpinnerModule,
     TgSnackbarModule,
-    TableSettingsModule
+    TableSettingsModule,
+    NgStackFormsModule
   ],
   exports: [ReportComponent],
   providers: [ReportMediator]

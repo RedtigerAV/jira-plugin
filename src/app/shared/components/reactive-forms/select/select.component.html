@@ -9,20 +9,23 @@
     <mat-select
       [placeholder]="placeholder"
       [formControl]="control"
-      (selectionChange)="selectionChange.emit($event)"
+      (selectionChange)="onSelectionChange($event)"
     >
-      <ng-container
-        *ngIf="
-          getOptions(data.options) && getOptions(data.options).length;
-          else notFound
+      <ng-container *ngIf="getOptions(data.options)?.length; else notFound">
+        <ng-container *ngFor="let option of getOptions(data.options)">
+          <mat-option [value]="dataSource.getValue(option)" class="format-text">
+            <ng-container
+              *ngTemplateOutlet="
+          !!optionDirective ? optionDirective.templateRef : defaultOption;
+          context: { $implicit: option }
         "
-      >
-        <mat-option
-          *ngFor="let option of getOptions(data.options)"
-          [value]="dataSource.getValue(option)"
-        >
-          {{ dataSource.displayWith(option) }}
-        </mat-option>
+            ></ng-container>
+          </mat-option>
+
+          <ng-template #defaultOption let-option>
+            {{ dataSource.displayWith(option) }}
+          </ng-template>
+        </ng-container>
       </ng-container>
 
       <ng-template #notFound>

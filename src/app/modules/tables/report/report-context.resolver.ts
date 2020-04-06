@@ -4,19 +4,21 @@ import { IReportContext } from './interfaces/report-context.interfaces';
 import { LifecycleReportContext } from './contexts/lifecycle-report.context';
 import { HttpClient } from '@angular/common/http';
 import { TableID } from '@core/interfaces/table-main-info.interface';
+import { FormBuilder } from '@ng-stack/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportContextResolver implements Resolve<IReportContext> {
   constructor(private readonly http: HttpClient,
-              private readonly router: Router) {}
+              private readonly router: Router,
+              private readonly fb: FormBuilder) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): IReportContext {
     const reportID = route.params.reportID;
 
     if (reportID === TableID.LIFECYCLE) {
-      return new LifecycleReportContext(this.http);
+      return new LifecycleReportContext(this.http, this.fb);
     }
 
     this.router.navigate(['/']);

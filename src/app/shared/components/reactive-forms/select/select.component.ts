@@ -3,6 +3,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ContentChild,
   EventEmitter,
   Input,
   Output,
@@ -18,10 +19,12 @@ import { Observable } from 'rxjs';
 import { MatSelectChange } from '@angular/material';
 import { ControlValueAccessorBase } from '@shared/utils/control-value-accessor.base';
 import { FormErrorsService } from '@shared/errors/services/form-errors.service';
+import { CustomOptionDirective } from '@shared/directives/custom-option.directive';
 
 export interface ISelectDataSource {
   data$: Observable<any>;
   getValue: (item: any) => any;
+  getOptionByValue: (value: any) => any;
   displayWith: (item: any) => string;
 }
 
@@ -41,6 +44,8 @@ export interface ISelectDataSource {
 export class SelectComponent extends ControlValueAccessorBase {
   @ViewChild(FormControlDirective, { static: true })
   public formControlDirective: FormControlDirective;
+  @ContentChild(CustomOptionDirective, { static: false })
+  public optionDirective: CustomOptionDirective;
 
   @Input() public label: string;
   @Input() public placeholder: string;
@@ -77,7 +82,7 @@ export class SelectComponent extends ControlValueAccessorBase {
 
     this.textNotFound = this.textNotFound
       ? this.textNotFound
-      : 'Результатов нет';
+      : 'No results';
   }
 
   public getOptions(dataSourceOptions: any[]): any[] {
@@ -89,6 +94,20 @@ export class SelectComponent extends ControlValueAccessorBase {
     }
 
     return dataSourceOptions;
+  }
+
+  public onSelectionChange(change: MatSelectChange): void {
+    this.selectionChange.emit(change.value);
+
+    if (this.previewControl) {
+      const option = this.dataSource.getOptionByValue(change.value);
+
+      if (!this.dataSource.getValue(option)) {
+        this.previewControl.setValue(undefined);
+      } else {
+        this.previewControl.setValue(option);
+      }
+    }
   }
 
   public getErrorMessage(): string {
