@@ -70,17 +70,19 @@
 
       <div class="table-settings__grouped-item" *ngIf="period.type === periodTypeEnum.DATE">
         <div *ngIf="!hiddenControls.startDate" class="table-settings__item">
-          <app-datepicker
+          <app-mask-input
             label="Start date"
+            [mask]="'00.00.0000'"
             [formControl]="form.controls.startDate"
-          ></app-datepicker>
+          ></app-mask-input>
         </div>
 
         <div *ngIf="!hiddenControls.endDate" class="table-settings__item">
-          <app-datepicker
+          <app-mask-input
             label="End date"
+            [mask]="'00.00.0000'"
             [formControl]="form.controls.endDate"
-          ></app-datepicker>
+          ></app-mask-input>
         </div>
       </div>
     </ng-container>
