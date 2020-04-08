@@ -1,8 +1,7 @@
 import { TableFilterEnum } from '@core/interfaces/table-filter.interfaces';
+import { ITableColumnPreview } from '@core/interfaces/table-column-preview.interface';
 
-export interface ITableColumn extends ITableDefaultColumn {
-  field: string;
-  headerName?: string;
+export interface ITableColumn extends ITableDefaultColumn, ITableColumnPreview {
   cellRenderer?: (params: any) => string;
   children?: ITableColumn[];
 }

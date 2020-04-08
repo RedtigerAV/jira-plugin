@@ -1,4 +1,7 @@
+import { ITableSort } from '@core/interfaces/table-sort.interfaces';
+
 export interface IReportSortsComponent {
-  saveSort(sortState: object): void;
-  applySort(): void;
+  saveSort(sort: ITableSort): void;
+  applySort(sort: ITableSort): void;
+  resetSelectedSort(): void;
 }

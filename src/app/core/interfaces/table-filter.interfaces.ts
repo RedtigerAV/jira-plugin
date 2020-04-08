@@ -1,3 +1,5 @@
+import { ITableColumnPreview } from '@core/interfaces/table-column-preview.interface';
+
 export enum TableFilterEnum {
   NUMBER = 'agNumberColumnFilter',
   TEXT = 'agTextColumnFilter',
@@ -8,16 +10,11 @@ export interface ITableColumnFilter {
   filterType: 'number' | 'text' | 'date';
   type?: TableFilterNumberTypeEnum | TableFilterDateTypeEnum | TableFilterTextTypeEnum;
   filter?: any;
-  columnShortDef?: ITableFilterColumnShortDef;
+  columnPreview?: ITableColumnPreview;
   filterTo?: any;
   operator?: 'AND' | 'OR';
   condition1?: ITableColumnFilter;
   condition2?: ITableColumnFilter;
-}
-
-export interface ITableFilterColumnShortDef {
-  field: string;
-  headerName?: string;
 }
 
 export interface ITableFilterState {

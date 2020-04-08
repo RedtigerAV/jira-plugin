@@ -5,13 +5,15 @@ import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
-import { ITableFilterColumnShortDef, ITableFilterState } from '@core/interfaces/table-filter.interfaces';
+import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DatePipe } from '@angular/common';
 import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
 import { TableStateEnum } from '@core/interfaces/table-state.interface';
 import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
+import { ITableSortState } from '@core/interfaces/table-sort.interfaces';
+import { ITableColumnPreview } from '@core/interfaces/table-column-preview.interface';
 
 @Component({
   selector: 'app-report-table',
@@ -58,7 +60,8 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
     this.gridApi.setFilterModel(filterState);
   }
 
-  public applySort(sortState: object): void {
+  public applySort(sortState: ITableSortState[]): void {
+    this.gridApi.setSortModel(sortState);
   }
 
   public exportAsCSV(): void {
@@ -82,7 +85,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   }
 
   public getFilterState(): ITableFilterState {
-    const columnsShortDef: ITableFilterColumnShortDef[] = this.gridColumnApi.getAllColumns().map(column => {
+    const columnsPreview: ITableColumnPreview[] = this.gridColumnApi.getAllColumns().map(column => {
       const {field, headerName} = column.getColDef();
 
       return {field, headerName};
@@ -91,18 +94,34 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
     const filterModel: ITableFilterState = this.gridApi.getFilterModel();
 
     Object.keys(filterModel).map(columnField => {
-      filterModel[columnField].columnShortDef = columnsShortDef.find(({field}) => field == columnField);
+      filterModel[columnField].columnPreview = columnsPreview.find(({field}) => field == columnField);
     });
 
     return filterModel;
   }
 
-  public getSortState(): object {
-    return this.gridApi.getSortModel();
+  public getSortState(): ITableSortState[] {
+    const columnsPreview: ITableColumnPreview[] = this.gridColumnApi.getAllColumns().map(column => {
+      const {field, headerName} = column.getColDef();
+
+      return {field, headerName};
+    });
+
+    const sortModel: ITableSortState[] = this.gridApi.getSortModel() as ITableSortState[];
+
+    sortModel.forEach(sort => {
+      sort.columnPreview = columnsPreview.find(({field}) => field == sort.colId)
+    });
+
+    return sortModel;
   }
 
   public onFilterChanged(): void {
     this.mediator.notify(ReportMediatorEventsEnum.FILTER_CHANGED);
+  }
+
+  public onSortChanged(): void {
+    this.mediator.notify(ReportMediatorEventsEnum.SORT_CHANGED);
   }
 
   public onGridReady(params: DetailGridInfo) {

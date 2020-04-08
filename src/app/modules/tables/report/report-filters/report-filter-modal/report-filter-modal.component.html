@@ -13,7 +13,7 @@
         <th class="tg-p1 tg-p1--bold">Filter info</th>
       </tr>
       <tr *ngFor="let filterState of getColumnsFilters(data.filter)">
-        <td>{{filterState.columnShortDef.headerName}}</td>
+        <td>{{filterState.columnPreview.headerName}}</td>
         <td>
           <ng-container *ngIf="filterState.operator">
             <div class="filter__info">

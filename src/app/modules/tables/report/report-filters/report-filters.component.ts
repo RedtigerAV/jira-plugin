@@ -6,7 +6,7 @@ import { ITableFilter } from '@core/interfaces/table-filter.interfaces';
 import { ReportFiltersService } from '@core/services/report-filters.service';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
 import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
 import { TgSnackbarDanger } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
@@ -36,7 +36,6 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
     this.reportFiltersService.getFilters(this.tableID)
       .pipe(
         map(filters => !!filters ? filters : []),
-        tap(x => console.log(x)),
         takeUntilDestroyed(this)
       )
       .subscribe(filters => (this.filters$.next(filters)))

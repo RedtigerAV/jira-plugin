@@ -35,17 +35,17 @@ export class LifecycleReportSettingsBuilder implements OnDestroy, IReportSetting
       });
     } else {
       form = this.fb.group<IReportSettings>({
-        project: ['', Validators.required],
-        projectPreview: [],
-        board: ['', Validators.required],
-        boardPreview: [],
+        project: ['1234', Validators.required],
+        projectPreview: [{id: '1234', name: 'LOL Project'}],
+        board: ['1234', Validators.required],
+        boardPreview: [{id: '1234', name: 'LOL Board'}],
         periodBy: [ReportPeriodTypesEnum.DATE],
         fromSprint: [''],
         fromSprintPreview: [],
         toSprint: [''],
         toSprintPreview: [],
-        startDate: ['', Validators.required],
-        endDate: ['', Validators.required]
+        startDate: ['11.22.3333', Validators.required],
+        endDate: ['11.22.3333', Validators.required]
       });
     }
 

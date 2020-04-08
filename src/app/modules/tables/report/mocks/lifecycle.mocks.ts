@@ -3,7 +3,7 @@ export function tableData(): any[] {
     {
       issueLink: 'https://google.com',
       issueName: 'Issue 1',
-      user: 'Anton Vakhrushin',
+      assignee: 'Anton Vakhrushin',
       date: new Date(),
       sprint: 'Sprint 1',
       estimation: 10,
@@ -13,7 +13,7 @@ export function tableData(): any[] {
     {
       issueLink: 'https://google.com',
       issueName: 'Issue 2',
-      user: 'Andrew Skobtsov',
+      assignee: 'Andrew Skobtsov',
       date: new Date(),
       sprint: 'Sprint 2',
       estimation: 12,
@@ -23,7 +23,7 @@ export function tableData(): any[] {
     {
       issueLink: 'https://google.com',
       issueName: 'Issue 3',
-      user: 'Anton Vakhrushin',
+      assignee: 'Anton Vakhrushin',
       date: new Date(),
       sprint: 'Sprint 1',
       estimation: 6,
@@ -33,7 +33,7 @@ export function tableData(): any[] {
     {
       issueLink: 'https://google.com',
       issueName: 'Issue 4',
-      user: 'Anton Vakhrushin',
+      assignee: 'Anton Vakhrushin',
       date: new Date(),
       sprint: 'Sprint 1',
       estimation: 6,
@@ -43,7 +43,7 @@ export function tableData(): any[] {
     {
       issueLink: 'https://google.com',
       issueName: 'Issue 3',
-      user: 'Anton Vakhrushin',
+      assignee: 'Anton Vakhrushin',
       date: new Date(),
       sprint: 'Sprint 1',
       estimation: 6,
@@ -53,7 +53,7 @@ export function tableData(): any[] {
     {
       issueLink: 'https://google.com',
       issueName: 'Issue 5',
-      user: 'Anton Vakhrushin',
+      assignee: 'Anton Vakhrushin',
       date: new Date(),
       sprint: 'Sprint 1',
       estimation: 6,
