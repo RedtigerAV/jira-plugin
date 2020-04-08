@@ -10,8 +10,6 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="tableStateEnum.LOADED">
-        <button (click)="getFilterState()">Filter</button>
-
         <ag-grid-angular
           #agGrid
           id="myGrid"
@@ -22,6 +20,7 @@
           [multiSortKey]="'ctrl'"
           [suppressDragLeaveHidesColumns]="true"
           (gridReady)="onGridReady($event)"
+          (filterChanged)="onFilterChanged()"
         ></ag-grid-angular>
       </ng-container>
     </ng-container>

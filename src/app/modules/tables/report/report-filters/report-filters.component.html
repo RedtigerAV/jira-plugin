@@ -1,1 +1,37 @@
-<p>report-filters works!</p>
+<div class="wrapper">
+  <ng-container *ngIf="filters$ | async as filters; else loader">
+    <ng-container [ngSwitch]="!!filters.length">
+      <ng-container *ngSwitchCase="true">
+        <div class="filters-list">
+          <div
+            class="filter"
+            *ngFor="let filter of filters; let idx = index; trackBy: ('id' | trackBy)"
+            [class.filter--selected]="(selectedFilter$ | async)?.id === filter.id"
+            (click)="applyFilter(filter)"
+          >
+            <div class="filter__info">
+              <mat-icon class="filter__info__applied-icon">done</mat-icon>
+              <span class="filter__info__name tg-p1"> {{idx + 1}}. {{filter.name}}</span>
+            </div>
+            <div class="filter__actions">
+              <button mat-icon-button class="action__edit" (click)="editFilter($event, filter)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button class="action__delete" (click)="deleteFilter($event, filter)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="false">
+        <span class="filters-empty tg-h4">There is no saved filters yet</span>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</div>
+
+<ng-template #loader>
+  <mat-spinner class="spinner"></mat-spinner>
+</ng-template>

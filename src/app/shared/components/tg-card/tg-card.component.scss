@@ -9,7 +9,6 @@
   background-color: var(--tg-color-background);
   box-shadow: var(--tg-shadow-static);
   padding: var(--tg-gap);
-  overflow: hidden;
 
   &-clickable {
     transition: all var(--tg-transition);
@@ -22,8 +21,14 @@
   }
 }
 
+.info {
+  height: 100%;
+  overflow: hidden;
+}
+
 .title {
-  padding-bottom: var(--tg-gap);
+  height: 30px;
+  padding-bottom: var(--tg-gap-small);
 
   &:empty {
     padding-bottom: 0;
@@ -31,8 +36,9 @@
 }
 
 .content {
-  height: 100%;
+  height: calc(100% - 30px - var(--tg-gap-small));
   width: 100%;
+  overflow: scroll;
 }
 
 .actions {

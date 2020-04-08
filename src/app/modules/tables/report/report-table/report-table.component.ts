@@ -5,18 +5,13 @@ import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
-import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
+import { ITableFilterColumnShortDef, ITableFilterState } from '@core/interfaces/table-filter.interfaces';
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DatePipe } from '@angular/common';
 import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
-
-enum TableStateEnum {
-  NOT_LOADED = 'not-loaded',
-  LOADING = 'loading',
-  LOADED = 'loaded',
-  NEED_TO_UPDATE = 'need-to-update'
-}
+import { TableStateEnum } from '@core/interfaces/table-state.interface';
+import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
 
 @Component({
   selector: 'app-report-table',
@@ -75,9 +70,6 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
     this.gridApi.exportDataAsCsv({ fileName });
   }
 
-  public exportAsExcel(): void {
-  }
-
   public generateTable(settings: IReportSettings): void {
     this.tableState$.next(TableStateEnum.LOADING);
 
@@ -90,13 +82,27 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   }
 
   public getFilterState(): ITableFilterState {
-    console.log(this.gridApi.getFilterModel());
+    const columnsShortDef: ITableFilterColumnShortDef[] = this.gridColumnApi.getAllColumns().map(column => {
+      const {field, headerName} = column.getColDef();
 
-    return this.gridApi.getFilterModel();
+      return {field, headerName};
+    });
+
+    const filterModel: ITableFilterState = this.gridApi.getFilterModel();
+
+    Object.keys(filterModel).map(columnField => {
+      filterModel[columnField].columnShortDef = columnsShortDef.find(({field}) => field == columnField);
+    });
+
+    return filterModel;
   }
 
   public getSortState(): object {
-    return undefined;
+    return this.gridApi.getSortModel();
+  }
+
+  public onFilterChanged(): void {
+    this.mediator.notify(ReportMediatorEventsEnum.FILTER_CHANGED);
   }
 
   public onGridReady(params: DetailGridInfo) {

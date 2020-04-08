@@ -74,6 +74,7 @@
             <app-mask-input
               label="Start date"
               [mask]="'00.00.0000'"
+              [dropSpecialCharacters]="false"
               [formControl]="form.controls.startDate"
             ></app-mask-input>
           </div>
@@ -82,6 +83,7 @@
             <app-mask-input
               label="End date"
               [mask]="'00.00.0000'"
+              [dropSpecialCharacters]="false"
               [formControl]="form.controls.endDate"
             ></app-mask-input>
           </div>

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { IReportContext } from './interfaces/report-context.interfaces';
 import { LifecycleReportContext } from './contexts/lifecycle-report.context';
 import { HttpClient } from '@angular/common/http';
 import { TableID } from '@core/interfaces/table-main-info.interface';
 import { FormBuilder } from '@ng-stack/forms';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,14 @@ import { FormBuilder } from '@ng-stack/forms';
 export class ReportContextResolver implements Resolve<IReportContext> {
   constructor(private readonly http: HttpClient,
               private readonly router: Router,
-              private readonly fb: FormBuilder) {}
+              private readonly fb: FormBuilder,
+              @Inject(LOCALE_ID) public locale: string) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): IReportContext {
     const reportID = route.params.reportID;
 
     if (reportID === TableID.LIFECYCLE) {
-      return new LifecycleReportContext(this.http, this.fb);
+      return new LifecycleReportContext(this.http, this.fb, this.locale);
     }
 
     this.router.navigate(['/']);

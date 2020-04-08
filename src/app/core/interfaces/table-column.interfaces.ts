@@ -3,6 +3,7 @@ import { TableFilterEnum } from '@core/interfaces/table-filter.interfaces';
 export interface ITableColumn extends ITableDefaultColumn {
   field: string;
   headerName?: string;
+  cellRenderer?: (params: any) => string;
   children?: ITableColumn[];
 }
 
