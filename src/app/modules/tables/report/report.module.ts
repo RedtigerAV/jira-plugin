@@ -14,6 +14,7 @@ import { ReportSettingsModule } from './report-settings/report-settings.module';
 import { TableSettingsModule } from '../../shared/table-settings/table-settings.module';
 import { NgStackFormsModule } from '@ng-stack/forms';
 import { ReportFilterModalModule } from './report-filters/report-filter-modal/report-filter-modal.module';
+import { ReportSortsModalModule } from './report-sorts/report-sorts-modal/report-sorts-modal.module';
 
 
 
@@ -34,7 +35,8 @@ import { ReportFilterModalModule } from './report-filters/report-filter-modal/re
     TgSnackbarModule,
     TableSettingsModule,
     NgStackFormsModule,
-    ReportFilterModalModule
+    ReportFilterModalModule,
+    ReportSortsModalModule
   ],
   exports: [ReportComponent],
   providers: [ReportMediator]

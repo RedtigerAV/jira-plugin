@@ -39,16 +39,16 @@ export class LifecycleReportContext implements IReportContext {
         filter: TableFilterEnum.TEXT
       },
       {
-        field: 'user',
-        headerName: 'User',
+        field: 'assignee',
+        headerName: 'Assignee',
         filter: TableFilterEnum.TEXT
       },
-      {
-        field: 'date',
-        headerName: 'Date',
-        filter: TableFilterEnum.DATE,
-        cellRenderer: params => `${this.datePipe.transform(params.value, 'HH:mm dd.MM.yyyy')}`
-      },
+      // {
+      //   field: 'date',
+      //   headerName: 'Date',
+      //   filter: TableFilterEnum.DATE,
+      //   cellRenderer: params => `${this.datePipe.transform(params.value, 'HH:mm dd.MM.yyyy')}`
+      // },
       {
         field: 'sprint',
         headerName: 'Sprint',

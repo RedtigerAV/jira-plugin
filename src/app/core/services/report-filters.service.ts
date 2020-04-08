@@ -15,7 +15,7 @@ export class ReportFiltersService {
           filterType: 'text',
           type: TableFilterTextTypeEnum.CONTAINS,
           filter: 'Vakh',
-          columnShortDef: {
+          columnPreview: {
             field: 'user',
             headerName: 'User'
           }
@@ -30,7 +30,7 @@ export class ReportFiltersService {
           filterType: 'text',
           type: TableFilterTextTypeEnum.CONTAINS,
           operator: 'AND',
-          columnShortDef: {
+          columnPreview: {
             field: 'user',
             headerName: 'User'
           },

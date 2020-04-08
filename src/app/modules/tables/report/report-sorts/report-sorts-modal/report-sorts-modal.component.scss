@@ -1,0 +1,32 @@
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    margin: 0 var(--tg-gap-small);
+  }
+}
+
+.title {
+  display: block;
+  margin-bottom: var(--tg-gap);
+}
+
+.sort {
+  display: block;
+  margin-bottom: var(--tg-gap);
+}
+
+table {
+  width: 100%;
+  border: .5px solid var(--tg-color-decorate);
+
+  tr {
+    border-bottom: .5px solid var(--tg-color-decorate);
+  }
+
+  th, td {
+    padding: var(--tg-gap-small);
+  }
+}

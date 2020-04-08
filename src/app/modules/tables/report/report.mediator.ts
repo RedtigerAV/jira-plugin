@@ -12,6 +12,8 @@ import { TableStateEnum } from '@core/interfaces/table-state.interface';
 import { MatDialog } from '@angular/material';
 import { ReportFilterModalComponent } from './report-filters/report-filter-modal/report-filter-modal.component';
 import { take } from 'rxjs/operators';
+import { ITableSort, ITableSortState } from '@core/interfaces/table-sort.interfaces';
+import { ReportSortsModalComponent } from './report-sorts/report-sorts-modal/report-sorts-modal.component';
 
 @Injectable()
 export class ReportMediator implements OnDestroy, IReportMediator {
@@ -22,6 +24,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
   reportTableComponent: IReportTableComponent;
 
   private filterApplied = false;
+  private sortApplied = false;
 
   constructor(private readonly snackbar: TgSnackbarService,
               private readonly dialog: MatDialog) {
@@ -46,6 +49,18 @@ export class ReportMediator implements OnDestroy, IReportMediator {
         break;
       case ReportMediatorEventsEnum.SAVE_FILTER:
         this.saveFilter();
+        break;
+      case ReportMediatorEventsEnum.APPLY_SORT:
+        this.applySort(payload);
+        break;
+      case ReportMediatorEventsEnum.SAVE_SORT:
+        this.saveSort();
+        break;
+      case ReportMediatorEventsEnum.RESET_ALL_SORTS:
+        this.resetAllSorts();
+        break;
+      case ReportMediatorEventsEnum.SORT_CHANGED:
+        this.onSortChanged();
         break;
       default:
         break;
@@ -86,6 +101,12 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
     const filterState: ITableFilterState = this.reportTableComponent.getFilterState();
 
+    if (!Object.keys(filterState).length) {
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Please filter some column'));
+
+      return;
+    }
+
     const dialogRef = this.dialog.open(ReportFilterModalComponent, {
       data: {
         title: 'New filter',
@@ -120,6 +141,63 @@ export class ReportMediator implements OnDestroy, IReportMediator {
       this.reportFiltersComponent.resetSelectedFilter();
     } else {
       this.filterApplied = false;
+    }
+  }
+
+  private applySort(sort: ITableSort): void {
+    this.sortApplied = true;
+    this.reportTableComponent.applySort(sort.state);
+  }
+
+  private saveSort(): void {
+    if (!this.isTableLoaded) {
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+
+      return;
+    }
+
+    const sortState: ITableSortState[] = this.reportTableComponent.getSortState();
+
+    if (!sortState.length) {
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Please filter some column'));
+
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ReportSortsModalComponent, {
+      data: {
+        title: 'New sort',
+        sort: {
+          name: '',
+          state: sortState
+        } as ITableSort
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(take(1))
+      .subscribe(resultSort => {
+        if (resultSort) {
+          this.reportSortsComponent.saveSort(resultSort);
+        }
+      });
+  }
+
+  private resetAllSorts(): void {
+    if (!this.isTableLoaded) {
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+
+      return;
+    }
+
+    this.reportTableComponent.applySort([]);
+  }
+
+  private onSortChanged(): void {
+    if (!this.sortApplied) {
+      this.reportSortsComponent.resetSelectedSort();
+    } else {
+      this.sortApplied = false;
     }
   }
 

@@ -11,6 +11,10 @@ export enum ReportMediatorEventsEnum {
   FILTER_CHANGED = 'filter_changed',
   RESET_ALL_FILTERS = '',
   APPLY_SORT = 'apply_sort',
+  SORT_CHANGED = 'sort_changed',
+  RESET_ALL_SORTS = 'reset_all_sorts',
+  APPLY_DEFAULT_SETTINGS = 'apply_default_settings',
+  SAVE_SETTINGS_AS_DEFAULT = 'save_settings_as_default',
   EXPORT_AS_CSV = 'export_as_csv'
 }
 

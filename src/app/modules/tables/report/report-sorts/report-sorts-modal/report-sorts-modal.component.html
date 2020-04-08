@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <span class="title tg-h4">{{data.title}}</span>
+  <div [formGroup]="form">
+    <app-input
+      label="Sort name"
+      [formControl]="form.controls.name"
+    ></app-input>
+  </div>
+  <div class="sort">
+    <table>
+      <tr>
+        <th class="tg-p1 tg-p1--bold">Column name</th>
+        <th class="tg-p1 tg-p1--bold">Sort value</th>
+      </tr>
+      <tr *ngFor="let sortState of data.sort.state">
+        <td>{{sortState.columnPreview.headerName}}</td>
+        <td>{{sortState.sort}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="actions">
+    <button class="tg-button" (click)="onSave()">Save</button>
+    <button class="tg-button tg-button--outline" (click)="onClose()">Close</button>
+  </div>
+</div>
