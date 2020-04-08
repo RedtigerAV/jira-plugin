@@ -31,9 +31,7 @@
             Filters
           </app-tg-card-title>
           <app-tg-card-content>
-            <div style="display: flex; align-items: center; margin: auto; flex-direction: column">
-              <span class="tg-h4" style="color: gray">There is no saved filters yet</span>
-            </div>
+            <app-report-filters [tableID]="context.tableID"></app-report-filters>
           </app-tg-card-content>
         </app-tg-card>
       </div>

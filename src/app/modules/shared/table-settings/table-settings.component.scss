@@ -1,6 +1,6 @@
 .table-settings {
   box-sizing: border-box;
-  margin-right: calc(var(--tg-gap) * -1);
+  //margin-right: calc(var(--tg-gap) * -1);
 
   &--row {
     display: flex;
@@ -16,11 +16,6 @@
       display: flex;
       flex-wrap: nowrap;
       flex: 2;
-      //margin-right: var(--tg-gap);
-
-      //& .table-settings__item:last-child {
-      //  margin-right: 0;
-      //}
     }
   }
 

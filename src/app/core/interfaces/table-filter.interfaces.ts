@@ -4,18 +4,30 @@ export enum TableFilterEnum {
   DATE = 'agDateColumnFilter'
 }
 
-export interface ITableFilter {
+export interface ITableColumnFilter {
   filterType: 'number' | 'text' | 'date';
-  type: TableFilterNumberTypeEnum | TableFilterTextTypeEnum;
-  filter: any;
-  filterTo: any;
+  type?: TableFilterNumberTypeEnum | TableFilterDateTypeEnum | TableFilterTextTypeEnum;
+  filter?: any;
+  columnShortDef?: ITableFilterColumnShortDef;
+  filterTo?: any;
   operator?: 'AND' | 'OR';
-  condition1?: ITableFilter;
-  condition2?: ITableFilter;
+  condition1?: ITableColumnFilter;
+  condition2?: ITableColumnFilter;
+}
+
+export interface ITableFilterColumnShortDef {
+  field: string;
+  headerName?: string;
 }
 
 export interface ITableFilterState {
-  [key: string]: ITableFilter;
+  [key: string]: ITableColumnFilter;
+}
+
+export interface ITableFilter {
+  id?: string;
+  name: string;
+  state: ITableFilterState;
 }
 
 export enum TableFilterNumberTypeEnum {
@@ -25,6 +37,14 @@ export enum TableFilterNumberTypeEnum {
   LESS_THAN_OR_EQUALS = 'lessThanOrEqual',
   GREATER_THAN = 'greaterThan',
   GREATER_THAN_OR_EQUALS = 'greaterThanOrEqual',
+  IN_RANGE = 'inRange'
+}
+
+export enum TableFilterDateTypeEnum {
+  EQUALS = 'equals',
+  NOT_EQUAL = 'notEqual',
+  LESS_THAN = 'lessThan',
+  GREATER_THAN = 'greaterThan',
   IN_RANGE = 'inRange'
 }
 

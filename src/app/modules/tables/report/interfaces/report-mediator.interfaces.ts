@@ -8,6 +8,8 @@ export enum ReportMediatorEventsEnum {
   SAVE_FILTER = 'save_filter',
   SAVE_SORT = 'save_sort',
   APPLY_FILTER = 'apply_filter',
+  FILTER_CHANGED = 'filter_changed',
+  RESET_ALL_FILTERS = '',
   APPLY_SORT = 'apply_sort',
   EXPORT_AS_CSV = 'export_as_csv'
 }

@@ -1,53 +1,64 @@
-import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
-import { TableFilterEnum } from '@core/interfaces/table-filter.interfaces';
-
-export function getColumnsDef(): ITableColumn[] {
+export function tableData(): any[] {
   return [
     {
-      field: 'athlete',
-      filter: TableFilterEnum.TEXT,
+      issueLink: 'https://google.com',
+      issueName: 'Issue 1',
+      user: 'Anton Vakhrushin',
+      date: new Date(),
+      sprint: 'Sprint 1',
+      estimation: 10,
+      timeSpent: 4,
+      status: 'In progress'
     },
     {
-      field: 'age',
-      filter: TableFilterEnum.NUMBER,
+      issueLink: 'https://google.com',
+      issueName: 'Issue 2',
+      user: 'Andrew Skobtsov',
+      date: new Date(),
+      sprint: 'Sprint 2',
+      estimation: 12,
+      timeSpent: 6,
+      status: 'Done'
     },
     {
-      field: 'country',
-      filter: TableFilterEnum.TEXT,
+      issueLink: 'https://google.com',
+      issueName: 'Issue 3',
+      user: 'Anton Vakhrushin',
+      date: new Date(),
+      sprint: 'Sprint 1',
+      estimation: 6,
+      timeSpent: 3,
+      status: 'To Do'
     },
     {
-      field: 'year',
-    },
-    { field: 'sport' },
-    {
-      field: 'gold',
-      filter: TableFilterEnum.NUMBER,
-    },
-    {
-      field: 'silver',
-      filter: TableFilterEnum.NUMBER,
+      issueLink: 'https://google.com',
+      issueName: 'Issue 4',
+      user: 'Anton Vakhrushin',
+      date: new Date(),
+      sprint: 'Sprint 1',
+      estimation: 6,
+      timeSpent: 3,
+      status: 'To Do'
     },
     {
-      field: 'bronze',
-      filter: TableFilterEnum.NUMBER,
+      issueLink: 'https://google.com',
+      issueName: 'Issue 3',
+      user: 'Anton Vakhrushin',
+      date: new Date(),
+      sprint: 'Sprint 1',
+      estimation: 6,
+      timeSpent: 3,
+      status: 'To Do'
     },
     {
-      field: 'total',
-      filter: TableFilterEnum.NUMBER,
-    },
-  ];
-}
-
-export function getDefaultColumnDefs(): ITableDefaultColumn {
-  return {
-    flex: 1,
-    minWidth: 150,
-    minHeight: 100,
-    sortable: true,
-    resizable: true,
-    filterParams: {
-      applyButton: true,
-      resetButton: true,
+      issueLink: 'https://google.com',
+      issueName: 'Issue 5',
+      user: 'Anton Vakhrushin',
+      date: new Date(),
+      sprint: 'Sprint 1',
+      estimation: 6,
+      timeSpent: 3,
+      status: 'To Do'
     }
-  };
+  ];
 }

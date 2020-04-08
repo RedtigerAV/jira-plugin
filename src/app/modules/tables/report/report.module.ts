@@ -13,6 +13,7 @@ import { ReportMediator } from './report.mediator';
 import { ReportSettingsModule } from './report-settings/report-settings.module';
 import { TableSettingsModule } from '../../shared/table-settings/table-settings.module';
 import { NgStackFormsModule } from '@ng-stack/forms';
+import { ReportFilterModalModule } from './report-filters/report-filter-modal/report-filter-modal.module';
 
 
 
@@ -32,7 +33,8 @@ import { NgStackFormsModule } from '@ng-stack/forms';
     MatProgressSpinnerModule,
     TgSnackbarModule,
     TableSettingsModule,
-    NgStackFormsModule
+    NgStackFormsModule,
+    ReportFilterModalModule
   ],
   exports: [ReportComponent],
   providers: [ReportMediator]

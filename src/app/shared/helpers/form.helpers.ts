@@ -90,7 +90,7 @@ export function markFormGroupTouched(formGroup: FormGroup): void {
   // tslint:disable-next-line: no-any
   (Object as any).values(formGroup.controls).forEach(control => {
     control.markAsTouched();
-    control.updateValueAndValidity();
+    // control.updateValueAndValidity();
 
     if (control.controls) {
       markFormGroupTouched(control);
