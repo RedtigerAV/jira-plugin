@@ -12,9 +12,9 @@ import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.mod
 import { ReportMediator } from './report.mediator';
 import { ReportSettingsModule } from './report-settings/report-settings.module';
 import { TableSettingsModule } from '../../shared/table-settings/table-settings.module';
-import { NgStackFormsModule } from '@ng-stack/forms';
 import { ReportFilterModalModule } from './report-filters/report-filter-modal/report-filter-modal.module';
 import { ReportSortsModalModule } from './report-sorts/report-sorts-modal/report-sorts-modal.module';
+import { TableSettingsModalModule } from '../../shared/table-settings/table-settings-modal/table-settings-modal.module';
 
 
 
@@ -34,9 +34,9 @@ import { ReportSortsModalModule } from './report-sorts/report-sorts-modal/report
     MatProgressSpinnerModule,
     TgSnackbarModule,
     TableSettingsModule,
-    NgStackFormsModule,
     ReportFilterModalModule,
-    ReportSortsModalModule
+    ReportSortsModalModule,
+    TableSettingsModalModule
   ],
   exports: [ReportComponent],
   providers: [ReportMediator]

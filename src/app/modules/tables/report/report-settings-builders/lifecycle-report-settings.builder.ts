@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { IReportSettingsBuilder } from '../interfaces/report-settings-builder.interfaces';
+import { OnDestroy } from '@angular/core';
+import { IReportSettingsBuilder } from '@core/interfaces/report-settings-builder.interfaces';
 import { BooleanFormState } from '@shared/helpers/types.helper';
 import { IReportSettings, ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
@@ -35,17 +35,17 @@ export class LifecycleReportSettingsBuilder implements OnDestroy, IReportSetting
       });
     } else {
       form = this.fb.group<IReportSettings>({
-        project: ['1234', Validators.required],
-        projectPreview: [{id: '1234', name: 'LOL Project'}],
-        board: ['1234', Validators.required],
-        boardPreview: [{id: '1234', name: 'LOL Board'}],
+        project: ['', Validators.required],
+        projectPreview: [],
+        board: ['', Validators.required],
+        boardPreview: [],
         periodBy: [ReportPeriodTypesEnum.DATE],
         fromSprint: [''],
         fromSprintPreview: [],
         toSprint: [''],
         toSprintPreview: [],
-        startDate: ['11.22.3333', Validators.required],
-        endDate: ['11.22.3333', Validators.required]
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required]
       });
     }
 
@@ -73,9 +73,33 @@ export class LifecycleReportSettingsBuilder implements OnDestroy, IReportSetting
           form.controls.endDate.clearValidators();
         }
       });
+
+    form.controls.project.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        takeUntilDestroyed(this)
+      )
+      .subscribe(() => {
+        form.controls.board.reset();
+        form.controls.boardPreview.reset();
+      });
+
+    form.controls.board.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        takeUntilDestroyed(this)
+      )
+      .subscribe(() => {
+        form.controls.fromSprint.reset();
+        form.controls.fromSprintPreview.reset();
+
+        form.controls.toSprint.reset();
+        form.controls.toSprintPreview.reset();
+      });
   }
 
   ngOnDestroy(): void {
+    // ToDo: сделать норм отписку
     console.log('Destroy LifecycleReportSettingsBuilder');
   }
 }
