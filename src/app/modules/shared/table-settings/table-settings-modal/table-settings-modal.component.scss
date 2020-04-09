@@ -1,0 +1,19 @@
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    margin: 0 var(--tg-gap-small);
+  }
+}
+
+.title {
+  display: block;
+  margin-bottom: var(--tg-gap);
+}
+
+.settings {
+  display: block;
+  margin-bottom: var(--tg-gap);
+}

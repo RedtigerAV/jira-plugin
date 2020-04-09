@@ -55,8 +55,6 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
   }
 
   private initSubscriptions(): void {
-    this.form.valueChanges.subscribe(x => console.log(x));
-
     if (!this.hiddenControls.project) {
       this.form.controls.project.valueChanges
         .pipe(

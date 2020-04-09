@@ -1,1 +1,14 @@
-<p>table-settings-modal works!</p>
+<div class="wrapper">
+  <span class="title tg-h4">{{data.title}}</span>
+  <div class="settings">
+    <app-table-settings
+      [form]="form"
+      [hiddenControls]="data.settingsBuilder.hiddenControls"
+      [controlsDisplay]="'column'"
+    ></app-table-settings>
+  </div>
+  <div class="actions">
+    <button class="tg-button" (click)="onSave()">Save</button>
+    <button class="tg-button tg-button--outline" (click)="onClose()">Close</button>
+  </div>
+</div>

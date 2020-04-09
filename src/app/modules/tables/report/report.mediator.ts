@@ -62,6 +62,12 @@ export class ReportMediator implements OnDestroy, IReportMediator {
       case ReportMediatorEventsEnum.SORT_CHANGED:
         this.onSortChanged();
         break;
+      case ReportMediatorEventsEnum.APPLY_DEFAULT_SETTINGS:
+        this.reportSettingsComponent.applyDefaultSettings();
+        break;
+      case ReportMediatorEventsEnum.SAVE_SETTINGS_AS_DEFAULT:
+        this.reportSettingsComponent.saveSettingsAsDefault();
+        break;
       default:
         break;
     }
@@ -202,6 +208,12 @@ export class ReportMediator implements OnDestroy, IReportMediator {
   }
 
   private exportAsCSV(): void {
+    if (!this.isTableLoaded) {
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+
+      return;
+    }
+
     this.reportTableComponent.exportAsCSV();
   }
 }
