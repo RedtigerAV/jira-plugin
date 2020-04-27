@@ -7,25 +7,25 @@ import { PaginatedBoards } from '@core/api/software/model/paginatedBoards';
 
 export class BoardsDataSource implements ISelectDataSource {
   public data$: Observable<Board[]>;
-  // private cache: Board[];
-  private cache = [{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Board'}];
+  private cache: Board[];
+  // private cache = [{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Board'}];
 
   constructor(projectId$: Observable<string>, boardsService: BoardsService) {
-    // this.data$ = projectId$
-    //   .pipe(
-    //     switchMap(id => {
-    //       if (!id) {
-    //         return of({values: []});
-    //       }
-    //
-    //       return boardsService.searchBoards('', id);
-    //     }),
-    //     map(({values}: PaginatedBoards) =>
-    //       values.length ? [{id: undefined, name: '---------'}, ...values] : []),
-    //     tap(result => (this.cache = result))
-    //   );
+    this.data$ = projectId$
+      .pipe(
+        switchMap(id => {
+          if (!id) {
+            return of({values: []});
+          }
 
-    this.data$ = of([{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Board'}]);
+          return boardsService.searchBoards('', id);
+        }),
+        map(({values}: PaginatedBoards) =>
+          values.length ? [{id: undefined, name: '---------'}, ...values] : []),
+        tap(result => (this.cache = result))
+      );
+
+    // this.data$ = of([{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Board'}]);
   }
 
   public getValue(option: Board): string | undefined {

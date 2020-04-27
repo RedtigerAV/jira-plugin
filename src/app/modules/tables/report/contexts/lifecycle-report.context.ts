@@ -2,7 +2,7 @@ import { IReportContext } from '../interfaces/report-context.interfaces';
 import { TableID } from '@core/interfaces/table-main-info.interface';
 import { Observable, of } from 'rxjs';
 import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
-import { tableData } from '../mocks/lifecycle.mocks';
+import { lifecycleData } from '../data/lifecycle.data';
 import { HttpClient } from '@angular/common/http';
 import { delay } from 'rxjs/operators';
 import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
@@ -30,7 +30,7 @@ export class LifecycleReportContext implements IReportContext {
         field: 'issueLink',
         headerName: 'Issue Link',
         filter: TableFilterEnum.TEXT,
-        minWidth: 200,
+        minWidth: 300,
         cellRenderer: params => `<a href="${params.value}" target="_blank" style="cursor: pointer">${params.value}</a>`
       },
       {
@@ -43,12 +43,12 @@ export class LifecycleReportContext implements IReportContext {
         headerName: 'Assignee',
         filter: TableFilterEnum.TEXT
       },
-      // {
-      //   field: 'date',
-      //   headerName: 'Date',
-      //   filter: TableFilterEnum.DATE,
-      //   cellRenderer: params => `${this.datePipe.transform(params.value, 'HH:mm dd.MM.yyyy')}`
-      // },
+      {
+        field: 'date',
+        headerName: 'Date and Time',
+        // filter: TableFilterEnum.DATE,
+        // cellRenderer: params => `${this.datePipe.transform(params.value, 'HH:mm dd.MM.yyyy')}`
+      },
       {
         field: 'sprint',
         headerName: 'Sprint',
@@ -76,7 +76,7 @@ export class LifecycleReportContext implements IReportContext {
     // return this.http.get('https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json')
     //   .pipe(delay(3000));
 
-    return of(tableData()).pipe(delay(2000));
+    return of(lifecycleData()).pipe(delay(2000));
   }
 
   getTableDefaultColumnsDef(): Observable<ITableDefaultColumn> {

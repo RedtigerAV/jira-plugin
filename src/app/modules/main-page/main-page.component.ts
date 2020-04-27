@@ -11,6 +11,8 @@ import { FormBuilder } from '@ng-stack/forms';
 import { LifecycleReportSettingsBuilder } from '../tables/report/report-settings-builders/lifecycle-report-settings.builder';
 import { TableSettingsModalComponent } from '../shared/table-settings/table-settings-modal/table-settings-modal.component';
 import { EMPTY } from 'rxjs';
+import { DynamicReportSettingsBuilder } from '../tables/report/report-settings-builders/dynamic-report-settings.builder';
+import { TimeSpentReportSettingsBuilder } from '../tables/report/report-settings-builders/time-spent-report-settings.builder';
 
 @Component({
   selector: 'app-main-page',
@@ -68,6 +70,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     switch (tableID) {
       case TableID.LIFECYCLE:
         return new LifecycleReportSettingsBuilder(this.fb);
+      case TableID.DYNAMIC:
+        return new DynamicReportSettingsBuilder(this.fb);
+      case TableID.TIME_SPENT:
+        return new TimeSpentReportSettingsBuilder(this.fb);
       default:
         return null;
     }

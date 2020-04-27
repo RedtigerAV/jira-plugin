@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { TableID } from '@core/interfaces/table-main-info.interface';
 import { FormBuilder } from '@ng-stack/forms';
 import { DatePipe } from '@angular/common';
+import { DynamicReportContext } from './contexts/dynamic-report.context';
+import { TimeSpentReportContext } from './contexts/time-spent-report.context';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,10 @@ export class ReportContextResolver implements Resolve<IReportContext> {
 
     if (reportID === TableID.LIFECYCLE) {
       return new LifecycleReportContext(this.http, this.fb, this.locale);
+    } else if (reportID === TableID.DYNAMIC) {
+      return new DynamicReportContext(this.http, this.fb, this.locale);
+    } else if (reportID === TableID.TIME_SPENT) {
+      return new TimeSpentReportContext(this.http, this.fb, this.locale);
     }
 
     this.router.navigate(['/']);

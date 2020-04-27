@@ -6,54 +6,45 @@ import { ITableSort } from '@core/interfaces/table-sort.interfaces';
 
 @Injectable()
 export class ReportSortsService {
-  private cache: ITableSort[] = [
-    {
-      id: uuid.v4(),
-      name: 'Sort by user',
-      state: [
-        {
-          colId: 'user',
-          sort: 'asc',
-          columnPreview: {
-            field: 'user',
-            headerName: 'User'
-          }
-        },
-        {
-          colId: 'issueName',
-          sort: 'desc',
-          columnPreview: {
-            field: 'issueName',
-            headerName: 'Issue Name'
-          }
-        }
-      ]
-    }
-  ];
+  private cache = new Map<TableID, ITableSort[]>();
 
   public getSorts(tableID: TableID): Observable<ITableSort[]> {
-    return of(this.cache);
+    console.log('GET: ', this.cache);
+
+    return of(this.cache.get(tableID));
   }
 
   public saveSort(tableID: TableID, sort: ITableSort): Observable<any> {
     sort.id = uuid.v4();
 
-    this.cache.unshift(sort);
+    if (!this.cache.get(tableID)) {
+      this.cache.set(tableID, []);
+    }
 
-    return of(this.cache);
+    this.cache.get(tableID).unshift(sort);
+
+    return of(this.cache.get(tableID));
   }
 
   public patchSort(tableID: TableID, sort: ITableSort): Observable<any> {
-    let position = this.cache.findIndex(({id}) => id === sort.id);
-    this.cache.splice(position, 1, sort);
+    if (!this.cache.get(tableID)) {
+      this.cache.set(tableID, []);
+    }
 
-    return of(this.cache);
+    let position = this.cache.get(tableID).findIndex(({id}) => id === sort.id);
+    this.cache.get(tableID).splice(position, 1, sort);
+
+    return of(this.cache.get(tableID));
   }
 
   public deleteSort(tableID: TableID, sortID: string): Observable<any> {
-    let position = this.cache.findIndex(filter => filter.id === sortID);
-    this.cache.splice(position, 1);
+    if (!this.cache.get(tableID)) {
+      this.cache.set(tableID, []);
+    }
 
-    return of(this.cache);
+    let position = this.cache.get(tableID).findIndex(filter => filter.id === sortID);
+    this.cache.get(tableID).splice(position, 1);
+
+    return of(this.cache.get(tableID));
   }
 }

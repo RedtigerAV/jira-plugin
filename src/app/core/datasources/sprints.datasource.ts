@@ -7,25 +7,25 @@ import { PaginatedSprints } from '@core/api/software/model/paginatedSprints';
 
 export class SprintsDataSource implements ISelectDataSource {
   public data$: Observable<Sprint[]>;
-  // private cache: Sprint[];
-  private cache = [{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Sprint'}];
+  private cache: Sprint[];
+  // private cache = [{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Sprint'}];
 
   constructor(boardId$: Observable<string>, sprintsService: SprintsService) {
-    // this.data$ = boardId$
-    //   .pipe(
-    //     switchMap(id => {
-    //       if (!id) {
-    //         return of({values: []});
-    //       }
-    //
-    //       return sprintsService.searchSprint(id, 'active,closed');
-    //     }),
-    //     map(({values}: PaginatedSprints) =>
-    //       values.length ? [{id: undefined, name: '---------'}, ...values] : []),
-    //     tap(result => (this.cache = result))
-    //   );
+    this.data$ = boardId$
+      .pipe(
+        switchMap(id => {
+          if (!id) {
+            return of({values: []});
+          }
 
-    this.data$ = of([{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Sprint'}]);
+          return sprintsService.searchSprint(id, 'active,closed');
+        }),
+        map(({values}: PaginatedSprints) =>
+          values.length ? [{id: undefined, name: '---------'}, ...values] : []),
+        tap(result => (this.cache = result))
+      );
+
+    // this.data$ = of([{id: undefined, name: '---------'}, {id: 1234, name: 'LOL Sprint'}]);
   }
 
   public getValue(option: Sprint): string {
