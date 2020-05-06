@@ -6,17 +6,17 @@ import { map, tap } from 'rxjs/operators';
 
 export class ProjectsDataSource implements ISelectDataSource {
   public readonly data$: Observable<ProjectModel[]>;
-  // private cache: ProjectModel[];
-  private cache = [{id: undefined, name: '---------'}, {id: '1234', name: 'LOL'}];
+  private cache: ProjectModel[];
+  // private cache = [{id: undefined, name: '---------'}, {id: '1234', name: 'LOL'}];
 
   constructor(projectsService: ProjectsService) {
-    // this.data$ = projectsService.searchProjects(0, 1000)
-    //   .pipe(
-    //     map(result => [{id: undefined, name: '---------'}, ...result.values]),
-    //     tap(result => (this.cache = result))
-    //   );
+    this.data$ = projectsService.searchProjects(0, 1000)
+      .pipe(
+        map(result => [{id: undefined, name: '---------'}, ...result.values]),
+        tap(result => (this.cache = result))
+      );
 
-    this.data$ = of([{id: undefined, name: '---------'}, {id: '1234', name: 'LOL Project'}]);
+    // this.data$ = of([{id: undefined, name: '---------'}, {id: '1234', name: 'LOL Project'}]);
   }
 
   public getValue(option: ProjectModel): string {

@@ -165,7 +165,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
     const sortState: ITableSortState[] = this.reportTableComponent.getSortState();
 
     if (!sortState.length) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please filter some column'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Please sort some column'));
 
       return;
     }

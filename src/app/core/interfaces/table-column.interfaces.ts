@@ -3,6 +3,7 @@ import { ITableColumnPreview } from '@core/interfaces/table-column-preview.inter
 
 export interface ITableColumn extends ITableDefaultColumn, ITableColumnPreview {
   cellRenderer?: (params: any) => string;
+  editable?: boolean;
   children?: ITableColumn[];
 }
 
