@@ -71,21 +71,33 @@
 
         <div class="table-settings__grouped-item" *ngSwitchCase="periodTypeEnum.DATE">
           <div *ngIf="!hiddenControls.startDate" class="table-settings__item">
-            <app-mask-input
-              label="Start date"
-              [mask]="'00.00.0000'"
-              [dropSpecialCharacters]="false"
+            <app-datepicker
+              label="Дата начала"
               [formControl]="form.controls.startDate"
-            ></app-mask-input>
+              [filter]="startDateFilter.bind(this)"
+            ></app-datepicker>
+
+<!--            <app-mask-input-->
+<!--              label="Start date"-->
+<!--              [mask]="'00.00.0000'"-->
+<!--              [dropSpecialCharacters]="false"-->
+<!--              [formControl]="form.controls.startDate"-->
+<!--            ></app-mask-input>-->
           </div>
 
           <div *ngIf="!hiddenControls.endDate" class="table-settings__item">
-            <app-mask-input
-              label="End date"
-              [mask]="'00.00.0000'"
-              [dropSpecialCharacters]="false"
+            <app-datepicker
+              label="Дата конца"
               [formControl]="form.controls.endDate"
-            ></app-mask-input>
+              [filter]="endDateFilter.bind(this)"
+            ></app-datepicker>
+
+<!--            <app-mask-input-->
+<!--              label="End date"-->
+<!--              [mask]="'00.00.0000'"-->
+<!--              [dropSpecialCharacters]="false"-->
+<!--              [formControl]="form.controls.endDate"-->
+<!--            ></app-mask-input>-->
           </div>
         </div>
       </ng-container>

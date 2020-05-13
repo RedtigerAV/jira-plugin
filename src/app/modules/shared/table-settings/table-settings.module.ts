@@ -4,6 +4,7 @@ import { TableSettingsComponent } from './table-settings.component';
 import { NgStackFormsModule } from '@ng-stack/forms';
 import { SelectModule } from '@shared/components/reactive-forms/select/select.module';
 import { MaskInputModule } from '@shared/components/reactive-forms/mask-input/mask-input.module';
+import { DatepickerModule } from '@shared/components/reactive-forms/datepicker/datepicker.module';
 
 
 
@@ -16,7 +17,8 @@ import { MaskInputModule } from '@shared/components/reactive-forms/mask-input/ma
     CommonModule,
     NgStackFormsModule,
     SelectModule,
-    MaskInputModule
+    MaskInputModule,
+    DatepickerModule
   ]
 })
 export class TableSettingsModule { }
