@@ -154,4 +154,8 @@ export class DynamicReportContext implements IReportContext {
       }
     });
   }
+
+  destroy(): void {
+    this.settingsBuilder.destroy();
+  }
 }

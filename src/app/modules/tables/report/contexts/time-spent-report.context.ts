@@ -79,4 +79,8 @@ export class TimeSpentReportContext implements IReportContext {
       }
     });
   }
+
+  destroy(): void {
+    this.settingsBuilder.destroy();
+  }
 }

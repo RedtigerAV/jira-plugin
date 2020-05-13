@@ -28,7 +28,6 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
   public sprintDataSource: SprintsDataSource;
   public periodTypeDataSource: PeriodTypeDataSource;
   public boardsDataSource: BoardsDataSource;
-
   public periodTypeEnum = ReportPeriodTypesEnum;
 
   private currentProject$: BehaviorSubject<string>;
@@ -53,6 +52,22 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
     return this.form.controls.periodBy.valueChanges
       .pipe(startWith(this.form.value.periodBy as any));
   }
+
+  public startDateFilter = (date: Date) => {
+    if (!this.form.value.endDate) {
+      return true;
+    }
+
+    return date <= this.form.value.endDate;
+  };
+
+  public endDateFilter = (date: Date) => {
+    if (!this.form.value.startDate) {
+      return true;
+    }
+
+    return date >= this.form.value.startDate;
+  } ;
 
   private initSubscriptions(): void {
     if (!this.hiddenControls.project) {

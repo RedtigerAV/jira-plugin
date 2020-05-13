@@ -16,8 +16,8 @@ export interface IReportSettings {
   userOrGroup?: NgStackFormControl<any>;
   userOrGroupPreview?: any;
   periodBy: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: NgStackFormControl<Date>;
+  endDate?: NgStackFormControl<Date>;
   fromSprint?: string;
   fromSprintPreview?: NgStackFormControl<Sprint>;
   toSprint?: string;

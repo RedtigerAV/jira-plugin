@@ -8,7 +8,8 @@ export interface IReportContext {
   title: string;
   tableID: TableID;
   settingsBuilder: IReportSettingsBuilder;
-  getTableColumnsDef(): Observable<ITableColumn[]>;
+  getTableColumnsDef(settings?: IReportSettings): Observable<ITableColumn[]>;
   getTableDefaultColumnsDef(): Observable<ITableDefaultColumn>;
   getTableData(tableID: TableID, settings: IReportSettings): Observable<any>;
+  destroy(): void;
 }

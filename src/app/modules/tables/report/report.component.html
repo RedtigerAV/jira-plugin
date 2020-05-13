@@ -68,40 +68,6 @@
           <app-report-table [context]="context"></app-report-table>
         </app-tg-card-content>
       </app-tg-card>
-<!--      <ng-container *ngIf="{state: loadTableState$ | async} as loadTable">-->
-<!--        <ng-container [ngSwitch]="loadTable.state">-->
-<!--          <ng-container-->
-<!--            *ngSwitchCase="loadTableStateEnum.NOT_LOADED"-->
-<!--            [ngTemplateOutlet]="tableNotLoaded"-->
-<!--          ></ng-container>-->
-
-<!--          <ng-container-->
-<!--            *ngSwitchCase="loadTableStateEnum.LOADING"-->
-<!--            [ngTemplateOutlet]="tableLoading"-->
-<!--          ></ng-container>-->
-
-<!--          <ng-container-->
-<!--            *ngSwitchCase="loadTableStateEnum.LOADED"-->
-<!--            [ngTemplateOutlet]="tableLoaded"-->
-<!--          ></ng-container>-->
-<!--        </ng-container>-->
-<!--      </ng-container>-->
     </div>
   </div>
 </div>
-
-<ng-template #tableNotLoaded>
-  <span class="tg-h4" style="color: gray">The report table will be shown here</span>
-</ng-template>
-
-<ng-template #tableLoading>
-  <mat-progress-spinner
-    color="primary"
-    [mode]="'indeterminate'"
-  ></mat-progress-spinner>
-</ng-template>
-
-<ng-template #tableLoaded>
-  <span class="tg-h4" style="color: gray">The report table loaded!</span>
-</ng-template>
-

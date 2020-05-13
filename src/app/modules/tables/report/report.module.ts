@@ -7,7 +7,7 @@ import { ReportSortsModule } from './report-sorts/report-sorts.module';
 import { ReportFiltersModule } from './report-filters/report-filters.module';
 import { TgCardModule } from '@shared/components/tg-card/tg-card.module';
 import { HeaderModule } from '@shared/components/header/header.module';
-import { MatButtonModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatButtonModule, MatIconModule } from '@angular/material';
 import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.module';
 import { ReportMediator } from './report.mediator';
 import { ReportSettingsModule } from './report-settings/report-settings.module';
@@ -31,7 +31,6 @@ import { TableSettingsModalModule } from '../../shared/table-settings/table-sett
     MatButtonModule,
     MatIconModule,
     ReportSettingsModule,
-    MatProgressSpinnerModule,
     TgSnackbarModule,
     TableSettingsModule,
     ReportFilterModalModule,

@@ -20,6 +20,7 @@ export class DatepickerComponent extends ControlValueAccessorBase {
   @Input() label: string;
   @Input() hint: string;
   @Input() placeholder: string;
+  @Input() filter: (d: Date | null) => boolean;
 
   constructor(
     protected readonly controlContainer: ControlContainer,

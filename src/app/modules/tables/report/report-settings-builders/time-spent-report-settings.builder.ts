@@ -1,13 +1,11 @@
-import { OnDestroy } from '@angular/core';
 import { IReportSettingsBuilder } from '@core/interfaces/report-settings-builder.interfaces';
 import { BooleanFormState } from '@shared/helpers/types.helper';
 import { IReportSettings, ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { Validators } from '@angular/forms';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
+import { SettingsBaseBuilder } from './settings-base.builder';
 
-export class TimeSpentReportSettingsBuilder implements OnDestroy, IReportSettingsBuilder {
+export class TimeSpentReportSettingsBuilder extends SettingsBaseBuilder implements IReportSettingsBuilder {
   hiddenControls: BooleanFormState<IReportSettings> = {
     userOrGroup: true,
     userOrGroupPreview: true,
@@ -17,6 +15,7 @@ export class TimeSpentReportSettingsBuilder implements OnDestroy, IReportSetting
   };
 
   constructor(public fb: FormBuilder) {
+    super();
   }
 
   getSettingsFromGroup(model?: IReportSettings): FormGroup<IReportSettings> {
@@ -48,38 +47,8 @@ export class TimeSpentReportSettingsBuilder implements OnDestroy, IReportSetting
       });
     }
 
-    this.initFormSubscriptions(form);
+    this.initCommonSubscribes(form);
 
     return form;
-  }
-
-  private initFormSubscriptions(form: FormGroup<IReportSettings>): void {
-    form.controls.project.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        takeUntilDestroyed(this)
-      )
-      .subscribe(() => {
-        form.controls.board.reset();
-        form.controls.boardPreview.reset();
-      });
-
-    form.controls.board.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        takeUntilDestroyed(this)
-      )
-      .subscribe(() => {
-        form.controls.fromSprint.reset();
-        form.controls.fromSprintPreview.reset();
-
-        form.controls.toSprint.reset();
-        form.controls.toSprintPreview.reset();
-      });
-  }
-
-  ngOnDestroy(): void {
-    // ToDo: сделать норм отписку
-    console.log('Destroy LifecycleReportSettingsBuilder');
   }
 }
