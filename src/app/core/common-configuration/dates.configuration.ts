@@ -20,3 +20,5 @@ export const DatesProviders: Provider[] = [
   { provide: MAT_DATE_FORMATS, useValue: MOMENT_FORMATS },
   { provide: LOCALE_ID, useValue: 'ru' }
 ];
+
+export const dateFormat = 'yyyy/MM/dd HH:mm';

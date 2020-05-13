@@ -7,6 +7,7 @@ import { TableID } from '@core/interfaces/table-main-info.interface';
 import { FormBuilder } from '@ng-stack/forms';
 import { DynamicReportContext } from './contexts/dynamic-report.context';
 import { TimeSpentReportContext } from './contexts/time-spent-report.context';
+import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +16,14 @@ export class ReportContextResolver implements Resolve<IReportContext> {
   constructor(private readonly http: HttpClient,
               private readonly router: Router,
               private readonly fb: FormBuilder,
+              private readonly issueSearchService: IssueSearchService,
               @Inject(LOCALE_ID) public locale: string) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): IReportContext {
     const reportID = route.params.reportID;
 
     if (reportID === TableID.LIFECYCLE) {
-      return new LifecycleReportContext(this.http, this.fb, this.locale);
+      return new LifecycleReportContext(this.issueSearchService, this.fb, this.locale);
     } else if (reportID === TableID.DYNAMIC) {
       return new DynamicReportContext(this.http, this.fb, this.locale);
     } else if (reportID === TableID.TIME_SPENT) {
