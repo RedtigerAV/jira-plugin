@@ -26,7 +26,9 @@ export class ReportComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.context.destroy();
+  }
 
   public onSettings(): void {
     this.reportDefaultSettingsService.getReportDefaultSettings(this.context.tableID)

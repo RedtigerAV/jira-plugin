@@ -72,6 +72,17 @@ export class LifecycleReportContext implements IReportContext {
     ]);
   }
 
+  /**
+   * 1. получаю projectID
+   * 2. Если период по датам, то беру обе даты, второй прибавляю день, и обеим добавляю 00:00
+   * 3. Если период по спринтам, беру startDate первого спринта, endDate || Date.now второго спринта
+   * 4. Делаю запрос /rest/api/3/search с jql, который использует update
+   * 5. Пробегаюсь по каждой задаче, внутри нее - по history. Добавляю все в один массив, фильтруя при этом старые changelogs
+   * 6. Массив сортирую по дате изменения
+   * 7. Возвращаю
+   * @param tableID
+   * @param settings
+   */
   getTableData(tableID: TableID, settings: IReportSettings): Observable<any> {
     // return this.http.get('https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json')
     //   .pipe(delay(3000));
@@ -91,5 +102,9 @@ export class LifecycleReportContext implements IReportContext {
         resetButton: true,
       }
     });
+  }
+
+  destroy(): void {
+    this.settingsBuilder.destroy();
   }
 }

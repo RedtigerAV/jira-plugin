@@ -5,7 +5,6 @@ import { LifecycleReportContext } from './contexts/lifecycle-report.context';
 import { HttpClient } from '@angular/common/http';
 import { TableID } from '@core/interfaces/table-main-info.interface';
 import { FormBuilder } from '@ng-stack/forms';
-import { DatePipe } from '@angular/common';
 import { DynamicReportContext } from './contexts/dynamic-report.context';
 import { TimeSpentReportContext } from './contexts/time-spent-report.context';
 
