@@ -134,6 +134,13 @@ export class DynamicReportContext implements IReportContext {
     ]);
   }
 
+  /**
+   * 1. Беру дату начала, дату конца. Запрашиваю все спринты и оставляю только подходящие в указанные даты
+   * 2. Получаю все задачи по спринтам с changelogs
+   * 3.
+   * @param tableID
+   * @param settings
+   */
   getTableData(tableID: TableID, settings: IReportSettings): Observable<any> {
     // return this.http.get('https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json')
     //   .pipe(delay(3000));
