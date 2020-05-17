@@ -10,6 +10,6 @@ export interface IReportContext {
   settingsBuilder: IReportSettingsBuilder;
   getTableColumnsDef(settings?: IReportSettings): Observable<ITableColumn[]>;
   getTableDefaultColumnsDef(): Observable<ITableDefaultColumn>;
-  getTableData(tableID: TableID, settings: IReportSettings): Observable<any>;
+  getTableData(settings: IReportSettings): Observable<any>;
   destroy(): void;
 }

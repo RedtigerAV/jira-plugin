@@ -47,8 +47,6 @@ export class LifecycleReportContext implements IReportContext {
    * ToDo: навесить компараторы для фильтрации
    * ToDo: сделать cellRendering для timeSpent, timeOriginalSpent
    * ToDo: убрать из экспортируемой таблицы знак -> (возможно через переопределение toString)
-   * ToDo: добавить лейблы
-   * ToDo: добавить тип задачи
    */
   getTableColumnsDef(): Observable<ITableColumn[]> {
     return of([
@@ -126,7 +124,7 @@ export class LifecycleReportContext implements IReportContext {
     this.settingsBuilder.destroy();
   }
 
-  getTableData(tableID: TableID, settings: IReportSettings): Observable<any> {
+  getTableData(settings: IReportSettings): Observable<any> {
     const projectID = settings.project;
     const boardID = settings.board;
     let startDate: Date;
@@ -141,15 +139,15 @@ export class LifecycleReportContext implements IReportContext {
         break;
       case ReportPeriodTypesEnum.DATE:
       default:
-        startDate = settings.startDate;
-        endDate = settings.endDate;
-        startDate.setHours(0, 0);
-        endDate.setHours(0, 0);
+        startDate = new Date(settings.startDate.toString());
+        endDate = new Date(settings.endDate.toString());
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(0, 0, 0, 0);
         endDate.setDate(endDate.getDate() + 1);
         break;
     }
 
-    return this.sprintsService.searchSprint(boardID, 'active,closed')
+    return this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(
         map(({values}) => values),
         map(sprints => this.filterSprints(sprints, startDate, endDate)),
@@ -167,8 +165,6 @@ export class LifecycleReportContext implements IReportContext {
   }
 
   private transformData(data: SearchResultsModel, startDate: Date, endDate: Date): any {
-    console.log({startDate, endDate});
-
     let result: IssueRowModel[] = [];
 
     data.issues.forEach(issue => {

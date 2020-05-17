@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { IReportTableComponent } from '../interfaces/report-table.interfaces';
 import { ReportMediator } from '../report.mediator';
 import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, forkJoin, ReplaySubject } from 'rxjs';
 import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
 import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
 import { IReportContext } from '../interfaces/report-context.interfaces';
@@ -14,6 +13,7 @@ import { TableStateEnum } from '@core/interfaces/table-state.interface';
 import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
 import { ITableSortState } from '@core/interfaces/table-sort.interfaces';
 import { ITableColumnPreview } from '@core/interfaces/table-column-preview.interface';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-table',
@@ -36,7 +36,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
 
   constructor(@Inject(LOCALE_ID) locale: string,
               private readonly mediator: ReportMediator,
-              private readonly http: HttpClient) {
+              private readonly cdr: ChangeDetectorRef) {
     mediator.reportTableComponent = this;
     this.rowData$ = new ReplaySubject<any[]>(1);
     this.columnDefs$ = new ReplaySubject<any[]>(1);
@@ -44,15 +44,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
     this.datePipe = new DatePipe(locale);
   }
 
-  public ngOnInit(): void {
-    this.context.getTableColumnsDef()
-      .pipe(takeUntilDestroyed(this))
-      .subscribe(result => this.columnDefs$.next(result));
-
-    this.context.getTableDefaultColumnsDef()
-      .pipe(takeUntilDestroyed(this))
-      .subscribe(result => this.defaultColDef$.next(result));
-  }
+  public ngOnInit(): void {}
 
   public ngOnDestroy(): void {}
 
@@ -76,11 +68,22 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   public generateTable(settings: IReportSettings): void {
     this.tableState$.next(TableStateEnum.LOADING);
 
-    this.context.getTableData(this.context.tableID, settings)
-      .pipe(takeUntilDestroyed(this))
-      .subscribe(result => {
-        this.rowData$.next(result);
+    forkJoin(
+      this.context.getTableColumnsDef(settings),
+      this.context.getTableDefaultColumnsDef()
+    )
+      .pipe(
+        tap(([columnsRef, defaultColumnsDef]) => {
+          this.columnDefs$.next(columnsRef);
+          this.defaultColDef$.next(defaultColumnsDef)
+        }),
+        switchMap(() => this.context.getTableData(settings)),
+        takeUntilDestroyed(this)
+      )
+      .subscribe(data => {
+        this.rowData$.next(data);
         this.tableState$.next(TableStateEnum.LOADED);
+        this.cdr.detectChanges();
       });
   }
 

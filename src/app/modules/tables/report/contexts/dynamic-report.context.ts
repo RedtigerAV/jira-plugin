@@ -1,151 +1,96 @@
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { TableID } from '@core/interfaces/table-main-info.interface';
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@ng-stack/forms';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
 import { TableFilterEnum } from '@core/interfaces/table-filter.interfaces';
-import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
-import { delay } from 'rxjs/operators';
-import { getDynamicData } from '../data/dynamic.data';
+import { IReportSettings, ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { DynamicReportSettingsBuilder } from '../report-settings-builders/dynamic-report-settings.builder';
+import { BoardsService } from '@core/api/software/api/boards.service';
+import { WorkflowStatusesService } from '@core/api/platform/api/workflowStatuses.service';
+import { BoardConfiguration } from '@core/api/software/model/boardConfiguration';
+import { StatusDetailsModel } from '@core/api/platform/model/statusDetails';
+import { SprintsService } from '@core/api/software/api/sprints.service';
+import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
+import { Sprint } from '@core/api/software/model/sprint';
+import { SearchResultsModel } from '@core/api/platform/model/searchResults';
+
+interface RowModel {
+  sprint?: string;
+  date: string;
+  [key: string]: number | string;
+}
 
 export class DynamicReportContext implements IReportContext {
   title = 'Dynamic of the tasks report';
   tableID = TableID.DYNAMIC;
   settingsBuilder = new DynamicReportSettingsBuilder(this.fb);
 
+  private cachedStatuses: StatusDetailsModel[];
   private readonly datePipe: DatePipe;
 
-  constructor(public http: HttpClient,
+  constructor(public boardsService: BoardsService,
+              public workflowStatusesService: WorkflowStatusesService,
+              public sprintsService: SprintsService,
+              public issueSearchService: IssueSearchService,
               public fb: FormBuilder,
               public locale: string) {
     this.datePipe = new DatePipe(locale);
   }
 
-  getTableColumnsDef(): Observable<ITableColumn[]> {
-    return of([
-      {
-        field: 'sprint',
-        headerName: 'Sprint',
-        filter: TableFilterEnum.TEXT
-      },
-      {
-        field: 'date',
-        headerName: 'Date'
-      },
-      {
-        field: 'todo',
-        headerName: 'To Do',
-        children: [
-          {
-            field: 'toDoNumber',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'To Do No.'
-          },
-          {
-            field: 'toDoTime',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'To Do Time'
-          }
-        ]
-      },
-      {
-        field: 'inProgress',
-        headerName: 'In Progress',
-        children: [
-          {
-            field: 'inProgressNumber',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'In Progress No.'
-          },
-          {
-            field: 'inProgressTime',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'In Progress Time'
-          }
-        ]
-      },
-      {
-        field: 'inTesting',
-        headerName: 'In Testing',
-        children: [
-          {
-            field: 'inTestingNumber',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'In Testing No.'
-          },
-          {
-            field: 'inTestingTime',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'In Testing Time'
-          }
-        ]
-      },
-      {
-        field: 'done',
-        headerName: 'Done',
-        children: [
-          {
-            field: 'doneNumber',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'Done No.'
-          },
-          {
-            field: 'doneTime',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'Done Time'
-          }
-        ]
-      },
-      {
-        field: 'all',
-        headerName: 'All',
-        children: [
-          {
-            field: 'allNumber',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'All No.'
-          },
-          {
-            field: 'allTime',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'All Time'
-          }
-        ]
-      },
-      {
-        field: 'left',
-        headerName: 'Left',
-        children: [
-          {
-            field: 'leftNumber',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'Left No.'
-          },
-          {
-            field: 'leftTime',
-            filter: TableFilterEnum.NUMBER,
-            headerName: 'Left Time'
-          }
-        ]
-      }
-    ]);
-  }
+  getTableColumnsDef(settings?:IReportSettings): Observable<ITableColumn[]> {
+    const boardID = settings.board;
 
-  /**
-   * 1. Беру дату начала, дату конца. Запрашиваю все спринты и оставляю только подходящие в указанные даты
-   * 2. Получаю все задачи по спринтам с changelogs
-   * 3.
-   * @param tableID
-   * @param settings
-   */
-  getTableData(tableID: TableID, settings: IReportSettings): Observable<any> {
-    // return this.http.get('https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json')
-    //   .pipe(delay(3000));
-
-    return of(getDynamicData()).pipe(delay(2000));
+    return this.getStatuses(boardID)
+      .pipe(
+        map((statuses: StatusDetailsModel[]) => ([
+          {
+            field: 'sprint',
+            headerName: 'Спринт',
+            filter: TableFilterEnum.TEXT
+          },
+          {
+            field: 'date',
+            headerName: 'Дата и время',
+            cellRenderer: params => `${this.datePipe.transform(new Date(params.value), 'dd.MM.yyyy')}`
+          },
+          ...statuses.map(status => this.statusToTableColumn(status)),
+          {
+            field: 'all',
+            headerName: 'Всего задач',
+            children: [
+              {
+                field: 'all$number',
+                headerName: 'Всего задач, кол-во',
+                filter: TableFilterEnum.NUMBER
+              },
+              {
+                field: 'all$time',
+                headerName: 'Всего задач, время',
+                filter: TableFilterEnum.NUMBER
+              }
+            ]
+          },
+          {
+            field: 'left',
+            headerName: 'Осталось задач',
+            children: [
+              {
+                field: 'left$number',
+                headerName: 'Осталось задач, кол-во',
+                filter: TableFilterEnum.NUMBER
+              },
+              {
+                field: 'left$time',
+                headerName: 'Осталось задач, время',
+                filter: TableFilterEnum.NUMBER
+              }
+            ]
+          }
+        ]))
+      );
   }
 
   getTableDefaultColumnsDef(): Observable<ITableDefaultColumn> {
@@ -164,5 +109,222 @@ export class DynamicReportContext implements IReportContext {
 
   destroy(): void {
     this.settingsBuilder.destroy();
+  }
+
+  getTableData(settings: IReportSettings): Observable<any> {
+    const projectID = settings.project;
+    const boardID = settings.board;
+    let startDate: Date;
+    let endDate: Date;
+    const actualDate = new Date();
+
+    actualDate.setHours(0, 0, 0, 0);
+
+    switch (settings.periodBy) {
+      case ReportPeriodTypesEnum.SPRINT:
+        startDate = new Date(settings.fromSprintPreview.startDate.toString());
+        endDate = settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate
+          ? new Date((settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate).toString())
+          : new Date();
+        break;
+      case ReportPeriodTypesEnum.DATE:
+      default:
+        startDate = new Date(settings.startDate.toString());
+        endDate = new Date(settings.endDate.toString());
+        break;
+    }
+
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+
+    if (endDate > actualDate) {
+      endDate = actualDate;
+    }
+
+    endDate.setDate(endDate.getDate() + 1);
+
+    return this.sprintsService.searchSprints(boardID, 'active,closed')
+      .pipe(
+        map(({values}) => values),
+        map(sprints => this.filterSprints(sprints, startDate, endDate)),
+        switchMap(sprints => {
+          const jql = [
+            `project=${projectID}`,
+            `sprint in (${sprints.map(({id}) => id).join(',')})`
+          ]
+            .join(' AND ');
+
+          return forkJoin(
+            this.getStatuses(boardID),
+            this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog')
+          )
+            .pipe(
+              map(([statuses, data]) => this.transformData(data, sprints, statuses, startDate, endDate))
+            )
+        })
+      );
+  }
+
+  private getStatuses(boardID: string): Observable<StatusDetailsModel[]> {
+    if (this.cachedStatuses) {
+      return of(this.cachedStatuses);
+    }
+
+    return forkJoin(
+      this.boardsService.getBoardConfiguration(boardID),
+      this.workflowStatusesService.getStatuses()
+    )
+      .pipe(
+        map(([boardConfiguration, statusesDetails]: [BoardConfiguration, Array<StatusDetailsModel>]) => {
+          const statuses: StatusDetailsModel[] =
+            boardConfiguration
+              .columnConfig
+              .columns
+              .reduce((acc, value) => [...acc, ...value.statuses], []);
+
+          statuses.forEach(status => {
+            const statusDetail = statusesDetails.find(({id}) => id.toString() === status.id.toString());
+
+            (status as any).name = statusDetail.name;
+            (status as any).statusCategory = statusDetail.statusCategory;
+          });
+
+          return statuses;
+        }),
+        tap(statuses => (this.cachedStatuses = statuses))
+      );
+  }
+
+  private statusToTableColumn(status: StatusDetailsModel): ITableColumn {
+    return {
+      field: status.id,
+      headerName: status.name,
+      children: [
+        {
+          field: status.id + '$number',
+          filter: TableFilterEnum.NUMBER,
+          headerName: status.name + ', кол-во.'
+        },
+        {
+          field: status.id + '$time',
+          filter: TableFilterEnum.NUMBER,
+          headerName: status.name + ', время'
+        }
+      ]
+    }
+  }
+
+  private transformData(data: SearchResultsModel, sprints: Sprint[], statuses: StatusDetailsModel[], startDate: Date, endDate: Date): any {
+    function sortIssuesChanges(): void {
+      data.issues.forEach(issue => {
+        if (issue.changelog && issue.changelog.histories) {
+          issue.changelog.histories.sort((c1, c2) => new Date(c1.created.toString()).getTime() - new Date(c2.created.toString()).getTime());
+        }
+      });
+    }
+
+    function setAllAndLeftToRowModel(row: RowModel): void {
+      let allNumber = 0;
+      let allTime = 0;
+      let leftNumber = 0;
+      let leftTime = 0;
+
+      statuses.forEach(({id, statusCategory}) => {
+        const rowTimeKey = `${id}$time`;
+        const rowNumberKey = `${id}$number`;
+
+        if (statusCategory.key !== 'done') {
+          leftNumber += Number(row[rowNumberKey]);
+          leftTime += Number(row[rowTimeKey]);
+        }
+
+        allNumber += Number(row[rowNumberKey]);
+        allTime += Number(row[rowTimeKey]);
+      });
+
+      row['all$number'] = allNumber;
+      row['all$time'] = allTime;
+      row['left$number'] = leftNumber;
+      row['left$time'] = leftTime;
+    }
+
+    function getRowModel(currentDate: Date): RowModel {
+      const displayDate = new Date(currentDate.toString());
+
+      displayDate.setDate(currentDate.getDate() - 1);
+
+      const row: RowModel = {
+        date: displayDate.toString()
+      };
+      const currentSprint = sprints.find(sprint =>
+        new Date(sprint.startDate.toString()) <= currentDate
+        && new Date((sprint.completeDate || sprint.endDate).toString()) >= currentDate
+      );
+
+      statuses.forEach(({id}) => {
+        row[`${id}$time`] = 0;
+        row[`${id}$number`] = 0;
+      });
+
+      if (!currentSprint) {
+        setAllAndLeftToRowModel(row);
+
+        return row;
+      }
+
+      row.sprint = currentSprint.name;
+
+      data.issues.forEach(issue => {
+        const estimate: number = Number(issue.fields['timeoriginalestimate']) || 0;
+        let sprint: string;
+        let statusID = statuses[0].id;
+
+        if (issue.changelog && issue.changelog.histories) {
+          const histories = issue.changelog.histories.filter(({created}) => new Date(created.toString()) <= currentDate);
+
+          histories.forEach(changes => {
+            changes.items.forEach(change => {
+              if (change.field.toLowerCase() === 'status') {
+                statusID = change.to;
+              }
+
+              if (change.field.toLowerCase() === 'sprint') {
+                const toStrings = change.toString.split(', ');
+
+                sprint = toStrings[toStrings.length - 1];
+              }
+            });
+          });
+        }
+
+        if (statusID && sprint && sprint === row.sprint) {
+          row[`${statusID}$number`] = (row[`${statusID}$number`] as number) + 1;
+          row[`${statusID}$time`] = (row[`${statusID}$time`] as number) + estimate;
+        }
+      });
+
+      setAllAndLeftToRowModel(row);
+
+      return row;
+    }
+
+    const result: RowModel[] = [];
+
+    startDate.setDate(startDate.getDate() + 1);
+    sortIssuesChanges();
+
+    while (startDate.getTime() <= endDate.getTime()) {
+      const row = getRowModel(startDate);
+
+      result.push(row);
+
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    return result;
+  }
+
+  private filterSprints(sprints: Array<Sprint>, startDate: Date, endDate: Date): Array<Sprint> {
+    return sprints.filter(sprint => new Date(sprint.startDate) >= startDate || new Date(sprint.completeDate || sprint.endDate) <= endDate);
   }
 }
