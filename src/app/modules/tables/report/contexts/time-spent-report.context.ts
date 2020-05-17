@@ -59,7 +59,7 @@ export class TimeSpentReportContext implements IReportContext {
     ]);
   }
 
-  getTableData(tableID: TableID, settings: IReportSettings): Observable<any> {
+  getTableData(settings: IReportSettings): Observable<any> {
     // return this.http.get('https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json')
     //   .pipe(delay(3000));
 

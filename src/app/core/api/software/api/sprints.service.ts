@@ -12,7 +12,7 @@ export class SprintsService extends ApiBase {
     super();
   }
 
-  public searchSprint(boardId: string, state?: string): Observable<PaginatedSprints> {
+  public searchSprints(boardId: string, state?: string): Observable<PaginatedSprints> {
     let params = this.defaultParams;
 
     if (!!state) {
