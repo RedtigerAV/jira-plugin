@@ -20,7 +20,10 @@ export class JiraApiInterceptor implements HttpInterceptor {
         type: req.method,
         data: JSON.stringify(req.body),
         contentType: req.detectContentTypeHeader(),
-        headers: req.headers
+        headers: req.headers,
+        error: function (e) {
+          console.error(e);
+        }
       };
       return from(request(options)).pipe(
         // ToDo: поправить JSON.parse

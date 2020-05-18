@@ -194,8 +194,8 @@ export class LifecycleReportContext implements IReportContext {
                   const fromStrings = change.fromString.split(', ');
                   const toStrings = change.toString.split(', ');
 
-                  (change as any).fromString = fromStrings[fromStrings.length - 1];
-                  (change as any).toString = toStrings[toStrings.length - 1];
+                  (change as any).fromString = fromStrings[fromStrings.length - 1] || 'Бэклог';
+                  (change as any).toString = toStrings[toStrings.length - 1] || 'Бэклог';
                 }
 
                 issueChanges.push({

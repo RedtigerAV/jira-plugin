@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { IReportSettingsComponent } from '../interfaces/report-settings.interfaces';
 import { FormGroup } from '@ng-stack/forms';
 import { ReportMediator } from '../report.mediator';
@@ -22,6 +22,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
 
   constructor(private readonly mediator: ReportMediator,
               private readonly snackbar: TgSnackbarService,
+              private readonly cdr: ChangeDetectorRef,
               private readonly reportDefaultSettingsService: ReportDefaultSettingsService) {
     mediator.reportSettingsComponent = this;
   }
@@ -31,6 +32,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: IReportSettings) => {
         this.form = this.context.settingsBuilder.getSettingsFromGroup(settings);
+        this.cdr.detectChanges();
       });
   }
 
@@ -41,6 +43,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: IReportSettings) => {
         this.form.patchValue(settings);
+        this.cdr.detectChanges();
       });
   }
 
