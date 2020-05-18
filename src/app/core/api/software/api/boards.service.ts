@@ -27,4 +27,8 @@ export class BoardsService extends ApiBase {
   public getBoardConfiguration(boardID: string): Observable<BoardConfiguration> {
     return this.http.get<BoardConfiguration>(`${this.basePath}/rest/agile/1.0/board/${boardID}/configuration`);
   }
+
+  public setBoardProperty(boardID: number, propertyKey: string, body: any): Observable<any> {
+    return this.http.put(`${this.basePath}/rest/agile/1.0/board/${boardID}/properties/${propertyKey}`, body);
+  }
 }

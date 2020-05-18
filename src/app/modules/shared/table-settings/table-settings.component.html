@@ -5,7 +5,7 @@
   >
     <div *ngIf="!hiddenControls.project" class="table-settings__item">
       <app-select
-        label="Project"
+        label="Проект"
         [dataSource]="projectsDataSource"
         [formControl]="form.controls.project"
         [previewFormControl]="form.controls.projectPreview"
@@ -23,25 +23,25 @@
 
     <div *ngIf="!hiddenControls.board" class="table-settings__item">
       <app-select
-        label="Board"
+        label="Доска"
         [dataSource]="boardsDataSource"
         [formControl]="form.controls.board"
         [previewFormControl]="form.controls.boardPreview"
       ></app-select>
     </div>
 
-    <div *ngIf="!hiddenControls.userOrGroup" class="table-settings__item">
+    <div *ngIf="!hiddenControls.group" class="table-settings__item">
       <app-select
-        label="User or Group"
-        [dataSource]="boardsDataSource"
-        [formControl]="form.controls.userOrGroup"
-        [previewFormControl]="form.controls.userOrGroupPreview"
+        label="Группа"
+        [dataSource]="groupsDataSource"
+        [formControl]="form.controls.group"
+        [previewFormControl]="form.controls.groupPreview"
       ></app-select>
     </div>
 
     <div *ngIf="!hiddenControls.periodBy" class="table-settings__item">
       <app-select
-        label="Period by"
+        label="Период по"
         [dataSource]="periodTypeDataSource"
         [formControl]="form.controls.periodBy"
       ></app-select>
@@ -52,7 +52,7 @@
         <div class="table-settings__grouped-item" *ngSwitchCase="periodTypeEnum.SPRINT">
           <div *ngIf="!hiddenControls.fromSprint" class="table-settings__item">
             <app-select
-              label="From sprint"
+              label="От спринта"
               [dataSource]="sprintDataSource"
               [formControl]="form.controls.fromSprint"
               [previewFormControl]="form.controls.fromSprintPreview"
@@ -61,7 +61,7 @@
 
           <div *ngIf="!hiddenControls.toSprint" class="table-settings__item">
             <app-select
-              label="To sprint"
+              label="К спринту"
               [dataSource]="sprintDataSource"
               [formControl]="form.controls.toSprint"
               [previewFormControl]="form.controls.toSprintPreview"
@@ -76,13 +76,6 @@
               [formControl]="form.controls.startDate"
               [filter]="startDateFilter.bind(this)"
             ></app-datepicker>
-
-<!--            <app-mask-input-->
-<!--              label="Start date"-->
-<!--              [mask]="'00.00.0000'"-->
-<!--              [dropSpecialCharacters]="false"-->
-<!--              [formControl]="form.controls.startDate"-->
-<!--            ></app-mask-input>-->
           </div>
 
           <div *ngIf="!hiddenControls.endDate" class="table-settings__item">
@@ -91,13 +84,6 @@
               [formControl]="form.controls.endDate"
               [filter]="endDateFilter.bind(this)"
             ></app-datepicker>
-
-<!--            <app-mask-input-->
-<!--              label="End date"-->
-<!--              [mask]="'00.00.0000'"-->
-<!--              [dropSpecialCharacters]="false"-->
-<!--              [formControl]="form.controls.endDate"-->
-<!--            ></app-mask-input>-->
           </div>
         </div>
       </ng-container>

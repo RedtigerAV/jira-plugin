@@ -12,7 +12,7 @@ export class ProjectsDataSource implements ISelectDataSource {
   constructor(projectsService: ProjectsService) {
     this.data$ = projectsService.searchProjects(0, 1000)
       .pipe(
-        map(result => [{id: undefined, name: '---------'}, ...result.values]),
+        map(result => [{id: undefined, name: 'Очистить поле'}, ...result.values]),
         tap(result => (this.cache = result))
       );
 

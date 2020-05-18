@@ -21,7 +21,7 @@ export class BoardsDataSource implements ISelectDataSource {
           return boardsService.searchBoards('', id);
         }),
         map(({values}: PaginatedBoards) =>
-          values.length ? [{id: undefined, name: '---------'}, ...values] : []),
+          values.length ? [{id: undefined, name: 'Очистить поле'}, ...values] : []),
         tap(result => (this.cache = result))
       );
 

@@ -17,6 +17,7 @@ import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { Sprint } from '@core/api/software/model/sprint';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { getSprintByDate } from '@core/helpers/issues.helpers';
+import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
 
 interface RowModel {
   sprint?: string;
@@ -147,7 +148,7 @@ export class DynamicReportContext implements IReportContext {
     return this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(
         map(({values}) => values),
-        map(sprints => this.filterSprints(sprints, startDate, endDate)),
+        map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
             `project=${projectID}`,
@@ -317,9 +318,5 @@ export class DynamicReportContext implements IReportContext {
     }
 
     return result;
-  }
-
-  private filterSprints(sprints: Array<Sprint>, startDate: Date, endDate: Date): Array<Sprint> {
-    return sprints.filter(sprint => new Date(sprint.startDate) >= startDate || new Date(sprint.completeDate || sprint.endDate) <= endDate);
   }
 }
