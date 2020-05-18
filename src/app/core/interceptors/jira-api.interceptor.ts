@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { parse } from 'url';
 
 @Injectable({
@@ -27,6 +27,7 @@ export class JiraApiInterceptor implements HttpInterceptor {
       };
       return from(request(options)).pipe(
         // ToDo: поправить JSON.parse
+        take(1),
         map((e: any) => new HttpResponse({
           body: JSON.parse(e.body) as any,
           headers: e.xhr.getAllResponseHeaders(),

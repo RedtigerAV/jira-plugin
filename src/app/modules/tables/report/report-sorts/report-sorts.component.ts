@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { IReportSortsComponent } from '../interfaces/report-sorts.interfaces';
 import { ReportMediator } from '../report.mediator';
 import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
@@ -28,6 +28,7 @@ export class ReportSortsComponent implements OnInit, OnDestroy, IReportSortsComp
   constructor(private readonly mediator: ReportMediator,
               private readonly reportSortsService: ReportSortsService,
               private readonly snackbar: TgSnackbarService,
+              private readonly cdr: ChangeDetectorRef,
               private readonly dialog: MatDialog) {
     mediator.reportSortsComponent = this;
   }
@@ -38,7 +39,10 @@ export class ReportSortsComponent implements OnInit, OnDestroy, IReportSortsComp
         map(sorts => !!sorts ? sorts : []),
         takeUntilDestroyed(this)
       )
-      .subscribe(sorts => (this.sorts$.next(sorts)))
+      .subscribe(sorts => {
+        this.sorts$.next(sorts);
+        this.cdr.detectChanges();
+      });
   }
 
   ngOnDestroy(): void {}
@@ -52,16 +56,21 @@ export class ReportSortsComponent implements OnInit, OnDestroy, IReportSortsComp
 
     this.selectedSort$.next(sort);
     this.mediator.notify(ReportMediatorEventsEnum.APPLY_SORT, sort);
+    this.cdr.detectChanges();
   }
 
   saveSort(sort: ITableSort): void {
     this.reportSortsService.saveSort(this.tableID, sort)
       .pipe(takeUntilDestroyed(this))
-      .subscribe(sorts => (this.sorts$.next(sorts)));
+      .subscribe(sorts => {
+        this.sorts$.next(sorts);
+        this.cdr.detectChanges();
+      });
   }
 
   resetSelectedSort(): void {
     this.selectedSort$.next(null);
+    this.cdr.detectChanges();
   }
 
   deleteSort(event: Event, sort: ITableSort): void {
@@ -69,7 +78,10 @@ export class ReportSortsComponent implements OnInit, OnDestroy, IReportSortsComp
 
     this.reportSortsService.deleteSort(this.tableID, sort.id)
       .pipe(takeUntilDestroyed(this))
-      .subscribe(sorts => (this.sorts$.next(sorts)));
+      .subscribe(sorts => {
+        this.sorts$.next(sorts);
+        this.cdr.detectChanges();
+      });
   }
 
   editSort(event: Event, sort: ITableSort): void {
@@ -84,12 +96,14 @@ export class ReportSortsComponent implements OnInit, OnDestroy, IReportSortsComp
 
     dialogRef.afterClosed()
       .pipe(
+        take(1),
         switchMap(result => !!result ? this.reportSortsService.patchSort(this.tableID, result) : of(null)),
         take(1)
       )
       .subscribe(resultSorts => {
         if (resultSorts) {
           this.sorts$.next(resultSorts);
+          this.cdr.detectChanges();
         }
       });
   }

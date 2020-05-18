@@ -5,7 +5,7 @@ import { ITableFilter } from '@core/interfaces/table-filter.interfaces';
 import * as uuid from 'uuid';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
 import { addonKey } from '@core/common-configuration/global';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class ReportFiltersService {

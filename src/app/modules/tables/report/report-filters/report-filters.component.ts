@@ -56,6 +56,7 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
 
     this.selectedFilter$.next(filter);
     this.mediator.notify(ReportMediatorEventsEnum.APPLY_FILTER, filter);
+    this.cdr.detectChanges();
   }
 
   saveFilter(filter: ITableFilter): void {
@@ -69,6 +70,7 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
 
   resetSelectedFilter(): void {
     this.selectedFilter$.next(null);
+    this.cdr.detectChanges();
   }
 
   deleteFilter(event: Event, filter: ITableFilter): void {
@@ -94,6 +96,7 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
 
     dialogRef.afterClosed()
       .pipe(
+        take(1),
         switchMap(result => !!result ? this.reportFiltersService.patchFilter(this.tableID, result) : of(null)),
         take(1)
       )
