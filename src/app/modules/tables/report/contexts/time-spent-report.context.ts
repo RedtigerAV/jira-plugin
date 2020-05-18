@@ -11,6 +11,15 @@ import { delay } from 'rxjs/operators';
 import { getTimeSpentData } from '../data/time-spent.data';
 import { TimeSpentReportSettingsBuilder } from '../report-settings-builders/time-spent-report-settings.builder';
 
+interface RowModel {
+  user?: string;
+  doneNumber?: number;
+  doneTime?: number;
+  scheduledTime?: number;
+  trackedTime?: number;
+  sprint?: string;
+}
+
 export class TimeSpentReportContext implements IReportContext {
   title = 'Total time spent report';
   tableID = TableID.TIME_SPENT;
@@ -28,37 +37,47 @@ export class TimeSpentReportContext implements IReportContext {
     return of([
       {
         field: 'user',
-        headerName: 'User',
+        headerName: 'Пользователь',
         filter: TableFilterEnum.TEXT
       },
       {
         field: 'doneNumber',
-        headerName: 'Tasks in Done status',
+        headerName: 'Завершенные задачи, кол-во',
         filter: TableFilterEnum.NUMBER
       },
       {
         field: 'scheduledTime',
-        headerName: 'Scheduled time',
+        headerName: 'Запланированное время',
         filter: TableFilterEnum.NUMBER
       },
       {
-        field: 'sumOfEstimation',
-        headerName: 'Sum of estimation time',
+        field: 'doneTime',
+        headerName: 'Завершенные задачи, время',
         filter: TableFilterEnum.NUMBER
       },
       {
         field: 'trackedTime',
-        headerName: 'Tracked time',
+        headerName: 'Списанное время',
         filter: TableFilterEnum.NUMBER
       },
       {
         field: 'sprint',
-        headerName: 'Sprint',
+        headerName: 'Спринт',
         filter: TableFilterEnum.TEXT
       }
     ]);
   }
 
+  /**
+   * Получаю список юзеров по groupname
+   * Из спринтов получаю дату начала и конца
+   * Получаю необходимый список спринтов
+   * Получаю список статусов с statusCategory.key === 'done'
+   * Получаю список задач в этих спринтах с найдеными статусами, с changelog // project === x AND sprint in (1, 2, 3) AND status IN (id1, id2)
+   * Идем по спринтам. Создаю для этого спринта строки по юзерам (количество решенных задач, затраченное время, originalestimate, запланированное время).
+   * Пробегаюсь по всем задачам, фильтрую их по спринту по changelog, по их changelog (timespent)
+   * @param settings
+   */
   getTableData(settings: IReportSettings): Observable<any> {
     // return this.http.get('https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json')
     //   .pipe(delay(3000));
