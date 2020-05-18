@@ -23,6 +23,7 @@ export class JiraApiInterceptor implements HttpInterceptor {
         headers: req.headers
       };
       return from(request(options)).pipe(
+        // ToDo: поправить JSON.parse
         map((e: any) => new HttpResponse({
           body: JSON.parse(e.body) as any,
           headers: e.xhr.getAllResponseHeaders(),

@@ -21,7 +21,7 @@ export class SprintsDataSource implements ISelectDataSource {
           return sprintsService.searchSprints(id, 'active,closed');
         }),
         map(({values}: PaginatedSprints) =>
-          values.length ? [{id: undefined, name: '---------'}, ...values] : []),
+          values.length ? [{id: undefined, name: 'Очистить поле'}, ...values] : []),
         tap(result => (this.cache = result))
       );
 

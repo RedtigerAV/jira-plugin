@@ -16,6 +16,8 @@ import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { Sprint } from '@core/api/software/model/sprint';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
+import { getSprintByDate } from '@core/helpers/issues.helpers';
+import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
 
 interface RowModel {
   sprint?: string;
@@ -146,7 +148,7 @@ export class DynamicReportContext implements IReportContext {
     return this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(
         map(({values}) => values),
-        map(sprints => this.filterSprints(sprints, startDate, endDate)),
+        map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
             `project=${projectID}`,
@@ -276,8 +278,8 @@ export class DynamicReportContext implements IReportContext {
 
       data.issues.forEach(issue => {
         const estimate: number = Number(issue.fields['timeoriginalestimate']) || 0;
-        let sprint: string;
-        let statusID = statuses[0].id;
+        let sprint = getSprintByDate(issue, displayDate);
+        let statusID = issue.fields['status']['id'];
 
         if (issue.changelog && issue.changelog.histories) {
           const histories = issue.changelog.histories.filter(({created}) => new Date(created.toString()) <= currentDate);
@@ -287,17 +289,11 @@ export class DynamicReportContext implements IReportContext {
               if (change.field.toLowerCase() === 'status') {
                 statusID = change.to;
               }
-
-              if (change.field.toLowerCase() === 'sprint') {
-                const toStrings = change.toString.split(', ');
-
-                sprint = toStrings[toStrings.length - 1];
-              }
             });
           });
         }
 
-        if (statusID && sprint && sprint === row.sprint) {
+        if (statusID && sprint && sprint.name === row.sprint) {
           row[`${statusID}$number`] = (row[`${statusID}$number`] as number) + 1;
           row[`${statusID}$time`] = (row[`${statusID}$time`] as number) + estimate;
         }
@@ -322,9 +318,5 @@ export class DynamicReportContext implements IReportContext {
     }
 
     return result;
-  }
-
-  private filterSprints(sprints: Array<Sprint>, startDate: Date, endDate: Date): Array<Sprint> {
-    return sprints.filter(sprint => new Date(sprint.startDate) >= startDate || new Date(sprint.completeDate || sprint.endDate) <= endDate);
   }
 }

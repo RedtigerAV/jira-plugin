@@ -7,8 +7,6 @@ import { SettingsBaseBuilder } from './settings-base.builder';
 
 export class TimeSpentReportSettingsBuilder extends SettingsBaseBuilder implements IReportSettingsBuilder {
   hiddenControls: BooleanFormState<IReportSettings> = {
-    userOrGroup: true,
-    userOrGroupPreview: true,
     periodBy: true,
     startDate: true,
     endDate: true
@@ -27,6 +25,8 @@ export class TimeSpentReportSettingsBuilder extends SettingsBaseBuilder implemen
         projectPreview: [model.projectPreview],
         board: [model.board, Validators.required],
         boardPreview: [model.boardPreview],
+        group: [model.group, Validators.required],
+        groupPreview: [model.groupPreview],
         periodBy: [ReportPeriodTypesEnum.SPRINT],
         fromSprint: [model.fromSprint, Validators.required],
         fromSprintPreview: [model.fromSprintPreview],
@@ -39,6 +39,8 @@ export class TimeSpentReportSettingsBuilder extends SettingsBaseBuilder implemen
         projectPreview: [],
         board: ['', Validators.required],
         boardPreview: [],
+        group: ['', Validators.required],
+        groupPreview: [],
         periodBy: [ReportPeriodTypesEnum.SPRINT],
         fromSprint: ['', Validators.required],
         fromSprintPreview: [],

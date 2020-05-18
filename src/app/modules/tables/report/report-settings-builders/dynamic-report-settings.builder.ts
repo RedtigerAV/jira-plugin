@@ -8,8 +8,8 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 export class DynamicReportSettingsBuilder extends SettingsBaseBuilder implements IReportSettingsBuilder {
   hiddenControls: BooleanFormState<IReportSettings> = {
-    userOrGroup: true,
-    userOrGroupPreview: true
+    group: true,
+    groupPreview: true
   };
 
   constructor(public fb: FormBuilder) {

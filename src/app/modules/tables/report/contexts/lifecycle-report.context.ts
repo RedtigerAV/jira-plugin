@@ -13,6 +13,8 @@ import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { basePath } from '@core/common-configuration/global';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { Sprint } from '@core/api/software/model/sprint';
+import { getCurrentSprint } from '@core/helpers/issues.helpers';
+import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
 
 interface IssueRowModel {
   link?: string;
@@ -150,7 +152,7 @@ export class LifecycleReportContext implements IReportContext {
     return this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(
         map(({values}) => values),
-        map(sprints => this.filterSprints(sprints, startDate, endDate)),
+        map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
             `project=${projectID}`,
@@ -169,12 +171,14 @@ export class LifecycleReportContext implements IReportContext {
 
     data.issues.forEach(issue => {
       const issueChanges: IssueRowModel[] = [];
+      const currentSprint = getCurrentSprint(issue);
       const issueModel: IssueRowModel = {
         link: basePath + '/browse/' + issue.key,
         summary: issue.fields['summary'].toString(),
         assignee: issue.fields['assignee'] && issue.fields['assignee']['displayName'],
         type: issue.fields['issuetype'] && issue.fields['issuetype']['name'],
-        labels: issue.fields['labels'].toString()
+        labels: issue.fields['labels'].toString(),
+        sprint: currentSprint && currentSprint.name
       };
 
       if (issue.changelog && issue.changelog.histories) {
@@ -215,9 +219,5 @@ export class LifecycleReportContext implements IReportContext {
     result = result.sort((r1, r2) => new Date(r1.date).getTime() - new Date(r2.date).getTime());
 
     return result;
-  }
-
-  private filterSprints(sprints: Array<Sprint>, startDate: Date, endDate: Date): Array<Sprint> {
-    return sprints.filter(sprint => new Date(sprint.startDate) >= startDate || new Date(sprint.completeDate || sprint.endDate) <= endDate);
   }
 }

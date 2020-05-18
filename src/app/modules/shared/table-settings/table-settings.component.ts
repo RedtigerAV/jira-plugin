@@ -12,6 +12,8 @@ import { BoardsService } from '@core/api/software/api/boards.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IReportSettings, ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
 import { BooleanFormState } from '@shared/helpers/types.helper';
+import { GroupsDataSource } from '@core/datasources/groups.datasource';
+import { GroupsService } from '@core/api/platform/api/groups.service';
 
 @Component({
   selector: 'app-table-settings',
@@ -28,6 +30,7 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
   public sprintDataSource: SprintsDataSource;
   public periodTypeDataSource: PeriodTypeDataSource;
   public boardsDataSource: BoardsDataSource;
+  public groupsDataSource: GroupsDataSource;
   public periodTypeEnum = ReportPeriodTypesEnum;
 
   private currentProject$: BehaviorSubject<string>;
@@ -35,6 +38,7 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
 
   constructor(private readonly projectService: ProjectsService,
               private readonly boardsService: BoardsService,
+              private readonly groupsService: GroupsService,
               private readonly sprintsService: SprintsService) {
   }
 
@@ -97,6 +101,7 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
     this.projectsDataSource = new ProjectsDataSource(this.projectService);
     this.boardsDataSource = new BoardsDataSource(this.currentProject$, this.boardsService);
     this.sprintDataSource = new SprintsDataSource(this.currentBoard$, this.sprintsService);
+    this.groupsDataSource = new GroupsDataSource(this.groupsService);
     this.periodTypeDataSource = new PeriodTypeDataSource();
   }
 }

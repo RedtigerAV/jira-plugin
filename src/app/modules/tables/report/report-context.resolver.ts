@@ -11,6 +11,7 @@ import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { BoardsService } from '@core/api/software/api/boards.service';
 import { WorkflowStatusesService } from '@core/api/platform/api/workflowStatuses.service';
+import { GroupsService } from '@core/api/platform/api/groups.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class ReportContextResolver implements Resolve<IReportContext> {
               private readonly issueSearchService: IssueSearchService,
               private readonly sprintsService: SprintsService,
               private readonly boardsService: BoardsService,
+              private readonly groupsService: GroupsService,
               private readonly workflowStatusesService: WorkflowStatusesService,
               @Inject(LOCALE_ID) public locale: string) {}
 
@@ -40,7 +42,15 @@ export class ReportContextResolver implements Resolve<IReportContext> {
         this.locale
       );
     } else if (reportID === TableID.TIME_SPENT) {
-      return new TimeSpentReportContext(this.http, this.fb, this.locale);
+      return new TimeSpentReportContext(
+        this.boardsService,
+        this.workflowStatusesService,
+        this.sprintsService,
+        this.issueSearchService,
+        this.groupsService,
+        this.fb,
+        this.locale
+      );
     }
 
     this.router.navigate(['/']);
