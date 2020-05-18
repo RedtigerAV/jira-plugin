@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IReportFiltersComponent } from '../interfaces/report-filters.interfaces';
 import { ReportMediator } from '../report.mediator';
 import { TableID } from '@core/interfaces/table-main-info.interface';
@@ -28,6 +28,7 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
   constructor(private readonly mediator: ReportMediator,
               private readonly reportFiltersService: ReportFiltersService,
               private readonly snackbar: TgSnackbarService,
+              private readonly cdr: ChangeDetectorRef,
               private readonly dialog: MatDialog) {
     mediator.reportFiltersComponent = this;
   }
@@ -38,7 +39,10 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
         map(filters => !!filters ? filters : []),
         takeUntilDestroyed(this)
       )
-      .subscribe(filters => (this.filters$.next(filters)))
+      .subscribe(filters => {
+        this.filters$.next(filters);
+        this.cdr.detectChanges();
+      })
   }
 
   ngOnDestroy(): void {}
@@ -57,7 +61,10 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
   saveFilter(filter: ITableFilter): void {
     this.reportFiltersService.saveFilter(this.tableID, filter)
       .pipe(takeUntilDestroyed(this))
-      .subscribe(filters => (this.filters$.next(filters)));
+      .subscribe(filters => {
+        this.filters$.next(filters);
+        this.cdr.detectChanges();
+      });
   }
 
   resetSelectedFilter(): void {
@@ -69,7 +76,10 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
 
     this.reportFiltersService.deleteFilter(this.tableID, filter.id)
       .pipe(takeUntilDestroyed(this))
-      .subscribe(filters => (this.filters$.next(filters)));
+      .subscribe(filters => {
+        this.filters$.next(filters);
+        this.cdr.detectChanges();
+      });
   }
 
   editFilter(event: Event, filter: ITableFilter): void {
@@ -90,6 +100,7 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
       .subscribe(resultFilters => {
         if (resultFilters) {
           this.filters$.next(resultFilters);
+          this.cdr.detectChanges();
         }
       });
   }
