@@ -1,5 +1,7 @@
-<app-table-settings
-  [form]="form"
-  [controlsDisplay]="'row'"
-  [hiddenControls]="context?.settingsBuilder?.hiddenControls"
-></app-table-settings>
+<ng-container *ngIf="form">
+  <app-table-settings
+    [form]="form"
+    [controlsDisplay]="'row'"
+    [hiddenControls]="context?.settingsBuilder?.hiddenControls"
+  ></app-table-settings>
+</ng-container>

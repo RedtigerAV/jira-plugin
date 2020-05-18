@@ -1,36 +1,34 @@
 <div class="wrapper">
   <ng-container *ngIf="sorts$ | async as sorts; else loader">
-    <ng-container [ngSwitch]="!!sorts.length">
-      <ng-container *ngSwitchCase="true">
-        <div class="sorts-list">
-          <div
-            class="sort"
-            *ngFor="let sort of sorts; let idx = index; trackBy: ('id' | trackBy)"
-            [class.sort--selected]="(selectedSort$ | async)?.id === sort.id"
-            (click)="applySort(sort)"
-          >
-            <div class="sort__info">
-              <mat-icon class="sort__info__applied-icon">done</mat-icon>
-              <span class="sort__info__name tg-p1"> {{idx + 1}}. {{sort.name}}</span>
-            </div>
-            <div class="sort__actions">
-              <button mat-icon-button class="action__edit" (click)="editSort($event, sort)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button class="action__delete" (click)="deleteSort($event, sort)">
-                <mat-icon>delete_outline</mat-icon>
-              </button>
-            </div>
+    <ng-container *ngIf="!!sorts.length; else empty">
+      <div class="sorts-list">
+        <div
+          class="sort"
+          *ngFor="let sort of sorts; let idx = index; trackBy: ('id' | trackBy)"
+          [class.sort--selected]="(selectedSort$ | async)?.id === sort.id"
+          (click)="applySort(sort)"
+        >
+          <div class="sort__info">
+            <mat-icon class="sort__info__applied-icon">done</mat-icon>
+            <span class="sort__info__name tg-p1"> {{idx + 1}}. {{sort.name}}</span>
+          </div>
+          <div class="sort__actions">
+            <button mat-icon-button class="action__edit" (click)="editSort($event, sort)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="action__delete" (click)="deleteSort($event, sort)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="false">
-        <span class="sorts-empty tg-h4">There is no saved sorts yet</span>
-      </ng-container>
+      </div>
     </ng-container>
   </ng-container>
 </div>
+
+<ng-template #empty>
+  <span class="sorts-empty tg-h4">There is no saved sorts yet</span>
+</ng-template>
 
 <ng-template #loader>
   <mat-spinner class="spinner"></mat-spinner>

@@ -41,7 +41,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           const settingsBuilder = this.getSettingsBuilderByTableID(table.tableID);
           const dialogRef = this.dialog.open(TableSettingsModalComponent, {
             data: {
-              title: `Default settings for ${table.name}`,
+              title: `Основные настройки для ${table.name}`,
               settings,
               settingsBuilder
             }

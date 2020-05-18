@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
 import { IReportSettingsBuilder } from '@core/interfaces/report-settings-builder.interfaces';
@@ -16,13 +16,11 @@ export interface ITableSettingsModalData {
   styleUrls: ['./table-settings-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableSettingsModalComponent implements OnInit {
+export class TableSettingsModalComponent {
   form: FormGroup<IReportSettings>;
 
   constructor(public dialogRef: MatDialogRef<TableSettingsModalComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: ITableSettingsModalData) { }
-
-  ngOnInit(): void {
+              @Inject(MAT_DIALOG_DATA) public data: ITableSettingsModalData) {
     this.form = this.data.settingsBuilder.getSettingsFromGroup(this.data.settings);
   }
 
