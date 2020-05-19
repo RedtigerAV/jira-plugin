@@ -1,0 +1,7 @@
+<div class="actions">
+  <button
+    *ngFor="let item of actions"
+    class="tg-button tg-button--outline"
+    (click)="item.action()"
+  >{{item.title}}</button>
+</div>

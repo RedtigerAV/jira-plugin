@@ -1,148 +1,168 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
-import { IPlanningSettings } from '@core/interfaces/planning.interfaces';
-import { Validators } from '@angular/forms';
-import { ProjectsDataSource } from '@core/datasources/projects.datasource';
-import { BoardsDataSource } from '@core/datasources/boards.datasource';
-import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { ProjectsService } from '@core/api/platform/api/projects.service';
-import { BoardsService } from '@core/api/software/api/boards.service';
+import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 import { ITableColumn, ITableDefaultColumn } from '../interfaces/table-column.interfaces';
-import { planning } from '../services/planning.service';
-import { markFormGroupTouched } from '@shared/helpers/form.helpers';
+import { IActionItem } from '../../shared/actions-panel/actions-panel.component';
+import { BooleanFormState } from '@shared/helpers/types.helper';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
+import { StructureStateEnum } from '@core/interfaces/structure-state.interface';
+import { switchMap, take, tap } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
+import { PlanningService } from './planning.service';
+import { PlanningSettingsBuilder } from './planning-settings.builder';
+import { DefaultSettingsService } from '@core/services/default-settings.service';
+import { TableID } from '@core/interfaces/structure.interfaces';
+import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
+import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
+import { SettingsPanelModalComponent } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-planning',
   templateUrl: './planning.component.html',
   styleUrls: ['./planning.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [PlanningService]
 })
 export class PlanningComponent implements OnInit, OnDestroy {
-  form: FormGroup<IPlanningSettings>;
-  columnDefs: ITableColumn[] = [
+  public form: FormGroup<ISettingsPanelForm>;
+  public hiddenControls: BooleanFormState<ISettingsPanelForm> = {
+    periodBy: true,
+    startDate: true,
+    endDate: true,
+    fromSprint: true,
+    fromSprintPreview: true,
+    toSprint: true,
+    toSprintPreview: true
+  };
+  public actions: IActionItem[] = [
     {
-      field: 'user',
-      headerName: 'User'
+      title: 'Начать планирование',
+      action: (() => {
+        this.generateTable();
+      }).bind(this)
     },
     {
-      field: 'sprint1',
-      headerName: 'Доска Спринт 1',
-      editable: true
+      title: 'Применить настройки по умолчанию',
+      action: (() => {
+        this.applyDefaultSettings();
+      }).bind(this)
     },
     {
-      field: 'sprint2',
-      headerName: 'Доска Спринт 2',
-      editable: true
-    },
-    {
-      field: 'sprint3',
-      headerName: 'Доска Спринт 3',
-      editable: true
+      title: 'Обновить настройки по умолчанию',
+      action: (() => {
+        this.saveSettingsAsDefault();
+      }).bind(this)
     }
   ];
-  defaultColDef: ITableDefaultColumn = {
-    flex: 1,
-    minWidth: 150,
-    minHeight: 100,
-    resizable: true
-  };
-  rowData = [
-    {
-      user: 'Andrew',
-      sprint1: planning['Andrew'].sprint1,
-      sprint2: planning['Andrew'].sprint2,
-      sprint3: planning['Andrew'].sprint3,
-    },
-    {
-      user: 'Anton Vakhrushin',
-      sprint1: planning['Anton Vakhrushin'].sprint1,
-      sprint2: planning['Anton Vakhrushin'].sprint2,
-      sprint3: planning['Anton Vakhrushin'].sprint3,
-    },
-    {
-      user: 'Ekaterina',
-      sprint1: planning['Ekaterina'].sprint1,
-      sprint2: planning['Ekaterina'].sprint2,
-      sprint3: planning['Ekaterina'].sprint3,
-    },
-  ];
+  public columnDefs$: ReplaySubject<ITableColumn[]>;
+  public defaultColDef$: ReplaySubject<ITableDefaultColumn>;
+  public rowData$: ReplaySubject<any[]>;
+  public tableState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
+  public tableStateEnum = StructureStateEnum;
+  public settingsBuilder = new PlanningSettingsBuilder(this.fb);
 
-  public projectsDataSource: ProjectsDataSource;
-  public boardsDataSource: BoardsDataSource;
-
-  public unset = new BehaviorSubject(true);
-  public loader = new BehaviorSubject(false);
-  public loaded = new BehaviorSubject(false);
-
-  private currentProject$: BehaviorSubject<string>;
   private gridApi: GridApi;
   private gridColumnApi: ColumnApi;
+  private tableID = TableID.PLANNING;
 
   constructor(private readonly fb: FormBuilder,
-              private readonly projectService: ProjectsService,
-              private readonly boardsService: BoardsService) { }
+              private readonly cdr: ChangeDetectorRef,
+              private readonly dialog: MatDialog,
+              private readonly defaultSettingsService: DefaultSettingsService,
+              private readonly snackbar: TgSnackbarService,
+              private readonly planningService: PlanningService) {
+    this.rowData$ = new ReplaySubject<any[]>(1);
+    this.columnDefs$ = new ReplaySubject<any[]>(1);
+    this.defaultColDef$ = new ReplaySubject<any>(1);
+  }
 
   ngOnInit(): void {
-    this.currentProject$ = new BehaviorSubject<string>(undefined);
-
-    this.form = this.fb.group<IPlanningSettings>({
-      project: ['', Validators.required],
-      projectPreview: [],
-      board: ['', Validators.required],
-      boardPreview: [],
-    });
-
-    this.initSubscriptions();
-    this.initDataSources();
+    this.defaultSettingsService.getReportDefaultSettings(this.tableID)
+      .pipe(takeUntilDestroyed(this))
+      .subscribe((settings: ISettingsPanelForm) => {
+        this.form = this.settingsBuilder.getSettingsFromGroup(settings);
+        this.cdr.detectChanges();
+      });
   }
 
-  ngOnDestroy(): void {}
-
-  public onCellEditingStop({data}: any) {
-    planning[data.user] = {
-      sprint1: data.sprint1,
-      sprint2: data.sprint2,
-      sprint3: data.sprint3
-    }
+  ngOnDestroy(): void {
+    this.settingsBuilder.destroy();
   }
 
-  public planLabor(): void {
-    if (this.form.invalid) {
-      markFormGroupTouched(this.form);
+  public onCellEditingStop(): void {
+    let rowData = [];
+    this.gridApi.forEachNode(node => rowData.push(node.data));
 
-      return;
-    }
-
-    this.unset.next(false);
-    this.loader.next(true);
-
-    setTimeout(() => {
-      this.loader.next(false);
-      this.loaded.next(true);
-    }, 2000);
+    this.planningService.updateTableData(this.form.value.board, rowData)
+      .pipe(take(1))
+      .subscribe();
   }
 
-  public onGridReady(params: DetailGridInfo) {
+  public onGridReady(params: DetailGridInfo): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
   }
 
-  private initDataSources(): void {
-    this.projectsDataSource = new ProjectsDataSource(this.projectService);
-    this.boardsDataSource = new BoardsDataSource(this.currentProject$, this.boardsService);
+  public applyDefaultSettings(): void {
+    this.defaultSettingsService.getReportDefaultSettings(this.tableID)
+      .pipe(takeUntilDestroyed(this))
+      .subscribe((settings: ISettingsPanelForm) => {
+        this.form.patchValue(settings);
+        this.cdr.detectChanges();
+      });
   }
 
-  private initSubscriptions(): void {
-    this.form.controls.project.valueChanges
+  public saveSettingsAsDefault(): void {
+    this.defaultSettingsService.setReportDefaultSettings(this.tableID, this.form.getRawValue())
+      .pipe(takeUntilDestroyed(this))
+      .subscribe(() => {
+        this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
+      });
+  }
+
+  public onSettings(): void {
+    this.defaultSettingsService.getReportDefaultSettings(this.tableID)
       .pipe(
-        distinctUntilChanged(),
+        switchMap(settings => {
+          const settingsBuilder = this.settingsBuilder;
+          const dialogRef = this.dialog.open(SettingsPanelModalComponent, {
+            data: {
+              title: `Настройки по умолчанию для Планирования`,
+              settings,
+              settingsBuilder
+            }
+          });
+
+          return dialogRef.afterClosed().pipe(take(1))
+        }),
+        switchMap(defaultSettings =>
+          defaultSettings
+            ? this.defaultSettingsService.setReportDefaultSettings(this.tableID, defaultSettings)
+            : EMPTY
+        ),
         takeUntilDestroyed(this)
       )
-      .subscribe(value => {
-        this.currentProject$.next(value);
+      .subscribe();
+  }
+
+  private generateTable(): void {
+    this.tableState$.next(StructureStateEnum.LOADING);
+    this.defaultColDef$.next(this.planningService.defaultColumnsDef);
+
+    this.planningService.getColumnsDef(this.form.getRawValue())
+      .pipe(
+        tap(columnsRef => {
+          this.columnDefs$.next(columnsRef);
+        }),
+        switchMap(() => this.planningService.getTableData(this.form.getRawValue())),
+        takeUntilDestroyed(this)
+      )
+      .subscribe(data => {
+        this.rowData$.next(data);
+        this.tableState$.next(StructureStateEnum.LOADED);
+        this.cdr.detectChanges();
       });
   }
 }

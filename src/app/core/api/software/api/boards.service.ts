@@ -5,6 +5,9 @@ import { PaginatedBoards } from '@core/api/software/model/paginatedBoards';
 import { ApiBase } from '@core/api/software/api/api-base';
 import { BoardConfiguration } from '@core/api/software/model/boardConfiguration';
 import { BoardType } from '@core/api/software/model/boardType';
+import { PropertyKeysModel } from '@core/api/platform/model/propertyKeys';
+import { EntityPropertyModel } from '@core/api/platform/model/entityProperty';
+import { OperationMessageModel } from '@core/api/platform/model/operationMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +31,15 @@ export class BoardsService extends ApiBase {
     return this.http.get<BoardConfiguration>(`${this.basePath}/rest/agile/1.0/board/${boardID}/configuration`);
   }
 
-  public setBoardProperty(boardID: number, propertyKey: string, body: any): Observable<any> {
-    return this.http.put(`${this.basePath}/rest/agile/1.0/board/${boardID}/properties/${propertyKey}`, body);
+  public getBoardPropertyKeys(boardID: string): Observable<PropertyKeysModel> {
+    return this.http.get<PropertyKeysModel>(`${this.basePath}/rest/agile/1.0/board/${boardID}/properties`);
+  }
+
+  public getBoardProperty(boardID: string, propertyKey: string): Observable<EntityPropertyModel> {
+    return this.http.get<EntityPropertyModel>(`${this.basePath}/rest/agile/1.0/board/${boardID}/properties/${propertyKey}`);
+  }
+
+  public setBoardProperty(boardID: string, propertyKey: string, body: any): Observable<OperationMessageModel> {
+    return this.http.put<OperationMessageModel>(`${this.basePath}/rest/agile/1.0/board/${boardID}/properties/${propertyKey}`, body);
   }
 }

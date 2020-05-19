@@ -5,8 +5,8 @@ import { HeaderModule } from '@shared/components/header/header.module';
 import { MatButtonModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material';
 import { NgStackFormsModule } from '@ng-stack/forms';
 import { TgCardModule } from '@shared/components/tg-card/tg-card.module';
-import { SelectModule } from '@shared/components/reactive-forms/select/select.module';
 import { AgGridModule } from 'ag-grid-angular';
+import { ControlPanelModule } from '../../shared/control-panel/control-panel.module';
 
 
 
@@ -19,9 +19,9 @@ import { AgGridModule } from 'ag-grid-angular';
     MatIconModule,
     NgStackFormsModule,
     TgCardModule,
-    SelectModule,
     AgGridModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ControlPanelModule
   ],
   exports: [PlanningComponent]
 })

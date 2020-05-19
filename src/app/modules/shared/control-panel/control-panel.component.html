@@ -1,0 +1,31 @@
+<div class="control-panel">
+  <div class="control-panel__settings">
+    <app-tg-card>
+      <app-tg-card-title>
+        Осноные настройки
+      </app-tg-card-title>
+
+      <app-tg-card-content>
+        <ng-container *ngIf="form">
+          <app-settings-panel
+            [form]="form"
+            [hiddenControls]="hiddenControls"
+            [controlsDisplay]="controlsDisplay"
+          ></app-settings-panel>
+        </ng-container>
+      </app-tg-card-content>
+    </app-tg-card>
+  </div>
+
+  <div class="control-panel__actions">
+    <app-tg-card>
+      <app-tg-card-title>
+        Действия
+      </app-tg-card-title>
+
+      <app-tg-card-content>
+        <app-actions-panel [actions]="actions"></app-actions-panel>
+      </app-tg-card-content>
+    </app-tg-card>
+  </div>
+</div>

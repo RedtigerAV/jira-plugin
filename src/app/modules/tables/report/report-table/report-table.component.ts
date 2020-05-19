@@ -9,7 +9,7 @@ import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DatePipe } from '@angular/common';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
-import { TableStateEnum } from '../../interfaces/table-state.interface';
+import { StructureStateEnum } from '@core/interfaces/structure-state.interface';
 import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
 import { ITableSortState } from '../../interfaces/table-sort.interfaces';
 import { ITableColumnPreview } from '../../interfaces/table-column-preview.interface';
@@ -27,8 +27,8 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   public columnDefs$: ReplaySubject<ITableColumn[]>;
   public defaultColDef$: ReplaySubject<ITableDefaultColumn>;
   public rowData$: ReplaySubject<any[]>;
-  public tableState$ = new BehaviorSubject<TableStateEnum>(TableStateEnum.NOT_LOADED);
-  public tableStateEnum = TableStateEnum;
+  public tableState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
+  public tableStateEnum = StructureStateEnum;
 
   private gridApi: GridApi;
   private gridColumnApi: ColumnApi;
@@ -66,7 +66,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   }
 
   public generateTable(settings: ISettingsPanelForm): void {
-    this.tableState$.next(TableStateEnum.LOADING);
+    this.tableState$.next(StructureStateEnum.LOADING);
 
     forkJoin(
       this.context.getTableColumnsDef(settings),
@@ -82,7 +82,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
       )
       .subscribe(data => {
         this.rowData$.next(data);
-        this.tableState$.next(TableStateEnum.LOADED);
+        this.tableState$.next(StructureStateEnum.LOADED);
         this.cdr.detectChanges();
       });
   }

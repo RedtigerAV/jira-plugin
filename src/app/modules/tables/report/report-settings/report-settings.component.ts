@@ -51,7 +51,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
     this.reportDefaultSettingsService.setReportDefaultSettings(this.context.tableID, this.form.getRawValue())
       .pipe(takeUntilDestroyed(this))
       .subscribe(() => {
-        this.snackbar.openSnackbar(new TgSnackbarSuccess('Default settings saved!'))
+        this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
       });
   }
 }

@@ -1,0 +1,18 @@
+.control-panel {
+  width: 100%;
+  display: grid;
+  margin-bottom: var(--tg-gap);
+  grid-row-gap: var(--tg-gap);
+  grid-column-gap: var(--tg-gap);
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'settings actions';
+
+  &__settings {
+    grid-area: settings;
+  }
+
+  &__actions {
+    grid-area: actions;
+  }
+}
