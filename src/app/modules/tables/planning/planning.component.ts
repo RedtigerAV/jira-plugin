@@ -1,18 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
-import { IPlanningSettings } from '@core/interfaces/planning.interfaces';
 import { Validators } from '@angular/forms';
-import { ProjectsDataSource } from '@core/datasources/projects.datasource';
-import { BoardsDataSource } from '@core/datasources/boards.datasource';
 import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { ProjectsService } from '@core/api/platform/api/projects.service';
-import { BoardsService } from '@core/api/software/api/boards.service';
 import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 import { ITableColumn, ITableDefaultColumn } from '../interfaces/table-column.interfaces';
 import { planning } from '../services/planning.service';
 import { markFormGroupTouched } from '@shared/helpers/form.helpers';
+import { IActionItem } from '../../shared/actions-panel/actions-panel.component';
+import { BooleanFormState } from '@shared/helpers/types.helper';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 
 @Component({
   selector: 'app-planning',
@@ -21,7 +17,30 @@ import { markFormGroupTouched } from '@shared/helpers/form.helpers';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanningComponent implements OnInit, OnDestroy {
-  form: FormGroup<IPlanningSettings>;
+  form: FormGroup<ISettingsPanelForm>;
+  hiddenControls: BooleanFormState<ISettingsPanelForm> = {
+    periodBy: true,
+    startDate: true,
+    endDate: true,
+    fromSprint: true,
+    fromSprintPreview: true,
+    toSprint: true,
+    toSprintPreview: true
+  };
+  actions: IActionItem[] = [
+    {
+      title: 'Начать планирование',
+      action: () => {}
+    },
+    {
+      title: 'Применить настройки по умолчанию',
+      action: () => {}
+    },
+    {
+      title: 'Обновить настройки по умолчанию',
+      action: () => {}
+    }
+  ];
   columnDefs: ITableColumn[] = [
     {
       field: 'user',
@@ -70,33 +89,24 @@ export class PlanningComponent implements OnInit, OnDestroy {
     },
   ];
 
-  public projectsDataSource: ProjectsDataSource;
-  public boardsDataSource: BoardsDataSource;
-
   public unset = new BehaviorSubject(true);
   public loader = new BehaviorSubject(false);
   public loaded = new BehaviorSubject(false);
 
-  private currentProject$: BehaviorSubject<string>;
   private gridApi: GridApi;
   private gridColumnApi: ColumnApi;
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly projectService: ProjectsService,
-              private readonly boardsService: BoardsService) { }
+  constructor(private readonly fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.currentProject$ = new BehaviorSubject<string>(undefined);
-
-    this.form = this.fb.group<IPlanningSettings>({
+    this.form = this.fb.group<ISettingsPanelForm>({
       project: ['', Validators.required],
       projectPreview: [],
       board: ['', Validators.required],
       boardPreview: [],
+      group: ['', Validators.required],
+      groupPreview: []
     });
-
-    this.initSubscriptions();
-    this.initDataSources();
   }
 
   ngOnDestroy(): void {}
@@ -128,21 +138,5 @@ export class PlanningComponent implements OnInit, OnDestroy {
   public onGridReady(params: DetailGridInfo) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-  }
-
-  private initDataSources(): void {
-    this.projectsDataSource = new ProjectsDataSource(this.projectService);
-    this.boardsDataSource = new BoardsDataSource(this.currentProject$, this.boardsService);
-  }
-
-  private initSubscriptions(): void {
-    this.form.controls.project.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        takeUntilDestroyed(this)
-      )
-      .subscribe(value => {
-        this.currentProject$.next(value);
-      });
   }
 }

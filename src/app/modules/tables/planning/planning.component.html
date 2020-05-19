@@ -1,42 +1,15 @@
-<app-header [title]="'Planning'" [backButtonLink]="'../'"></app-header>
+<app-header [title]="'Планирование'" [backButtonLink]="'../'"></app-header>
 
 <div class="layout">
   <div class="item">
-    <app-tg-card>
-      <app-tg-card-title>Settings</app-tg-card-title>
-      <app-tg-card-content>
-        <div [formGroup]="form" class="planning-form">
-          <app-select
-            label="Project"
-            class="planning-form__item"
-            [dataSource]="projectsDataSource"
-            [formControl]="form.controls.project"
-            [previewFormControl]="form.controls.projectPreview"
-          >
-            <ng-template appCustomOption let-option>
-              <div class="project-preview">
-                <ng-container *ngIf="(option?.avatarUrls && option?.avatarUrls['16x16']) as avatar">
-                  <img [src]="avatar" [srcset]="avatar" class="project-preview__img">
-                </ng-container>
-                <span>{{ option?.name }}</span>
-              </div>
-            </ng-template>
-          </app-select>
-
-          <app-select
-            label="Board"
-            class="planning-form__item"
-            [dataSource]="boardsDataSource"
-            [formControl]="form.controls.board"
-            [previewFormControl]="form.controls.boardPreview"
-          ></app-select>
-        </div>
-      </app-tg-card-content>
-
-      <app-tg-card-actions>
-        <button class="tg-button tg-button--outline" (click)="planLabor()">Plan labor</button>
-      </app-tg-card-actions>
-    </app-tg-card>
+    <ng-container *ngIf="form">
+      <app-control-panel
+        [form]="form"
+        [hiddenControls]="hiddenControls"
+        [controlsDisplay]="'column'"
+        [actions]="actions"
+      ></app-control-panel>
+    </ng-container>
   </div>
 
   <div class="item">
@@ -44,7 +17,7 @@
       <app-tg-card-title>Planning</app-tg-card-title>
       <app-tg-card-content>
         <div style="width: 100%; text-align: center;" *ngIf="unset | async">
-          <span style="color: #657195" class="tg-h4">Press <strong>Plan labor</strong> for start planning</span>
+          <span style="color: #657195" class="tg-h4">Нажмите <strong>Начать планирование</strong> чтобы отобразить таблицу</span>
         </div>
 
         <mat-spinner *ngIf="loader | async" style="margin: auto"></mat-spinner>

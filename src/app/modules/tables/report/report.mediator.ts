@@ -8,7 +8,7 @@ import { markFormGroupTouched } from '@shared/helpers/form.helpers';
 import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
 import { TgSnackbarDanger } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
 import { ITableFilter, ITableFilterState } from '../interfaces/table-filter.interfaces';
-import { TableStateEnum } from '../interfaces/table-state.interface';
+import { StructureStateEnum } from '@core/interfaces/structure-state.interface';
 import { MatDialog } from '@angular/material';
 import { ReportFilterModalComponent } from './report-filters/report-filter-modal/report-filter-modal.component';
 import { take } from 'rxjs/operators';
@@ -76,7 +76,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
   ngOnDestroy(): void {}
 
   get isTableLoaded(): boolean {
-    return this.reportTableComponent.tableState$.value === TableStateEnum.LOADED;
+    return this.reportTableComponent.tableState$.value === StructureStateEnum.LOADED;
   }
 
   private generateTable(): void {

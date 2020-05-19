@@ -16,7 +16,7 @@ export interface ISettingsPanelForm {
   boardPreview?: NgStackFormControl<Board>;
   group?: string;
   groupPreview?: NgStackFormControl<FoundGroupModel>;
-  periodBy: string;
+  periodBy?: string;
   startDate?: NgStackFormControl<Date>;
   endDate?: NgStackFormControl<Date>;
   fromSprint?: string;

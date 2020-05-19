@@ -47,7 +47,7 @@
       ></app-select>
     </div>
 
-    <ng-container *ngIf="periodType$ | async as period">
+    <ng-container *ngIf="!hiddenControls.periodBy && periodType$ | async as period">
       <ng-container [ngSwitch]="period">
         <div class="table-settings__grouped-item" *ngSwitchCase="periodTypeEnum.SPRINT">
           <div *ngIf="!hiddenControls.fromSprint" class="table-settings__item">
