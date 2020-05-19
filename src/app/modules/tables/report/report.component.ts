@@ -3,7 +3,7 @@ import { IReportContext } from './interfaces/report-context.interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { ReportDefaultSettingsService } from '@core/services/report-default-settings.service';
 import { switchMap, take } from 'rxjs/operators';
-import { TableSettingsModalComponent } from '../../shared/table-settings/table-settings-modal/table-settings-modal.component';
+import { SettingsPanelModalComponent } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.component';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { MatDialog } from '@angular/material';
 import { EMPTY } from 'rxjs';
@@ -35,7 +35,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(settings => {
           const settingsBuilder = this.context.settingsBuilder;
-          const dialogRef = this.dialog.open(TableSettingsModalComponent, {
+          const dialogRef = this.dialog.open(SettingsPanelModalComponent, {
             data: {
               title: `Default settings for ${this.context.title}`,
               settings,

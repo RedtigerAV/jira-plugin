@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { StructureID } from '@core/interfaces/structure.interfaces';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
 import { addonKey } from '@core/common-configuration/global';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -15,11 +15,11 @@ export class ReportDefaultSettingsService {
   constructor(private readonly appPropertiesService: AppPropertiesService) {}
 
   //ToDo: разобраться, почему не работает при перехвате ошибки
-  public getReportDefaultSettings(tableID: TableID): Observable<IReportSettings> {
+  public getReportDefaultSettings(structureID: StructureID): Observable<IReportSettings> {
     return this.appPropertiesService.getAddonProperties(addonKey)
       .pipe(
         switchMap(({keys}) => {
-          const currentKey = this.getPropertyKey(tableID);
+          const currentKey = this.getPropertyKey(structureID);
           const isPropertyExist = keys.some(({key}) => key === currentKey);
 
           return isPropertyExist
@@ -42,15 +42,15 @@ export class ReportDefaultSettingsService {
       );
   }
 
-  public setReportDefaultSettings(tableID: TableID, settings: IReportSettings): Observable<IReportSettings> {
-    return this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(tableID), settings)
+  public setReportDefaultSettings(structureID: StructureID, settings: IReportSettings): Observable<IReportSettings> {
+    return this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(structureID), settings)
       .pipe(
         map(() => settings),
         catchError(() => of(null))
       );
   }
 
-  private getPropertyKey(tableID: TableID): string {
-    return `${this.prefix}-${tableID}`;
+  private getPropertyKey(structureID: StructureID): string {
+    return `${this.prefix}-${structureID}`;
   }
 }

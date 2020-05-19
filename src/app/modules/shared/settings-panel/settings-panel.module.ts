@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableSettingsComponent } from './table-settings.component';
+import { SettingsPanelComponent } from './settings-panel.component';
 import { NgStackFormsModule } from '@ng-stack/forms';
 import { SelectModule } from '@shared/components/reactive-forms/select/select.module';
 import { DatepickerModule } from '@shared/components/reactive-forms/datepicker/datepicker.module';
@@ -8,9 +8,9 @@ import { DatepickerModule } from '@shared/components/reactive-forms/datepicker/d
 
 
 @NgModule({
-  declarations: [TableSettingsComponent],
+  declarations: [SettingsPanelComponent],
   exports: [
-    TableSettingsComponent
+    SettingsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -19,4 +19,4 @@ import { DatepickerModule } from '@shared/components/reactive-forms/datepicker/d
     DatepickerModule
   ]
 })
-export class TableSettingsModule { }
+export class SettingsPanelModule { }

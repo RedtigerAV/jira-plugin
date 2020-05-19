@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { IReportContext } from './interfaces/report-context.interfaces';
 import { LifecycleReportContext } from './contexts/lifecycle-report.context';
 import { HttpClient } from '@angular/common/http';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { FormBuilder } from '@ng-stack/forms';
 import { DynamicReportContext } from './contexts/dynamic-report.context';
 import { TimeSpentReportContext } from './contexts/time-spent-report.context';

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { forkJoin, Observable, of } from 'rxjs';
 import { ITableFilter } from '@core/interfaces/table-filter.interfaces';
 import * as uuid from 'uuid';

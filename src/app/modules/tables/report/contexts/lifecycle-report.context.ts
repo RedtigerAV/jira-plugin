@@ -1,5 +1,5 @@
 import { IReportContext } from '../interfaces/report-context.interfaces';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { Observable, of } from 'rxjs';
 import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
 import { map, switchMap } from 'rxjs/operators';

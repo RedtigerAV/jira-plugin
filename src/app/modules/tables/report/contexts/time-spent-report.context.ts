@@ -1,5 +1,5 @@
 import { IReportContext } from '../interfaces/report-context.interfaces';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { DatePipe } from '@angular/common';
 import { FormBuilder } from '@ng-stack/forms';
 import { forkJoin, Observable, of } from 'rxjs';

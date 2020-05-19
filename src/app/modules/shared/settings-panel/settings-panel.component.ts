@@ -16,12 +16,12 @@ import { GroupsDataSource } from '@core/datasources/groups.datasource';
 import { GroupsService } from '@core/api/platform/api/groups.service';
 
 @Component({
-  selector: 'app-table-settings',
-  templateUrl: './table-settings.component.html',
-  styleUrls: ['./table-settings.component.scss'],
+  selector: 'app-settings-panel',
+  templateUrl: './settings-panel.component.html',
+  styleUrls: ['./settings-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableSettingsComponent implements OnInit, OnDestroy {
+export class SettingsPanelComponent implements OnInit, OnDestroy {
   @Input() form: FormGroup<IReportSettings>;
   @Input() hiddenControls: BooleanFormState<IReportSettings>;
   @Input() controlsDisplay: 'row' | 'column';

@@ -11,10 +11,10 @@ import { MatButtonModule, MatIconModule } from '@angular/material';
 import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.module';
 import { ReportMediator } from './report.mediator';
 import { ReportSettingsModule } from './report-settings/report-settings.module';
-import { TableSettingsModule } from '../../shared/table-settings/table-settings.module';
+import { SettingsPanelModule } from '../../shared/settings-panel/settings-panel.module';
 import { ReportFilterModalModule } from './report-filters/report-filter-modal/report-filter-modal.module';
 import { ReportSortsModalModule } from './report-sorts/report-sorts-modal/report-sorts-modal.module';
-import { TableSettingsModalModule } from '../../shared/table-settings/table-settings-modal/table-settings-modal.module';
+import { SettingsPanelModalModule } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.module';
 
 
 
@@ -32,10 +32,10 @@ import { TableSettingsModalModule } from '../../shared/table-settings/table-sett
     MatIconModule,
     ReportSettingsModule,
     TgSnackbarModule,
-    TableSettingsModule,
+    SettingsPanelModule,
     ReportFilterModalModule,
     ReportSortsModalModule,
-    TableSettingsModalModule
+    SettingsPanelModalModule
   ],
   exports: [ReportComponent],
   providers: [ReportMediator]

@@ -29,20 +29,10 @@
           <app-tg-card-content>
             {{texts[table.tableID]}}
           </app-tg-card-content>
-
-          <app-tg-card-actions>
-            <button
-              type="button"
-              class="tg-button tg-button--outline"
-              (click)="openReportTableSettings($event, table)"
-            >
-              Settings
-            </button>
-          </app-tg-card-actions>
         </app-tg-card>
       </div>
 
-      <div class="table-card table-card__planning" [routerLink]="'/tables/record/planning'">
+      <div class="table-card table-card__planning" [routerLink]="'/tables/planning'">
         <app-tg-card [clickable]="true">
           <app-tg-card-title>
             <div class="table-card__planning__title">

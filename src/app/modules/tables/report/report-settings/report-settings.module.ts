@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportSettingsComponent } from './report-settings.component';
-import { TableSettingsModule } from '../../../shared/table-settings/table-settings.module';
+import { SettingsPanelModule } from '../../../shared/settings-panel/settings-panel.module';
 
 
 
@@ -9,7 +9,7 @@ import { TableSettingsModule } from '../../../shared/table-settings/table-settin
   declarations: [ReportSettingsComponent],
   imports: [
     CommonModule,
-    TableSettingsModule
+    SettingsPanelModule
   ],
   exports: [ReportSettingsComponent]
 })

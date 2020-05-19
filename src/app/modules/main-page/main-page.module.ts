@@ -6,7 +6,6 @@ import { MatDividerModule, MatIconModule } from '@angular/material';
 import { TgCardModule } from '@shared/components/tg-card/tg-card.module';
 import { RouterModule } from '@angular/router';
 import { CachePipeModule } from '@shared/pipes/cache/cache-pipe.module';
-import { TableSettingsModalModule } from '../shared/table-settings/table-settings-modal/table-settings-modal.module';
 import { NgStackFormsModule } from '@ng-stack/forms';
 
 
@@ -19,7 +18,6 @@ import { NgStackFormsModule } from '@ng-stack/forms';
     MatIconModule,
     RouterModule,
     CachePipeModule,
-    TableSettingsModalModule,
     NgStackFormsModule
   ],
   exports: [MainPageComponent]

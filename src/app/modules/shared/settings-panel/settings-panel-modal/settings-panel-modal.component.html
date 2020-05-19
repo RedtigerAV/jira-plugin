@@ -1,11 +1,11 @@
 <div class="wrapper">
   <span class="title tg-h4">{{data.title}}</span>
   <div class="settings">
-    <app-table-settings
+    <app-settings-panel
       [form]="form"
       [hiddenControls]="data.settingsBuilder.hiddenControls"
       [controlsDisplay]="'column'"
-    ></app-table-settings>
+    ></app-settings-panel>
   </div>
   <div class="actions">
     <button class="tg-button" (click)="onSave()">Save</button>

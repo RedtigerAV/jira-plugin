@@ -1,4 +1,4 @@
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
 import { Observable } from 'rxjs';
 import { IReportSettings } from '@core/interfaces/report-settings.interfaces';

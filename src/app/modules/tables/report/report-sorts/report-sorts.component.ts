@@ -4,7 +4,7 @@ import { ReportMediator } from '../report.mediator';
 import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
 import { MatDialog } from '@angular/material';
 import { ReportSortsService } from '@core/services/report-sorts.service';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { ITableSort } from '@core/interfaces/table-sort.interfaces';
 import { map, switchMap, take } from 'rxjs/operators';
