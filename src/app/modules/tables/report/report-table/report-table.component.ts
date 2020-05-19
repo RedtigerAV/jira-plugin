@@ -8,7 +8,7 @@ import { ITableFilterState } from '../../interfaces/table-filter.interfaces';
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DatePipe } from '@angular/common';
-import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { TableStateEnum } from '../../interfaces/table-state.interface';
 import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
 import { ITableSortState } from '../../interfaces/table-sort.interfaces';
@@ -65,7 +65,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
     this.gridApi.exportDataAsCsv({ fileName });
   }
 
-  public generateTable(settings: IReportSettings): void {
+  public generateTable(settings: ISettingsPanelForm): void {
     this.tableState$.next(TableStateEnum.LOADING);
 
     forkJoin(

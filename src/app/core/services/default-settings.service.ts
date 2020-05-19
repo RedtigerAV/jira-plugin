@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { StructureID } from '@core/interfaces/structure.interfaces';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
 import { addonKey } from '@core/common-configuration/global';
@@ -9,13 +9,13 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class ReportDefaultSettingsService {
+export class DefaultSettingsService {
   private readonly prefix = 'defaultSettings';
 
   constructor(private readonly appPropertiesService: AppPropertiesService) {}
 
   //ToDo: разобраться, почему не работает при перехвате ошибки
-  public getReportDefaultSettings(structureID: StructureID): Observable<IReportSettings> {
+  public getReportDefaultSettings(structureID: StructureID): Observable<ISettingsPanelForm> {
     return this.appPropertiesService.getAddonProperties(addonKey)
       .pipe(
         switchMap(({keys}) => {
@@ -28,7 +28,7 @@ export class ReportDefaultSettingsService {
         }),
         catchError(() => of({value: null})),
         map(({value}) => value),
-        map((reportSettings: IReportSettings) => {
+        map((reportSettings: ISettingsPanelForm) => {
           if (reportSettings && reportSettings.startDate) {
             reportSettings.startDate = new Date(reportSettings.startDate);
           }
@@ -42,7 +42,7 @@ export class ReportDefaultSettingsService {
       );
   }
 
-  public setReportDefaultSettings(structureID: StructureID, settings: IReportSettings): Observable<IReportSettings> {
+  public setReportDefaultSettings(structureID: StructureID, settings: ISettingsPanelForm): Observable<ISettingsPanelForm> {
     return this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(structureID), settings)
       .pipe(
         map(() => settings),

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { IReportContext } from './interfaces/report-context.interfaces';
 import { ActivatedRoute } from '@angular/router';
-import { ReportDefaultSettingsService } from '@core/services/report-default-settings.service';
+import { DefaultSettingsService } from '@core/services/default-settings.service';
 import { switchMap, take } from 'rxjs/operators';
 import { SettingsPanelModalComponent } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.component';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
@@ -19,7 +19,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   constructor(private readonly activatedRoute: ActivatedRoute,
               private readonly dialog: MatDialog,
-              private readonly reportDefaultSettingsService: ReportDefaultSettingsService) {
+              private readonly reportDefaultSettingsService: DefaultSettingsService) {
     this.context = this.activatedRoute.snapshot.data.context;
   }
 

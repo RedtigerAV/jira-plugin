@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy, ChangeDet
 import { IReportSettingsComponent } from '../interfaces/report-settings.interfaces';
 import { FormGroup } from '@ng-stack/forms';
 import { ReportMediator } from '../report.mediator';
-import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
-import { ReportDefaultSettingsService } from '@core/services/report-default-settings.service';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
+import { DefaultSettingsService } from '@core/services/default-settings.service';
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
@@ -18,19 +18,19 @@ import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snac
 export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettingsComponent {
   @Input() context: IReportContext;
 
-  form: FormGroup<IReportSettings>;
+  form: FormGroup<ISettingsPanelForm>;
 
   constructor(private readonly mediator: ReportMediator,
               private readonly snackbar: TgSnackbarService,
               private readonly cdr: ChangeDetectorRef,
-              private readonly reportDefaultSettingsService: ReportDefaultSettingsService) {
+              private readonly reportDefaultSettingsService: DefaultSettingsService) {
     mediator.reportSettingsComponent = this;
   }
 
   ngOnInit() {
     this.reportDefaultSettingsService.getReportDefaultSettings(this.context.tableID)
       .pipe(takeUntilDestroyed(this))
-      .subscribe((settings: IReportSettings) => {
+      .subscribe((settings: ISettingsPanelForm) => {
         this.form = this.context.settingsBuilder.getSettingsFromGroup(settings);
         this.cdr.detectChanges();
       });
@@ -41,7 +41,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
   applyDefaultSettings(): void {
     this.reportDefaultSettingsService.getReportDefaultSettings(this.context.tableID)
       .pipe(takeUntilDestroyed(this))
-      .subscribe((settings: IReportSettings) => {
+      .subscribe((settings: ISettingsPanelForm) => {
         this.form.patchValue(settings);
         this.cdr.detectChanges();
       });

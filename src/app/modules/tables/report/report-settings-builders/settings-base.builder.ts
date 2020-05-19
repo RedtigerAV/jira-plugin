@@ -1,5 +1,5 @@
 import { FormGroup } from '@ng-stack/forms';
-import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ export class SettingsBaseBuilder {
     this.destroy$.complete();
   }
 
-  protected initCommonSubscribes(form: FormGroup<IReportSettings>): void {
+  protected initCommonSubscribes(form: FormGroup<ISettingsPanelForm>): void {
     form.controls.project.valueChanges
       .pipe(
         distinctUntilChanged(),

@@ -1,13 +1,13 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
-import { IReportSettingsBuilder } from '@core/interfaces/report-settings-builder.interfaces';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
+import { ISettingsPanelFormBuilder } from '@core/interfaces/settings-panel-form-builder.interfaces';
 import { FormGroup } from '@ng-stack/forms';
 
 export interface ISettingsPanelModalData {
   title: string;
-  settings: IReportSettings;
-  settingsBuilder: IReportSettingsBuilder;
+  settings: ISettingsPanelForm;
+  settingsBuilder: ISettingsPanelFormBuilder;
 }
 
 @Component({
@@ -17,7 +17,7 @@ export interface ISettingsPanelModalData {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPanelModalComponent {
-  form: FormGroup<IReportSettings>;
+  form: FormGroup<ISettingsPanelForm>;
 
   constructor(public dialogRef: MatDialogRef<SettingsPanelModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ISettingsPanelModalData) {
