@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ITableColumnFilter, ITableFilter } from '@core/interfaces/table-filter.interfaces';
+import { ITableColumnFilter, ITableFilter } from '../../../interfaces/table-filter.interfaces';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { Validators } from '@angular/forms';
 import { markFormGroupTouched } from '@shared/helpers/form.helpers';

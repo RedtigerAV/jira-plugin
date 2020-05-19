@@ -1,5 +1,5 @@
 import { TableID } from '@core/interfaces/structure.interfaces';
-import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
+import { ITableColumn, ITableDefaultColumn } from '../../interfaces/table-column.interfaces';
 import { Observable } from 'rxjs';
 import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
 import { IReportSettingsBuilder } from '@core/interfaces/report-settings-builder.interfaces';

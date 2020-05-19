@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TableID } from '@core/interfaces/structure.interfaces';
 import { forkJoin, Observable, of } from 'rxjs';
-import { ITableFilter } from '@core/interfaces/table-filter.interfaces';
+import { ITableFilter } from '../interfaces/table-filter.interfaces';
 import * as uuid from 'uuid';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
 import { addonKey } from '@core/common-configuration/global';

@@ -1,12 +1,12 @@
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { TableID } from '@core/interfaces/structure.interfaces';
 import { Observable, of } from 'rxjs';
-import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
+import { ITableColumn, ITableDefaultColumn } from '../../interfaces/table-column.interfaces';
 import { map, switchMap } from 'rxjs/operators';
 import { IReportSettings, ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
 import { FormBuilder } from '@ng-stack/forms';
 import { LifecycleReportSettingsBuilder } from '../report-settings-builders/lifecycle-report-settings.builder';
-import { TableFilterEnum } from '@core/interfaces/table-filter.interfaces';
+import { TableFilterEnum } from '../../interfaces/table-filter.interfaces';
 import { DatePipe } from '@angular/common';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';

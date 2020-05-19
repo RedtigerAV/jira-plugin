@@ -1,4 +1,4 @@
-import { ITableSort } from '@core/interfaces/table-sort.interfaces';
+import { ITableSort } from '../../interfaces/table-sort.interfaces';
 
 export interface IReportSortsComponent {
   saveSort(sort: ITableSort): void;
