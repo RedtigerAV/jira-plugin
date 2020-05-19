@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Validators } from '@angular/forms';
 import { markFormGroupTouched } from '@shared/helpers/form.helpers';
-import { ITableSort } from '@core/interfaces/table-sort.interfaces';
+import { ITableSort } from '../../../interfaces/table-sort.interfaces';
 
 export interface IReportSortModalData {
   title: string;

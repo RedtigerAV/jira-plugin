@@ -10,20 +10,20 @@ import { BoardsDataSource } from '@core/datasources/boards.datasource';
 import { ProjectsService } from '@core/api/platform/api/projects.service';
 import { BoardsService } from '@core/api/software/api/boards.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
-import { IReportSettings, ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
+import { ISettingsPanelForm, SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
 import { BooleanFormState } from '@shared/helpers/types.helper';
 import { GroupsDataSource } from '@core/datasources/groups.datasource';
 import { GroupsService } from '@core/api/platform/api/groups.service';
 
 @Component({
-  selector: 'app-table-settings',
-  templateUrl: './table-settings.component.html',
-  styleUrls: ['./table-settings.component.scss'],
+  selector: 'app-settings-panel',
+  templateUrl: './settings-panel.component.html',
+  styleUrls: ['./settings-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableSettingsComponent implements OnInit, OnDestroy {
-  @Input() form: FormGroup<IReportSettings>;
-  @Input() hiddenControls: BooleanFormState<IReportSettings>;
+export class SettingsPanelComponent implements OnInit, OnDestroy {
+  @Input() form: FormGroup<ISettingsPanelForm>;
+  @Input() hiddenControls: BooleanFormState<ISettingsPanelForm>;
   @Input() controlsDisplay: 'row' | 'column';
 
   public projectsDataSource: ProjectsDataSource;
@@ -31,7 +31,7 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
   public periodTypeDataSource: PeriodTypeDataSource;
   public boardsDataSource: BoardsDataSource;
   public groupsDataSource: GroupsDataSource;
-  public periodTypeEnum = ReportPeriodTypesEnum;
+  public periodTypeEnum = SettingsPanelPeriodTypesEnum;
 
   private currentProject$: BehaviorSubject<string>;
   private currentBoard$: BehaviorSubject<string>;
@@ -52,7 +52,7 @@ export class TableSettingsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  public get periodType$(): Observable<ReportPeriodTypesEnum> {
+  public get periodType$(): Observable<SettingsPanelPeriodTypesEnum> {
     return this.form.controls.periodBy.valueChanges
       .pipe(startWith(this.form.value.periodBy as any));
   }

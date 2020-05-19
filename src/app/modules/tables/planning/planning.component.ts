@@ -10,8 +10,8 @@ import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/ta
 import { ProjectsService } from '@core/api/platform/api/projects.service';
 import { BoardsService } from '@core/api/software/api/boards.service';
 import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
-import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
-import { planning } from '@core/services/planning.service';
+import { ITableColumn, ITableDefaultColumn } from '../interfaces/table-column.interfaces';
+import { planning } from '../services/planning.service';
 import { markFormGroupTouched } from '@shared/helpers/form.helpers';
 
 @Component({

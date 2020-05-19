@@ -1,12 +1,12 @@
 import { IReportContext } from '../interfaces/report-context.interfaces';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { Observable, of } from 'rxjs';
-import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
+import { ITableColumn, ITableDefaultColumn } from '../../interfaces/table-column.interfaces';
 import { map, switchMap } from 'rxjs/operators';
-import { IReportSettings, ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
+import { ISettingsPanelForm, SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
 import { FormBuilder } from '@ng-stack/forms';
 import { LifecycleReportSettingsBuilder } from '../report-settings-builders/lifecycle-report-settings.builder';
-import { TableFilterEnum } from '@core/interfaces/table-filter.interfaces';
+import { TableFilterEnum } from '../../interfaces/table-filter.interfaces';
 import { DatePipe } from '@angular/common';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
@@ -126,20 +126,20 @@ export class LifecycleReportContext implements IReportContext {
     this.settingsBuilder.destroy();
   }
 
-  getTableData(settings: IReportSettings): Observable<any> {
+  getTableData(settings: ISettingsPanelForm): Observable<any> {
     const projectID = settings.project;
     const boardID = settings.board;
     let startDate: Date;
     let endDate: Date;
 
     switch (settings.periodBy) {
-      case ReportPeriodTypesEnum.SPRINT:
+      case SettingsPanelPeriodTypesEnum.SPRINT:
         startDate = new Date(settings.fromSprintPreview.startDate.toString());
         endDate = settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate
           ? new Date((settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate).toString())
           : new Date();
         break;
-      case ReportPeriodTypesEnum.DATE:
+      case SettingsPanelPeriodTypesEnum.DATE:
       default:
         startDate = new Date(settings.startDate.toString());
         endDate = new Date(settings.endDate.toString());

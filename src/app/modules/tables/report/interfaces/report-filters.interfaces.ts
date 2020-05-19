@@ -1,4 +1,4 @@
-import { ITableFilter } from '@core/interfaces/table-filter.interfaces';
+import { ITableFilter } from '../../interfaces/table-filter.interfaces';
 
 
 export interface IReportFiltersComponent {

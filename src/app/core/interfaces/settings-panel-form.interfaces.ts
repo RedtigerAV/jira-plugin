@@ -4,12 +4,12 @@ import { Sprint } from '@core/api/software/model/sprint';
 import { NgStackFormControl } from '@shared/helpers/types.helper';
 import { FoundGroupModel } from '@core/api/platform/model/foundGroup';
 
-export enum ReportPeriodTypesEnum {
+export enum SettingsPanelPeriodTypesEnum {
   DATE = 'by-date',
   SPRINT = 'by-sprint'
 }
 
-export interface IReportSettings {
+export interface ISettingsPanelForm {
   project: string;
   projectPreview?: NgStackFormControl<ProjectModel>;
   board?: string;

@@ -7,12 +7,12 @@ import { ReportContextResolver } from './report/report-context.resolver';
 
 const routes: Routes = [
   {
-    path: 'record/planning',
+    path: 'planning',
     pathMatch: 'full',
     component: PlanningComponent
   },
   {
-    path: 'report/:reportID',
+    path: ':reportID',
     component: ReportComponent,
     resolve: {
       context: ReportContextResolver

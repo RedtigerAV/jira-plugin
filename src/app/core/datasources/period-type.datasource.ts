@@ -1,15 +1,15 @@
 import { ISelectDataSource } from '@shared/components/reactive-forms/select/select.component';
 import { of } from 'rxjs';
-import { ReportPeriodTypesEnum } from '@core/interfaces/report-settings.interfaces';
+import { SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
 
 interface IPeriodTypeDataSourceOption {
-  id: ReportPeriodTypesEnum;
+  id: SettingsPanelPeriodTypesEnum;
   name: string;
 }
 
 export const periodTypeDataSource: IPeriodTypeDataSourceOption[] = [
-  { id: ReportPeriodTypesEnum.DATE, name: 'Date' },
-  { id: ReportPeriodTypesEnum.SPRINT, name: 'Sprint' }
+  { id: SettingsPanelPeriodTypesEnum.DATE, name: 'Date' },
+  { id: SettingsPanelPeriodTypesEnum.SPRINT, name: 'Sprint' }
 ];
 
 export class PeriodTypeDataSource implements ISelectDataSource {

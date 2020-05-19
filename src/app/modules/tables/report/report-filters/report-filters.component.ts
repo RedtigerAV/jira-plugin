@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IReportFiltersComponent } from '../interfaces/report-filters.interfaces';
 import { ReportMediator } from '../report.mediator';
-import { TableID } from '@core/interfaces/table-main-info.interface';
-import { ITableFilter } from '@core/interfaces/table-filter.interfaces';
-import { ReportFiltersService } from '@core/services/report-filters.service';
+import { TableID } from '@core/interfaces/structure.interfaces';
+import { ITableFilter } from '../../interfaces/table-filter.interfaces';
+import { ReportFiltersService } from '../../services/report-filters.service';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { map, switchMap, take } from 'rxjs/operators';

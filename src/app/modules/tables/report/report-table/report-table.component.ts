@@ -3,16 +3,16 @@ import { IReportTableComponent } from '../interfaces/report-table.interfaces';
 import { ReportMediator } from '../report.mediator';
 import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 import { BehaviorSubject, forkJoin, ReplaySubject } from 'rxjs';
-import { ITableColumn, ITableDefaultColumn } from '@core/interfaces/table-column.interfaces';
-import { ITableFilterState } from '@core/interfaces/table-filter.interfaces';
+import { ITableColumn, ITableDefaultColumn } from '../../interfaces/table-column.interfaces';
+import { ITableFilterState } from '../../interfaces/table-filter.interfaces';
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DatePipe } from '@angular/common';
-import { IReportSettings } from '@core/interfaces/report-settings.interfaces';
-import { TableStateEnum } from '@core/interfaces/table-state.interface';
+import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
+import { TableStateEnum } from '../../interfaces/table-state.interface';
 import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
-import { ITableSortState } from '@core/interfaces/table-sort.interfaces';
-import { ITableColumnPreview } from '@core/interfaces/table-column-preview.interface';
+import { ITableSortState } from '../../interfaces/table-sort.interfaces';
+import { ITableColumnPreview } from '../../interfaces/table-column-preview.interface';
 import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -65,7 +65,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
     this.gridApi.exportDataAsCsv({ fileName });
   }
 
-  public generateTable(settings: IReportSettings): void {
+  public generateTable(settings: ISettingsPanelForm): void {
     this.tableState$.next(TableStateEnum.LOADING);
 
     forkJoin(

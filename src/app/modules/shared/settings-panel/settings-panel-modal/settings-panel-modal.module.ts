@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableSettingsModalComponent } from './table-settings-modal.component';
+import { SettingsPanelModalComponent } from './settings-panel-modal.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
-import { TableSettingsModule } from '../table-settings.module';
+import { SettingsPanelModule } from '../settings-panel.module';
 
 
 
 @NgModule({
-  declarations: [TableSettingsModalComponent],
+  declarations: [SettingsPanelModalComponent],
   imports: [
     CommonModule,
     MatDialogModule,
-    TableSettingsModule
+    SettingsPanelModule
   ],
-  entryComponents: [TableSettingsModalComponent],
+  entryComponents: [SettingsPanelModalComponent],
   exports: [MatDialogModule],
   providers: [
     {
@@ -26,4 +26,4 @@ import { TableSettingsModule } from '../table-settings.module';
     }
   ]
 })
-export class TableSettingsModalModule { }
+export class SettingsPanelModalModule { }

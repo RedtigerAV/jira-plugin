@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { TableID } from '@core/interfaces/table-main-info.interface';
+import { TableID } from '@core/interfaces/structure.interfaces';
 import { forkJoin, Observable, of } from 'rxjs';
 import * as uuid from 'uuid';
-import { ITableSort } from '@core/interfaces/table-sort.interfaces';
+import { ITableSort } from '../interfaces/table-sort.interfaces';
 import { addonKey } from '@core/common-configuration/global';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';

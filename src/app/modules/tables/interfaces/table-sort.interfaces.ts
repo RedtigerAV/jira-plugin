@@ -1,4 +1,4 @@
-import { ITableColumnPreview } from '@core/interfaces/table-column-preview.interface';
+import { ITableColumnPreview } from './table-column-preview.interface';
 
 export interface ITableSortState {
   colId: string;

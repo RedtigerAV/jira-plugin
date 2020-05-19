@@ -7,12 +7,12 @@ import { IReportTableComponent } from './interfaces/report-table.interfaces';
 import { markFormGroupTouched } from '@shared/helpers/form.helpers';
 import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
 import { TgSnackbarDanger } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
-import { ITableFilter, ITableFilterState } from '@core/interfaces/table-filter.interfaces';
-import { TableStateEnum } from '@core/interfaces/table-state.interface';
+import { ITableFilter, ITableFilterState } from '../interfaces/table-filter.interfaces';
+import { TableStateEnum } from '../interfaces/table-state.interface';
 import { MatDialog } from '@angular/material';
 import { ReportFilterModalComponent } from './report-filters/report-filter-modal/report-filter-modal.component';
 import { take } from 'rxjs/operators';
-import { ITableSort, ITableSortState } from '@core/interfaces/table-sort.interfaces';
+import { ITableSort, ITableSortState } from '../interfaces/table-sort.interfaces';
 import { ReportSortsModalComponent } from './report-sorts/report-sorts-modal/report-sorts-modal.component';
 
 @Injectable()
