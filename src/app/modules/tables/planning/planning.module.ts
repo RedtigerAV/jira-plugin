@@ -7,7 +7,6 @@ import { NgStackFormsModule } from '@ng-stack/forms';
 import { TgCardModule } from '@shared/components/tg-card/tg-card.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { ControlPanelModule } from '../../shared/control-panel/control-panel.module';
-import { PlanningService } from './planning.service';
 
 
 
@@ -24,7 +23,6 @@ import { PlanningService } from './planning.service';
     MatProgressSpinnerModule,
     ControlPanelModule
   ],
-  exports: [PlanningComponent],
-  providers: [PlanningService]
+  exports: [PlanningComponent]
 })
 export class PlanningModule { }

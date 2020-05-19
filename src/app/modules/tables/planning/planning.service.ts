@@ -1,8 +1,25 @@
 import { Injectable } from '@angular/core';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { ITableColumn, ITableColumnPinEnum, ITableDefaultColumn } from '../interfaces/table-column.interfaces';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SprintsService } from '@core/api/software/api/sprints.service';
+import { Sprint } from '@core/api/software/model/sprint';
+import { GroupsService } from '@core/api/platform/api/groups.service';
+import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
+import { UserDetailsModel } from '@core/api/platform/model/userDetails';
+
+/**
+ * plan_info: { sprintID: {userID: number } }
+ */
+
+interface RowModel {
+  user?: {
+    accountId: string;
+    displayName?: string;
+  },
+  [key: string]: number | object
+}
 
 @Injectable()
 export class PlanningService {
@@ -13,53 +30,78 @@ export class PlanningService {
     resizable: true
   };
 
+  constructor(private readonly sprintsService: SprintsService,
+              private readonly groupsService: GroupsService,
+              private readonly planningStorageService: PlanningStorageService) {}
+
   public getColumnsDef(settings: ISettingsPanelForm): Observable<ITableColumn[]> {
-    return of([
-      {
-        field: 'user',
-        headerName: 'Пользователь',
-        pinned: ITableColumnPinEnum.LEFT
-      },
-      {
-        field: 'sprint1',
-        headerName: 'Доска Спринт 1',
-        editable: true
-      },
-      {
-        field: 'sprint2',
-        headerName: 'Доска Спринт 2',
-        editable: true
-      },
-      {
-        field: 'sprint3',
-        headerName: 'Доска Спринт 3',
-        editable: true
-      }
-    ])
-      .pipe(delay(800));
+    const boardID = settings.board;
+
+    return this.sprintsService.searchSprints(boardID, 'active,closed,future')
+      .pipe(
+        map(({values}) => values),
+        map((sprints: Sprint[]) => ([
+          {
+            field: 'user',
+            headerName: 'Пользователь',
+            cellRenderer: params => `${params.value.displayName}`,
+            pinned: ITableColumnPinEnum.LEFT
+          },
+          ...sprints.reverse().map(sprint => ({
+            field: sprint.id.toString(),
+            headerName: sprint.name,
+            editable: true
+          }))
+        ]))
+      );
   }
 
+  /**
+   * Получаю список всех спринтов
+   * Получаю список пользователей группы
+   * Получаю данные о предыдущих планированиях
+   * @param settings
+   */
   public getTableData(settings: ISettingsPanelForm): Observable<any> {
-    return of([
-      {
-        user: 'Andrew',
-        sprint1: 0,
-        sprint2: 30,
-        sprint3: 30
-      },
-      {
-        user: 'Anton Vakhrushin',
-        sprint1: 30,
-        sprint2: 25,
-        sprint3: 25
-      },
-      {
-        user: 'Ekaterina',
-        sprint1: 15,
-        sprint2: 15,
-        sprint3: 30
-      },
-    ])
-      .pipe(delay(800));
+    const groupName = settings.group;
+    const boardID = settings.board;
+    const searchSprints$ = this.sprintsService.searchSprints(boardID, 'active,closed,future')
+      .pipe(map(({values}) => values));
+    const searchUsers$ = this.groupsService.getUsersFromGroup(groupName, false)
+      .pipe(map(({values}) => values));
+
+    return forkJoin(
+      searchSprints$,
+      searchUsers$,
+      this.planningStorageService.getPlanningStorage(boardID)
+    )
+      .pipe(
+        map(([sprints, users, planning]) => this.transformData(sprints, users, planning))
+      )
+  }
+
+  // public updateTableData(rowData: RowModel): Observable<any> {
+  //
+  // }
+
+  private transformData(sprints: Sprint[], users: UserDetailsModel[], planning: IPlanningStorage): RowModel[] {
+    const result: RowModel[] = [];
+
+    users.forEach(user => {
+      const row: RowModel = {
+        user: {
+          accountId: user.accountId,
+          displayName: user.displayName
+        }
+      };
+
+      sprints.forEach(sprint => {
+        row[sprint.id.toString()] = planning && planning[user.accountId] && planning[user.accountId][sprint.id.toString()] || 0;
+      });
+
+      result.push(row);
+    });
+
+    return result;
   }
 }

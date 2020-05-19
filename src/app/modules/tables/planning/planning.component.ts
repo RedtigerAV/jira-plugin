@@ -22,7 +22,8 @@ import { MatDialog } from '@angular/material';
   selector: 'app-planning',
   templateUrl: './planning.component.html',
   styleUrls: ['./planning.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [PlanningService]
 })
 export class PlanningComponent implements OnInit, OnDestroy {
   public form: FormGroup<ISettingsPanelForm>;
