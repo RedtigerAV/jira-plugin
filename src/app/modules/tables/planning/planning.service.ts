@@ -13,7 +13,7 @@ import { UserDetailsModel } from '@core/api/platform/model/userDetails';
  * plan_info: { sprintID: {userID: number } }
  */
 
-interface RowModel {
+interface IPlanningRowModel {
   user?: {
     accountId: string;
     displayName?: string;
@@ -80,15 +80,29 @@ export class PlanningService {
       )
   }
 
-  // public updateTableData(rowData: RowModel): Observable<any> {
-  //
-  // }
+  public updateTableData(boardID: string, rowData: IPlanningRowModel[]): Observable<any> {
+    const planning = {};
 
-  private transformData(sprints: Sprint[], users: UserDetailsModel[], planning: IPlanningStorage): RowModel[] {
-    const result: RowModel[] = [];
+    rowData.forEach(data => {
+      const accountID = data.user.accountId;
+
+      planning[accountID] = {};
+
+      Object.keys(data).forEach(key => {
+        if (key !== 'user') {
+          planning[accountID][key] = (Number(data[key]) || 0) * 3600;
+        }
+      });
+    });
+
+    return this.planningStorageService.setPlanningStorage(boardID, planning);
+  }
+
+  private transformData(sprints: Sprint[], users: UserDetailsModel[], planning: IPlanningStorage): IPlanningRowModel[] {
+    const result: IPlanningRowModel[] = [];
 
     users.forEach(user => {
-      const row: RowModel = {
+      const row: IPlanningRowModel = {
         user: {
           accountId: user.accountId,
           displayName: user.displayName
@@ -96,7 +110,7 @@ export class PlanningService {
       };
 
       sprints.forEach(sprint => {
-        row[sprint.id.toString()] = planning && planning[user.accountId] && planning[user.accountId][sprint.id.toString()] || 0;
+        row[sprint.id.toString()] = (planning && planning[user.accountId] && planning[user.accountId][sprint.id.toString()] || 0) / 3600;
       });
 
       result.push(row);

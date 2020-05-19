@@ -91,11 +91,16 @@ export class PlanningComponent implements OnInit, OnDestroy {
     this.settingsBuilder.destroy();
   }
 
-  public onCellEditingStop({data}: any) {
-    console.log(data);
+  public onCellEditingStop(): void {
+    let rowData = [];
+    this.gridApi.forEachNode(node => rowData.push(node.data));
+
+    this.planningService.updateTableData(this.form.value.board, rowData)
+      .pipe(take(1))
+      .subscribe();
   }
 
-  public onGridReady(params: DetailGridInfo) {
+  public onGridReady(params: DetailGridInfo): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
   }

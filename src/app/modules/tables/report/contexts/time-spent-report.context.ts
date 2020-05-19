@@ -20,6 +20,7 @@ import { Sprint } from '@core/api/software/model/sprint';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { PageBeanUserDetailsModel } from '@core/api/platform/model/pageBeanUserDetails';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
+import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
 
 interface RowModel {
   user?: string;
@@ -42,6 +43,7 @@ export class TimeSpentReportContext implements IReportContext {
               public sprintsService: SprintsService,
               public issueSearchService: IssueSearchService,
               public groupsService: GroupsService,
+              public planningStorageService: PlanningStorageService,
               public fb: FormBuilder,
               public locale: string) {
     this.datePipe = new DatePipe(locale);
@@ -143,10 +145,11 @@ export class TimeSpentReportContext implements IReportContext {
 
           return forkJoin(
             this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog'),
-            this.groupsService.getUsersFromGroup(groupName, false)
+            this.groupsService.getUsersFromGroup(groupName, false),
+            this.planningStorageService.getPlanningStorage(boardID)
           )
             .pipe(
-              map(([data, users]) => this.transformData(data, sprints, users))
+              map(([data, users, planning]) => this.transformData(data, sprints, users, planning))
             );
         })
       );
@@ -156,7 +159,7 @@ export class TimeSpentReportContext implements IReportContext {
     this.settingsBuilder.destroy();
   }
 
-  private transformData(data: SearchResultsModel, sprints: Sprint[], users: PageBeanUserDetailsModel): any {
+  private transformData(data: SearchResultsModel, sprints: Sprint[], users: PageBeanUserDetailsModel, planning: IPlanningStorage): any {
     let result: RowModel[] = [];
 
     sprints.forEach(sprint => {
@@ -169,14 +172,14 @@ export class TimeSpentReportContext implements IReportContext {
           doneNumber: 0,
           doneTime: 0,
           trackedTime: 0,
-          scheduledTime: 0
+          scheduledTime: planning && planning[user.accountId] && planning[user.accountId][sprint.id.toString()] || 0
         });
       });
 
       data.issues.forEach(issue => {
-        if (getCurrentSprint(issue).id === sprint.id) {
-          const issueUser = issue.fields['assignee']['accountId'];
+        const issueUser = issue.fields['assignee'] && issue.fields['assignee']['accountId'];
 
+        if (getCurrentSprint(issue).id === sprint.id && issueUser) {
           usersRowMap.get(issueUser).doneTime += Number(issue.fields['timeoriginalestimate']) || 0;
           usersRowMap.get(issueUser).doneNumber += 1;
 
