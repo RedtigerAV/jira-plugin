@@ -1,4 +1,14 @@
-<app-header [title]="'Планирование'" [backButtonLink]="'../'"></app-header>
+<app-header [title]="'Планирование'" [backButtonLink]="'../'">
+  <app-header-actions>
+    <button
+      mat-icon-button
+      class="tg-button-icon tg-button-icon--outline"
+      (click)="onSettings()"
+    >
+      <mat-icon class="tg-icon">settings</mat-icon>
+    </button>
+  </app-header-actions>
+</app-header>
 
 <div class="layout">
   <div class="item">
@@ -16,24 +26,33 @@
     <app-tg-card class="planning-table">
       <app-tg-card-title>Planning</app-tg-card-title>
       <app-tg-card-content>
-        <div style="width: 100%; text-align: center;" *ngIf="unset | async">
-          <span style="color: #657195" class="tg-h4">Нажмите <strong>Начать планирование</strong> чтобы отобразить таблицу</span>
-        </div>
+        <ng-container *ngIf="tableState$ | async as state">
+          <div class="table-wrapper">
+            <ng-container [ngSwitch]="state">
+              <ng-container *ngSwitchCase="tableStateEnum.NOT_LOADED">
+                <span class="tg-h4 placeholder-text">Нажмите <strong>Начать планирование</strong> чтобы отобразить таблицу</span>
+              </ng-container>
 
-        <mat-spinner *ngIf="loader | async" style="margin: auto"></mat-spinner>
+              <ng-container *ngSwitchCase="tableStateEnum.LOADING">
+                <mat-spinner class="spinner"></mat-spinner>
+              </ng-container>
 
-        <ag-grid-angular
-            #agPlanningGrid
-            *ngIf="loaded | async"
-            id="myPlanningGrid"
-            class="ag-theme-material table-content"
-            [columnDefs]="columnDefs"
-            [defaultColDef]="defaultColDef"
-            [rowData]="rowData"
-            [suppressDragLeaveHidesColumns]="true"
-            (gridReady)="onGridReady($event)"
-            (cellEditingStopped)="onCellEditingStop($event)"
-        ></ag-grid-angular>
+              <ng-container *ngSwitchCase="tableStateEnum.LOADED">
+                <ag-grid-angular
+                    #agPlanningGrid
+                    id="myPlanningGrid"
+                    class="ag-theme-material table-content"
+                    [columnDefs]="columnDefs$ | async"
+                    [defaultColDef]="defaultColDef$ | async"
+                    [rowData]="rowData$ | async"
+                    [suppressDragLeaveHidesColumns]="true"
+                    (gridReady)="onGridReady($event)"
+                    (cellEditingStopped)="onCellEditingStop($event)"
+                ></ag-grid-angular>
+              </ng-container>
+            </ng-container>
+          </div>
+        </ng-container>
       </app-tg-card-content>
     </app-tg-card>
   </div>

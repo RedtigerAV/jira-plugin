@@ -1,10 +1,16 @@
 import { TableFilterEnum } from './table-filter.interfaces';
 import { ITableColumnPreview } from './table-column-preview.interface';
 
+export enum ITableColumnPinEnum {
+  LEFT = 'left',
+  RIGHT = 'right'
+}
+
 export interface ITableColumn extends ITableDefaultColumn, ITableColumnPreview {
   cellRenderer?: (params: any) => string;
   editable?: boolean;
   children?: ITableColumn[];
+  pinned?: ITableColumnPinEnum;
 }
 
 export interface ITableDefaultColumn {
