@@ -278,7 +278,7 @@ export class DynamicReportContext implements IReportContext {
 
       data.issues.forEach(issue => {
         const estimate: number = Number(issue.fields['timeoriginalestimate']) || 0;
-        let sprint = getSprintByDate(issue, displayDate);
+        let sprint = getSprintByDate(issue, currentDate);
         let statusID = issue.fields['status']['id'];
 
         if (issue.changelog && issue.changelog.histories) {
