@@ -1,4 +1,4 @@
-export interface IChartData {
+export interface ILinearChartData {
   name: string;
   series: IChartSeries[];
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { IChartData } from '../interfaces/chart-data.interfaces';
+import { ILinearChartData } from '../interfaces/chart-data.interfaces';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { GroupsService } from '@core/api/platform/api/groups.service';
@@ -19,7 +19,7 @@ export class AverageProductivityService {
     private readonly groupsService: GroupsService
   ){}
 
-  public getData(settings: ISettingsPanelForm): Observable<IChartData[]> {
+  public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
     const groupName = settings.group;
     const projectID = settings.project;
     const boardID = settings.board;
@@ -45,13 +45,13 @@ export class AverageProductivityService {
       );
   }
 
-  private transformData(issues: IssueBeanModel[], sprints: Sprint[], users: UserDetailsModel[]): IChartData[] {
+  private transformData(issues: IssueBeanModel[], sprints: Sprint[], users: UserDetailsModel[]): ILinearChartData[] {
     const usersGroupIds = new Set(users.map(({accountId}) => accountId));
-    const tracked: IChartData = {
+    const tracked: ILinearChartData = {
       name: 'По затраченному времени',
       series: []
     };
-    const done: IChartData = {
+    const done: ILinearChartData = {
       name: 'По первоначальной оценке задач',
       series: []
     };
@@ -94,12 +94,12 @@ export class AverageProductivityService {
       if (activeUsersLength > 0) {
         tracked.series.push({
           name: sprint.name,
-          value: Math.round((trackedTime / activeUsersLength) / 3600)
+          value: Number(((trackedTime / activeUsersLength) / 3600).toFixed(2))
         });
 
         done.series.push({
           name: sprint.name,
-          value: Math.round((doneTime / activeUsersLength) / 3600)
+          value: Number(((doneTime / activeUsersLength) / 3600).toFixed(2))
         });
       }
     });

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ChartsRoutingModule } from './charts-routing.module';
 import { AverageProductivityModule } from './average-productivity/average-productivity.module';
+import { UnfinishedWorkModule } from './unfinished-work/unfinished-work.module';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { AverageProductivityModule } from './average-productivity/average-produc
   imports: [
     CommonModule,
     ChartsRoutingModule,
-    AverageProductivityModule
+    AverageProductivityModule,
+    UnfinishedWorkModule
   ]
 })
 export class ChartsModule { }
