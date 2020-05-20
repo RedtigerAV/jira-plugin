@@ -1,0 +1,60 @@
+<app-header [title]="'Средняя производительность'" [backButtonLink]="'../'">
+  <app-header-actions>
+    <button
+      mat-icon-button
+      class="tg-button-icon tg-button-icon--outline"
+      (click)="onSettings()"
+    >
+      <mat-icon class="tg-icon">settings</mat-icon>
+    </button>
+  </app-header-actions>
+</app-header>
+
+<div class="layout">
+  <div class="item">
+    <ng-container *ngIf="form">
+      <app-control-panel
+        [form]="form"
+        [hiddenControls]="hiddenControls"
+        [controlsDisplay]="'column'"
+        [actions]="actions"
+      ></app-control-panel>
+    </ng-container>
+  </div>
+
+  <div class="item">
+    <app-tg-card>
+      <app-tg-card-title>График</app-tg-card-title>
+      <app-tg-card-content>
+        <div class="chart-wrapper">
+          <div [hidden]="(chartState$ | async) !== chartStateEnum.NOT_LOADED">
+            <span class="tg-h4 placeholder-text">Нажмите <strong>Рассчитать показатель</strong> чтобы отобразить график</span>
+          </div>
+
+          <div [hidden]="(chartState$ | async) !== chartStateEnum.LOADING">
+            <mat-spinner class="spinner"></mat-spinner>
+          </div>
+
+          <div [hidden]="(chartState$ | async) !== chartStateEnum.LOADED">
+            <ngx-charts-line-chart
+              [view]="[width, height]"
+              [scheme]="colorScheme"
+              [legend]="legend$ | async"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              [legendPosition]="legendPosition"
+              [legendTitle]="legendTitle"
+              [xAxis]="xAxis"
+              [yAxis]="yAxis"
+              [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]="yAxisLabel"
+              [timeline]="timeline"
+              [results]="chartData$ | async"
+            >
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </app-tg-card-content>
+    </app-tg-card>
+  </div>
+</div>

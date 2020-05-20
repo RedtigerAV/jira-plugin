@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 export abstract class ChartComponentBase {
   public view: any[] = [undefined, 500];
   public legend$ = new BehaviorSubject<boolean>(false);
-  public showLabels = true;
   public animations = true;
   public xAxis = true;
   public yAxis = true;

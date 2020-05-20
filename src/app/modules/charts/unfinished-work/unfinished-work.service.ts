@@ -36,21 +36,6 @@ export class UnfinishedWorkService {
             )
         })
       );
-
-    // return of([
-    //   {
-    //     "name": "Germany",
-    //     "value": 8940000
-    //   },
-    //   {
-    //     "name": "USA",
-    //     "value": 5000000
-    //   },
-    //   {
-    //     "name": "France",
-    //     "value": 7200000
-    //   }
-    // ]).pipe(delay(1000));
   }
 
   private transformData(issues: IssueBeanModel[], sprints: Sprint[]): IChartSeries[] {
