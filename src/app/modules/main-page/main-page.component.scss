@@ -20,46 +20,8 @@
   width: 50%;
   color: var(--tg-color-secondary-text);
 }
-.main-page {
-  &__block {
-    margin-bottom: var(--tg-gap);
-  }
-}
 
-.title {
-  display: flex;
-  width: 100%;
-  align-items: center;
-
-  &:first-child {
-    margin-right: var(--tg-rhythm-1);
-  }
-}
-
-.subtitle {
-  width: 50%;
-}
-.main-page {
-  &__block {
-    margin-bottom: var(--tg-gap);
-  }
-}
-
-.title {
-  display: flex;
-  width: 100%;
-  align-items: center;
-
-  &:first-child {
-    margin-right: var(--tg-rhythm-1);
-  }
-}
-
-.subtitle {
-  width: 50%;
-}
-
-.tables-cards {
+.tables {
   display: grid;
   grid-row-gap: var(--tg-gap);
   grid-column-gap: var(--tg-gap);
@@ -69,6 +31,26 @@
     'lifecycle dynamic timespent'
     'lifecycle dynamic timespent'
     'lifecycle planning planning';
+}
+
+.charts {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.chart-card {
+  flex: 30%;
+  margin-right: var(--tg-gap);
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:focus {
+    outline: none;
+    text-decoration: none;
+  }
 }
 
 .table-card {

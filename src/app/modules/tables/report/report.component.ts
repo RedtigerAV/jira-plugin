@@ -1,12 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { IReportContext } from './interfaces/report-context.interfaces';
 import { ActivatedRoute } from '@angular/router';
-import { DefaultSettingsService } from '@core/services/default-settings.service';
-import { switchMap, take } from 'rxjs/operators';
-import { SettingsPanelModalComponent } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.component';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { MatDialog } from '@angular/material';
-import { EMPTY } from 'rxjs';
+import { SettingsPanelModalService } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.service';
+import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
+import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
 
 @Component({
   selector: 'app-report',
@@ -18,8 +16,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   public readonly context: IReportContext;
 
   constructor(private readonly activatedRoute: ActivatedRoute,
-              private readonly dialog: MatDialog,
-              private readonly reportDefaultSettingsService: DefaultSettingsService) {
+              private readonly snackbar: TgSnackbarService,
+              private readonly settingsPanelModalService: SettingsPanelModalService) {
     this.context = this.activatedRoute.snapshot.data.context;
   }
 
@@ -31,27 +29,10 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   public onSettings(): void {
-    this.reportDefaultSettingsService.getReportDefaultSettings(this.context.tableID)
-      .pipe(
-        switchMap(settings => {
-          const settingsBuilder = this.context.settingsBuilder;
-          const dialogRef = this.dialog.open(SettingsPanelModalComponent, {
-            data: {
-              title: `Default settings for ${this.context.title}`,
-              settings,
-              settingsBuilder
-            }
-          });
-
-          return dialogRef.afterClosed().pipe(take(1))
-        }),
-        switchMap(defaultSettings =>
-          defaultSettings
-            ? this.reportDefaultSettingsService.setReportDefaultSettings(this.context.tableID, defaultSettings)
-            : EMPTY
-        ),
-        takeUntilDestroyed(this)
-      )
-      .subscribe();
+    this.settingsPanelModalService.openDefaultSettingsPanelModel(this.context.tableID, this.context.settingsBuilder)
+      .pipe(takeUntilDestroyed(this))
+      .subscribe(() => {
+        this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
+      });
   }
 }

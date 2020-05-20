@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
-import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 import { ITableColumn, ITableDefaultColumn } from '../interfaces/table-column.interfaces';
 import { IActionItem } from '../../shared/actions-panel/actions-panel.component';
@@ -15,8 +15,7 @@ import { DefaultSettingsService } from '@core/services/default-settings.service'
 import { TableID } from '@core/interfaces/structure.interfaces';
 import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
 import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
-import { SettingsPanelModalComponent } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.component';
-import { MatDialog } from '@angular/material';
+import { SettingsPanelModalService } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.service';
 
 @Component({
   selector: 'app-planning',
@@ -27,15 +26,7 @@ import { MatDialog } from '@angular/material';
 })
 export class PlanningComponent implements OnInit, OnDestroy {
   public form: FormGroup<ISettingsPanelForm>;
-  public hiddenControls: BooleanFormState<ISettingsPanelForm> = {
-    periodBy: true,
-    startDate: true,
-    endDate: true,
-    fromSprint: true,
-    fromSprintPreview: true,
-    toSprint: true,
-    toSprintPreview: true
-  };
+  public hiddenControls: BooleanFormState<ISettingsPanelForm>;
   public actions: IActionItem[] = [
     {
       title: 'Начать планирование',
@@ -61,7 +52,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
   public rowData$: ReplaySubject<any[]>;
   public tableState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
   public tableStateEnum = StructureStateEnum;
-  public settingsBuilder = new PlanningSettingsBuilder(this.fb);
+  public settingsBuilder: PlanningSettingsBuilder;
 
   private gridApi: GridApi;
   private gridColumnApi: ColumnApi;
@@ -69,17 +60,19 @@ export class PlanningComponent implements OnInit, OnDestroy {
 
   constructor(private readonly fb: FormBuilder,
               private readonly cdr: ChangeDetectorRef,
-              private readonly dialog: MatDialog,
+              private readonly settingsPanelModalService: SettingsPanelModalService,
               private readonly defaultSettingsService: DefaultSettingsService,
               private readonly snackbar: TgSnackbarService,
               private readonly planningService: PlanningService) {
     this.rowData$ = new ReplaySubject<any[]>(1);
     this.columnDefs$ = new ReplaySubject<any[]>(1);
     this.defaultColDef$ = new ReplaySubject<any>(1);
+    this.settingsBuilder = new PlanningSettingsBuilder(this.fb);
+    this.hiddenControls = this.settingsBuilder.hiddenControls;
   }
 
   ngOnInit(): void {
-    this.defaultSettingsService.getReportDefaultSettings(this.tableID)
+    this.defaultSettingsService.getDefaultSettings(this.tableID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
         this.form = this.settingsBuilder.getSettingsFromGroup(settings);
@@ -106,7 +99,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
   }
 
   public applyDefaultSettings(): void {
-    this.defaultSettingsService.getReportDefaultSettings(this.tableID)
+    this.defaultSettingsService.getDefaultSettings(this.tableID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
         this.form.patchValue(settings);
@@ -115,7 +108,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
   }
 
   public saveSettingsAsDefault(): void {
-    this.defaultSettingsService.setReportDefaultSettings(this.tableID, this.form.getRawValue())
+    this.defaultSettingsService.setDefaultSettings(this.tableID, this.form.getRawValue())
       .pipe(takeUntilDestroyed(this))
       .subscribe(() => {
         this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
@@ -123,28 +116,11 @@ export class PlanningComponent implements OnInit, OnDestroy {
   }
 
   public onSettings(): void {
-    this.defaultSettingsService.getReportDefaultSettings(this.tableID)
-      .pipe(
-        switchMap(settings => {
-          const settingsBuilder = this.settingsBuilder;
-          const dialogRef = this.dialog.open(SettingsPanelModalComponent, {
-            data: {
-              title: `Настройки по умолчанию для Планирования`,
-              settings,
-              settingsBuilder
-            }
-          });
-
-          return dialogRef.afterClosed().pipe(take(1))
-        }),
-        switchMap(defaultSettings =>
-          defaultSettings
-            ? this.defaultSettingsService.setReportDefaultSettings(this.tableID, defaultSettings)
-            : EMPTY
-        ),
-        takeUntilDestroyed(this)
-      )
-      .subscribe();
+    this.settingsPanelModalService.openDefaultSettingsPanelModel(this.tableID, this.settingsBuilder)
+      .pipe(takeUntilDestroyed(this))
+      .subscribe(() => {
+        this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
+      });
   }
 
   private generateTable(): void {
