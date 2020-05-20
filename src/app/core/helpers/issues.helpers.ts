@@ -49,3 +49,14 @@ export function getSprintByDate(issue: IssueBeanModel, date: Date): Sprint | nul
     .map(data => getSprintFromGreenhopperData(data))
     .find(sprint => new Date(sprint.startDate) <= date && new Date(sprint.completeDate || sprint.endDate) >= date);
 }
+
+export function getAllSprints(issue: IssueBeanModel): Sprint[] {
+  const greenhopperData: string[] = issue.fields['customfield_10020'] as string[];
+
+  if (!greenhopperData) {
+    return [];
+  }
+
+  return greenhopperData
+    .map(data => getSprintFromGreenhopperData(data));
+}

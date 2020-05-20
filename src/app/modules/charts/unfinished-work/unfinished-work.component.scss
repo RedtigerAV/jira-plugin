@@ -1,0 +1,29 @@
+.layout {
+  padding: var(--tg-gap) 0;
+}
+
+.item {
+  width: 100%;
+  margin-bottom: var(--tg-gap);
+}
+
+.chart-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  will-change: height;
+}
+
+.placeholder-text {
+  margin: auto;
+  color: var(--tg-color-secondary-text);
+}
+
+.spinner {
+  margin: auto;
+}
+
+.chart-content {
+  width: 100%;
+  height: 700px;
+}
