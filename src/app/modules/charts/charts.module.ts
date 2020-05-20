@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ChartsRoutingModule } from './charts-routing.module';
 import { AverageProductivityModule } from './average-productivity/average-productivity.module';
 import { UnfinishedWorkModule } from './unfinished-work/unfinished-work.module';
+import { PlanFactModule } from './plan-fact/plan-fact.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { UnfinishedWorkModule } from './unfinished-work/unfinished-work.module';
     CommonModule,
     ChartsRoutingModule,
     AverageProductivityModule,
-    UnfinishedWorkModule
+    UnfinishedWorkModule,
+    PlanFactModule
   ]
 })
 export class ChartsModule { }
