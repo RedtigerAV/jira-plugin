@@ -5,10 +5,10 @@ export enum TableID {
   PLANNING = 'planning'
 }
 
-export enum DiagramID {
+export enum ChartID {
   AVERAGE_PRODUCTIVITY = 'average-productivity',
   UNFINISHED_WORK = 'unfinished-work',
   PLAN_FACT = 'plan-fact'
 }
 
-export type StructureID = TableID | DiagramID;
+export type StructureID = TableID | ChartID;

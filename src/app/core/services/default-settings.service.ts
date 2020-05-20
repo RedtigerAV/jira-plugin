@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { StructureID } from '@core/interfaces/structure.interfaces';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
@@ -15,7 +15,7 @@ export class DefaultSettingsService {
   constructor(private readonly appPropertiesService: AppPropertiesService) {}
 
   //ToDo: разобраться, почему не работает при перехвате ошибки
-  public getReportDefaultSettings(structureID: StructureID): Observable<ISettingsPanelForm> {
+  public getDefaultSettings(structureID: StructureID): Observable<ISettingsPanelForm> {
     return this.appPropertiesService.getAddonProperties(addonKey)
       .pipe(
         switchMap(({keys}) => {
@@ -42,7 +42,7 @@ export class DefaultSettingsService {
       );
   }
 
-  public setReportDefaultSettings(structureID: StructureID, settings: ISettingsPanelForm): Observable<ISettingsPanelForm> {
+  public setDefaultSettings(structureID: StructureID, settings: ISettingsPanelForm): Observable<ISettingsPanelForm> {
     return this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(structureID), settings)
       .pipe(
         map(() => settings),

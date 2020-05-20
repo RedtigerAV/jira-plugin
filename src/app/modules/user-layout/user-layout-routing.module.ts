@@ -13,14 +13,13 @@ const routes: Routes = [
         pathMatch: 'full',
         component: MainPageComponent
       },
-      // {
-      //   path: 'settings',
-      //   pathMatch: 'full',
-      //   component: ReportComponent
-      // },
       {
         path: 'tables',
         loadChildren: () => import('../tables/tables.module').then(m => m.TablesModule)
+      },
+      {
+        path: 'charts',
+        loadChildren: () => import('../charts/charts.module').then(m => m.ChartsModule)
       },
       {
         path: '**',

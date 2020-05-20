@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SettingsPanelModalComponent } from './settings-panel-modal.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 import { SettingsPanelModule } from '../settings-panel.module';
+import { SettingsPanelModalService } from './settings-panel-modal.service';
 
 
 
@@ -23,7 +24,8 @@ import { SettingsPanelModule } from '../settings-panel.module';
         disableClose: true,
         panelClass: 'tg-dialog'
       }
-    }
+    },
+    SettingsPanelModalService
   ]
 })
 export class SettingsPanelModalModule { }

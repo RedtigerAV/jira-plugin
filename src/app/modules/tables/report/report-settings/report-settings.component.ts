@@ -28,7 +28,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
   }
 
   ngOnInit() {
-    this.reportDefaultSettingsService.getReportDefaultSettings(this.context.tableID)
+    this.reportDefaultSettingsService.getDefaultSettings(this.context.tableID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
         this.form = this.context.settingsBuilder.getSettingsFromGroup(settings);
@@ -39,7 +39,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
   ngOnDestroy(): void {}
 
   applyDefaultSettings(): void {
-    this.reportDefaultSettingsService.getReportDefaultSettings(this.context.tableID)
+    this.reportDefaultSettingsService.getDefaultSettings(this.context.tableID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
         this.form.patchValue(settings);
@@ -48,7 +48,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
   }
 
   saveSettingsAsDefault(): void {
-    this.reportDefaultSettingsService.setReportDefaultSettings(this.context.tableID, this.form.getRawValue())
+    this.reportDefaultSettingsService.setDefaultSettings(this.context.tableID, this.form.getRawValue())
       .pipe(takeUntilDestroyed(this))
       .subscribe(() => {
         this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
