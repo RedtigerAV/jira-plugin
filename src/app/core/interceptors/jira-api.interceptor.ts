@@ -3,6 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } fr
 import { Observable, from } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { parse } from 'url';
+import { basePath } from '@core/common-configuration/global';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { parse } from 'url';
 export class JiraApiInterceptor implements HttpInterceptor {
   constructor(private zone: NgZone) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('https://timgo.atlassian.net')) {
+    if (req.url.includes(basePath)) {
       // tslint:disable-next-line: no-string-literal
       const request = window['AP'].request;
       const url = parse(req.url);

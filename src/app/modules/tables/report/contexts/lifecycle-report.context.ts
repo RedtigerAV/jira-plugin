@@ -31,7 +31,7 @@ const filteredFields = ['status', 'timeoriginalestimate', 'sprint', 'timespent',
 const watchedFields = ['assignee', 'summary'];
 
 export class LifecycleReportContext implements IReportContext {
-  title = 'Tasks lifecycle report';
+  title = 'Жизненный цикл задач';
   tableID = TableID.LIFECYCLE;
   settingsBuilder = new LifecycleReportSettingsBuilder(this.fb);
 

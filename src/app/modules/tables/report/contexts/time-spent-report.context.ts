@@ -32,7 +32,7 @@ interface RowModel {
 }
 
 export class TimeSpentReportContext implements IReportContext {
-  title = 'Total time spent report';
+  title = 'Оценка общего затраченного времени';
   tableID = TableID.TIME_SPENT;
   settingsBuilder = new TimeSpentReportSettingsBuilder(this.fb);
 

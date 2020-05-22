@@ -26,7 +26,7 @@ interface RowModel {
 }
 
 export class DynamicReportContext implements IReportContext {
-  title = 'Dynamic of the tasks report';
+  title = 'Динамика выполнения задач';
   tableID = TableID.DYNAMIC;
   settingsBuilder = new DynamicReportSettingsBuilder(this.fb);
 
