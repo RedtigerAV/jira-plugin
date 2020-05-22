@@ -21,6 +21,7 @@ import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { PageBeanUserDetailsModel } from '@core/api/platform/model/pageBeanUserDetails';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
+import { secondsToHoursAndMinutes } from '@core/helpers/time.helpers';
 
 interface RowModel {
   user?: string;
@@ -64,17 +65,20 @@ export class TimeSpentReportContext implements IReportContext {
       {
         field: 'scheduledTime',
         headerName: 'Запланированно часов',
+        cellRenderer: params => secondsToHoursAndMinutes(params.value),
         filter: TableFilterEnum.NUMBER
       },
       {
         field: 'doneTime',
         headerName: 'Завершенные задачи, время',
+        cellRenderer: params => secondsToHoursAndMinutes(params.value),
         filter: TableFilterEnum.NUMBER
       },
       {
         field: 'trackedTime',
         headerName: 'Списанное время',
-        filter: TableFilterEnum.NUMBER
+        filter: TableFilterEnum.NUMBER,
+        cellRenderer: params => secondsToHoursAndMinutes(params.value),
       },
       {
         field: 'sprint',

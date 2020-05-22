@@ -18,6 +18,7 @@ import { Sprint } from '@core/api/software/model/sprint';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { getSprintByDate } from '@core/helpers/issues.helpers';
 import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
+import { secondsToHoursAndMinutes } from '@core/helpers/time.helpers';
 
 interface RowModel {
   sprint?: string;
@@ -71,7 +72,8 @@ export class DynamicReportContext implements IReportContext {
               {
                 field: 'all$time',
                 headerName: 'Всего задач, время',
-                filter: TableFilterEnum.NUMBER
+                filter: TableFilterEnum.NUMBER,
+                cellRenderer: params => secondsToHoursAndMinutes(params.value),
               }
             ]
           },
@@ -87,7 +89,8 @@ export class DynamicReportContext implements IReportContext {
               {
                 field: 'left$time',
                 headerName: 'Осталось задач, время',
-                filter: TableFilterEnum.NUMBER
+                filter: TableFilterEnum.NUMBER,
+                cellRenderer: params => secondsToHoursAndMinutes(params.value),
               }
             ]
           }
@@ -210,7 +213,8 @@ export class DynamicReportContext implements IReportContext {
         {
           field: status.id + '$time',
           filter: TableFilterEnum.NUMBER,
-          headerName: status.name + ', время'
+          headerName: status.name + ', время',
+          cellRenderer: params => secondsToHoursAndMinutes(params.value),
         }
       ]
     }

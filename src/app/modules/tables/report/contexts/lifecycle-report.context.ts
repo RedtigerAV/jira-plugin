@@ -1,7 +1,7 @@
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { TableID } from '@core/interfaces/structure.interfaces';
 import { Observable, of } from 'rxjs';
-import { ITableColumn, ITableDefaultColumn } from '../../interfaces/table-column.interfaces';
+import { ITableColumn, ITableColumnPinEnum, ITableDefaultColumn } from '../../interfaces/table-column.interfaces';
 import { map, switchMap } from 'rxjs/operators';
 import { ISettingsPanelForm, SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
 import { FormBuilder } from '@ng-stack/forms';
@@ -15,6 +15,7 @@ import { SprintsService } from '@core/api/software/api/sprints.service';
 import { Sprint } from '@core/api/software/model/sprint';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
+import { secondsToHoursAndMinutes } from '@core/helpers/time.helpers';
 
 interface IssueRowModel {
   link?: string;
@@ -47,22 +48,23 @@ export class LifecycleReportContext implements IReportContext {
   /**
    * ToDo: навесить компараторы для сортирвоки
    * ToDo: навесить компараторы для фильтрации
-   * ToDo: сделать cellRendering для timeSpent, timeOriginalSpent
    * ToDo: убрать из экспортируемой таблицы знак -> (возможно через переопределение toString)
    */
   getTableColumnsDef(): Observable<ITableColumn[]> {
     return of([
+      {
+        field: 'summary',
+        headerName: 'Summary',
+        minWidth: 300,
+        pinned: ITableColumnPinEnum.LEFT,
+        filter: TableFilterEnum.TEXT
+      },
       {
         field: 'link',
         headerName: 'Issue Link',
         filter: TableFilterEnum.TEXT,
         minWidth: 300,
         cellRenderer: params => `<a href="${params.value}" target="_blank" style="cursor: pointer">${params.value}</a>`
-      },
-      {
-        field: 'summary',
-        headerName: 'Summary',
-        filter: TableFilterEnum.TEXT
       },
       {
         field: 'type',
@@ -93,12 +95,14 @@ export class LifecycleReportContext implements IReportContext {
       {
         field: 'timespent',
         headerName: 'Time Spent',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        cellRenderer: params => this.timeCellRenderer(params.value)
       },
       {
         field: 'timeoriginalestimate',
         headerName: 'Original estimate',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        cellRenderer: params => this.timeCellRenderer(params.value)
       },
       {
         field: 'status',
@@ -219,5 +223,15 @@ export class LifecycleReportContext implements IReportContext {
     result = result.sort((r1, r2) => new Date(r1.date).getTime() - new Date(r2.date).getTime());
 
     return result;
+  }
+
+  private timeCellRenderer(value: string): string {
+    if (!value) {
+      return undefined;
+    }
+
+    const values = value.split('⮕');
+
+    return values.map(time => secondsToHoursAndMinutes(time)).join(' ⮕ ');
   }
 }
