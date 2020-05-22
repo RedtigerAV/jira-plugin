@@ -49,7 +49,7 @@ export class ReportSortsComponent implements OnInit, OnDestroy, IReportSortsComp
 
   applySort(sort: ITableSort): void {
     if (!this.mediator.isTableLoaded) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Сначала сгенерируйте таблицу'));
 
       return;
     }
