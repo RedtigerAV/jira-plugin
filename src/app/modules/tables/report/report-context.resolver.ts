@@ -2,7 +2,6 @@ import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { IReportContext } from './interfaces/report-context.interfaces';
 import { LifecycleReportContext } from './contexts/lifecycle-report.context';
-import { HttpClient } from '@angular/common/http';
 import { TableID } from '@core/interfaces/structure.interfaces';
 import { FormBuilder } from '@ng-stack/forms';
 import { DynamicReportContext } from './contexts/dynamic-report.context';
@@ -18,8 +17,7 @@ import { PlanningStorageService } from '@core/services/planning-storage.service'
   providedIn: 'root'
 })
 export class ReportContextResolver implements Resolve<IReportContext> {
-  constructor(private readonly http: HttpClient,
-              private readonly router: Router,
+  constructor(private readonly router: Router,
               private readonly fb: FormBuilder,
               private readonly issueSearchService: IssueSearchService,
               private readonly sprintsService: SprintsService,

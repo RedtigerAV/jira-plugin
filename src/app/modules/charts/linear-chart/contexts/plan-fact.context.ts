@@ -1,25 +1,38 @@
-import { Injectable } from '@angular/core';
+import { ILinearChartContext } from './context.interface';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { forkJoin, Observable } from 'rxjs';
-import { ILinearChartData } from '../interfaces/chart-data.interfaces';
+import { ILinearChartData } from '../../interfaces/chart-data.interfaces';
+import { ChartID } from '@core/interfaces/structure.interfaces';
+import { PlanFactSettingsBuilder } from '../settings-builders/plan-fact-settings.builder';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { GroupsService } from '@core/api/platform/api/groups.service';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
+import { FormBuilder } from '@ng-stack/forms';
 import { map, switchMap } from 'rxjs/operators';
 import { IssueBeanModel } from '@core/api/platform/model/issueBean';
 import { Sprint } from '@core/api/software/model/sprint';
 import { UserDetailsModel } from '@core/api/platform/model/userDetails';
 import { getAllSprints } from '@core/helpers/issues.helpers';
 
-@Injectable()
-export class PlanFactService {
+export class PlanFactContext implements ILinearChartContext {
+  public chartID = ChartID.PLAN_FACT;
+  public settingsBuilder = new PlanFactSettingsBuilder(this.fb);
+  public title = 'Запланированная и сделанная работа';
+  public xAxisLabel = 'Спринты';
+  public yAxisLabel = 'Часы';
+
   constructor(
-    private readonly sprintsService: SprintsService,
-    private readonly issueSearchService: IssueSearchService,
-    private readonly groupsService: GroupsService,
-    private readonly planningStorageService: PlanningStorageService
+    public sprintsService: SprintsService,
+    public issueSearchService: IssueSearchService,
+    public groupsService: GroupsService,
+    public planningStorageService: PlanningStorageService,
+    public fb: FormBuilder
   ){}
+
+  public destroy(): void {
+    this.settingsBuilder.destroy();
+  }
 
   public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
     const groupName = settings.group;
