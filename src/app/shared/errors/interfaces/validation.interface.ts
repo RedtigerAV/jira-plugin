@@ -17,6 +17,5 @@ export interface IErrorsEntriesWithType {
 }
 
 export enum ErrorsEntriesTypes {
-  VALIDATION = 'validation entries',
-  UNEXPECTED_SERVER = 'unexpected server entries'
+  VALIDATION = 'validation entries'
 }

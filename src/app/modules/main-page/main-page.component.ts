@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { mainPageTexts } from './main-page.texts';
-import { ChartID, TableID } from '@core/interfaces/structure.interfaces';
+import { ChartID, ChartType, TableID } from '@core/interfaces/structure.interfaces';
 
 export interface ITableMainInfo {
   name: string;
@@ -11,6 +11,7 @@ export interface IChartMainInfo {
   name: string;
   description: string;
   chartID: ChartID;
+  chartType: ChartType;
 }
 
 @Component({
@@ -42,17 +43,20 @@ export class MainPageComponent implements OnInit, OnDestroy {
     {
       name: 'Средняя производительность',
       description: mainPageTexts[ChartID.AVERAGE_PRODUCTIVITY],
-      chartID: ChartID.AVERAGE_PRODUCTIVITY
+      chartID: ChartID.AVERAGE_PRODUCTIVITY,
+      chartType: ChartType.LINEAR
     },
     {
       name: 'План-факт',
       description: mainPageTexts[ChartID.PLAN_FACT],
-      chartID: ChartID.PLAN_FACT
+      chartID: ChartID.PLAN_FACT,
+      chartType: ChartType.LINEAR
     },
     {
       name: 'Незавершенная работа',
       description: mainPageTexts[ChartID.UNFINISHED_WORK],
-      chartID: ChartID.UNFINISHED_WORK
+      chartID: ChartID.UNFINISHED_WORK,
+      chartType: ChartType.BAR
     }
   ];
 
@@ -65,6 +69,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   public getChartLink(chart: IChartMainInfo): string {
-    return `/charts/${chart.chartID}`;
+    return `/charts/${chart.chartType}/${chart.chartID}`;
   }
 }

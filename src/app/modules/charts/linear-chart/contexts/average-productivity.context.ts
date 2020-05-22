@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { ILinearChartContext } from './context.interface';
+import { ChartID } from '@core/interfaces/structure.interfaces';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { forkJoin, Observable } from 'rxjs';
+import { ILinearChartData } from '../../interfaces/chart-data.interfaces';
 import { map, switchMap } from 'rxjs/operators';
-import { ILinearChartData } from '../interfaces/chart-data.interfaces';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { GroupsService } from '@core/api/platform/api/groups.service';
@@ -10,13 +11,21 @@ import { IssueBeanModel } from '@core/api/platform/model/issueBean';
 import { Sprint } from '@core/api/software/model/sprint';
 import { UserDetailsModel } from '@core/api/platform/model/userDetails';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
+import { AverageProductivitySettingsBuilder } from '../settings-builders/average-productivity-settings.builder';
+import { FormBuilder } from '@ng-stack/forms';
 
-@Injectable()
-export class AverageProductivityService {
+export class AverageProductivityContext implements ILinearChartContext {
+  public chartID = ChartID.AVERAGE_PRODUCTIVITY;
+  public title = 'Средняя производительность';
+  public xAxisLabel = 'Спринты';
+  public yAxisLabel = 'Часы';
+  public settingsBuilder = new AverageProductivitySettingsBuilder(this.fb);
+
   constructor(
-    private readonly sprintsService: SprintsService,
-    private readonly issueSearchService: IssueSearchService,
-    private readonly groupsService: GroupsService
+    public sprintsService: SprintsService,
+    public issueSearchService: IssueSearchService,
+    public groupsService: GroupsService,
+    public fb: FormBuilder
   ){}
 
   public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
@@ -43,6 +52,10 @@ export class AverageProductivityService {
             )
         })
       );
+  }
+
+  public destroy(): void {
+    this.settingsBuilder.destroy();
   }
 
   private transformData(issues: IssueBeanModel[], sprints: Sprint[], users: UserDetailsModel[]): ILinearChartData[] {

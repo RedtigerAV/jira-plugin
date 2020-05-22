@@ -65,9 +65,6 @@ export class FormErrorsService implements IErrorsEntriesContext {
     const validationEntriesWithType = entries.filter(
       ({ type }) => type === ErrorsEntriesTypes.VALIDATION
     );
-    const unexpectedEntriesWithType = entries.filter(
-      ({ type }) => type === ErrorsEntriesTypes.UNEXPECTED_SERVER
-    );
 
     if (!!validationEntriesWithType.length) {
       const adaptedEntries = this.adaptEntriesWithType(
@@ -75,17 +72,6 @@ export class FormErrorsService implements IErrorsEntriesContext {
       );
 
       this.entriesState.extendValidationEntries(formControl, adaptedEntries);
-    }
-
-    if (!!unexpectedEntriesWithType.length) {
-      const adaptedEntries = this.adaptEntriesWithType(
-        unexpectedEntriesWithType
-      );
-
-      this.entriesState.extendUnexpectedServerEntries(
-        formControl,
-        adaptedEntries
-      );
     }
   }
 
@@ -100,14 +86,7 @@ export class FormErrorsService implements IErrorsEntriesContext {
     formControl: AbstractControl,
     entriesType?: ErrorsEntriesTypes
   ): IErrorsEntries {
-    switch (entriesType) {
-      case ErrorsEntriesTypes.VALIDATION:
-        return this.entriesState.getValidationEntries(formControl);
-      case ErrorsEntriesTypes.UNEXPECTED_SERVER:
-        return this.entriesState.getUnexpectedEntries(formControl);
-      default:
-        return this.entriesState.getAllEntries(formControl);
-    }
+    return this.entriesState.getValidationEntries(formControl);
   }
 
   /**
@@ -122,17 +101,6 @@ export class FormErrorsService implements IErrorsEntriesContext {
 
     const errorKey = Object.keys(formControl.errors)[0];
     const errorValue = formControl.errors[errorKey];
-
-    if (
-      this.hasRegisteredError(formControl, ErrorsEntriesTypes.UNEXPECTED_SERVER)
-    ) {
-      const entries = this.getErrorsEntries(
-        formControl,
-        ErrorsEntriesTypes.UNEXPECTED_SERVER
-      );
-
-      return this.adaptErrorMessageToText(formControl, entries[errorKey]);
-    }
 
     if (this.hasRegisteredError(formControl, ErrorsEntriesTypes.VALIDATION)) {
       const entries = this.getErrorsEntries(

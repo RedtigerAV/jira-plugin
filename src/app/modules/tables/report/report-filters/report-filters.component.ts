@@ -49,7 +49,7 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
 
   applyFilter(filter: ITableFilter): void {
     if (!this.mediator.isTableLoaded) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Сначала сгенерируйте таблицу'));
 
       return;
     }

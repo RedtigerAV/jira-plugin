@@ -1,34 +1,30 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
-import { ChartID } from '@core/interfaces/structure.interfaces';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
-import { BooleanFormState } from '@shared/helpers/types.helper';
 import { IActionItem } from '../../shared/actions-panel/actions-panel.component';
-import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { DefaultSettingsService } from '@core/services/default-settings.service';
-import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
 import { BehaviorSubject } from 'rxjs';
 import { StructureStateEnum } from '@core/interfaces/structure-state.interface';
-import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
-import { AverageProductivitySettingsBuilder } from './average-productivity-settings.builder';
-import { SettingsPanelModalService } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.service';
-import { AverageProductivityService } from './average-productivity.service';
-import { ChartComponentBase } from '../chart-component.base';
 import { ILinearChartData } from '../interfaces/chart-data.interfaces';
+import { SettingsPanelModalService } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.service';
+import { DefaultSettingsService } from '@core/services/default-settings.service';
+import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
+import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
+import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
+import { ChartComponentBase } from '../chart-component.base';
+import { ILinearChartContext } from './contexts/context.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-average-productivity',
-  templateUrl: './average-productivity.component.html',
-  styleUrls: ['./average-productivity.component.scss'],
+  selector: 'app-linear-chart',
+  templateUrl: './linear-chart.component.html',
+  styleUrls: ['./linear-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AverageProductivityComponent extends ChartComponentBase implements OnInit, AfterViewInit, OnDestroy {
-  public chartID = ChartID.AVERAGE_PRODUCTIVITY;
+export class LinearChartComponent extends ChartComponentBase implements OnInit, AfterViewInit, OnDestroy {
   public width = undefined;
   public form: FormGroup<ISettingsPanelForm>;
-  public hiddenControls: BooleanFormState<ISettingsPanelForm>;
-  public xAxisLabel = 'Спринты';
-  public yAxisLabel = 'Часы';
+  public xAxisLabel: string;
+  public yAxisLabel: string;
   public actions: IActionItem[] = [
     {
       title: 'Рассчитать показатель',
@@ -51,32 +47,33 @@ export class AverageProductivityComponent extends ChartComponentBase implements 
   ];
   public chartState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
   public chartStateEnum = StructureStateEnum;
-  public settingsBuilder: AverageProductivitySettingsBuilder;
   public chartData$: BehaviorSubject<ILinearChartData[]>;
+  public context: ILinearChartContext;
 
   constructor(private readonly fb: FormBuilder,
               private readonly cdr: ChangeDetectorRef,
               private readonly settingsPanelModalService: SettingsPanelModalService,
               private readonly defaultSettingsService: DefaultSettingsService,
-              private readonly averageProductivityService: AverageProductivityService,
+              private readonly activatedRoute: ActivatedRoute,
               private readonly snackbar: TgSnackbarService) {
     super();
-    this.settingsBuilder = new AverageProductivitySettingsBuilder(this.fb);
-    this.hiddenControls = this.settingsBuilder.hiddenControls;
+    this.context = this.activatedRoute.snapshot.data.context;
+    this.xAxisLabel = this.context.xAxisLabel;
+    this.yAxisLabel = this.context.yAxisLabel;
     this.chartData$ = new BehaviorSubject<ILinearChartData[]>([]);
   }
 
   ngOnInit(): void {
-    this.defaultSettingsService.getDefaultSettings(this.chartID)
+    this.defaultSettingsService.getDefaultSettings(this.context.chartID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
-        this.form = this.settingsBuilder.getSettingsFromGroup(settings);
+        this.form = this.context.settingsBuilder.getSettingsFromGroup(settings);
         this.cdr.detectChanges();
       });
   }
 
   ngOnDestroy(): void {
-    this.settingsBuilder.destroy();
+    this.context.destroy();
   }
 
   ngAfterViewInit(): void {
@@ -84,7 +81,7 @@ export class AverageProductivityComponent extends ChartComponentBase implements 
   }
 
   public applyDefaultSettings(): void {
-    this.defaultSettingsService.getDefaultSettings(this.chartID)
+    this.defaultSettingsService.getDefaultSettings(this.context.chartID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
         this.form.patchValue(settings);
@@ -93,7 +90,7 @@ export class AverageProductivityComponent extends ChartComponentBase implements 
   }
 
   public saveSettingsAsDefault(): void {
-    this.defaultSettingsService.setDefaultSettings(this.chartID, this.form.getRawValue())
+    this.defaultSettingsService.setDefaultSettings(this.context.chartID, this.form.getRawValue())
       .pipe(takeUntilDestroyed(this))
       .subscribe(() => {
         this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
@@ -101,7 +98,7 @@ export class AverageProductivityComponent extends ChartComponentBase implements 
   }
 
   public onSettings(): void {
-    this.settingsPanelModalService.openDefaultSettingsPanelModel(this.chartID, this.settingsBuilder)
+    this.settingsPanelModalService.openDefaultSettingsPanelModel(this.context.chartID, this.context.settingsBuilder)
       .pipe(takeUntilDestroyed(this))
       .subscribe(() => {
         this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
@@ -111,7 +108,7 @@ export class AverageProductivityComponent extends ChartComponentBase implements 
   private generateChart(): void {
     this.chartState$.next(StructureStateEnum.LOADING);
 
-    this.averageProductivityService.getData(this.form.getRawValue())
+    this.context.getData(this.form.getRawValue())
       .pipe(takeUntilDestroyed(this))
       .subscribe(data => {
         this.chartData$.next(data);

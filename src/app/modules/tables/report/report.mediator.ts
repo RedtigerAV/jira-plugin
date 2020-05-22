@@ -82,7 +82,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
   private generateTable(): void {
     if (this.reportSettingsComponent.form.invalid) {
       markFormGroupTouched(this.reportSettingsComponent.form);
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please fill in all required fields'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Заполните все обязательные поля'));
 
       return;
     }
@@ -100,7 +100,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
   private saveFilter(): void {
     if (!this.isTableLoaded) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Сначала сгенерируйте таблицу'));
 
       return;
     }
@@ -108,7 +108,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
     const filterState: ITableFilterState = this.reportTableComponent.getFilterState();
 
     if (!Object.keys(filterState).length) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please filter some column'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Установите фильтр на одну из колонок'));
 
       return;
     }
@@ -134,7 +134,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
   private resetAllFilters(): void {
     if (!this.isTableLoaded) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Сначала сгенерируйте таблицу'));
 
       return;
     }
@@ -157,7 +157,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
   private saveSort(): void {
     if (!this.isTableLoaded) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Сначала сгенерируйте таблицу'));
 
       return;
     }
@@ -165,7 +165,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
     const sortState: ITableSortState[] = this.reportTableComponent.getSortState();
 
     if (!sortState.length) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please sort some column'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Установите сортировку на одну из колонок'));
 
       return;
     }
@@ -191,7 +191,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
   private resetAllSorts(): void {
     if (!this.isTableLoaded) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Сначала сгенерируйте таблицу'));
 
       return;
     }
@@ -209,7 +209,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
   private exportAsCSV(): void {
     if (!this.isTableLoaded) {
-      this.snackbar.openSnackbar(new TgSnackbarDanger('Please generate table first'));
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Сначала сгенерируйте таблицу'));
 
       return;
     }

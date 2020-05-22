@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ChartsRoutingModule } from './charts-routing.module';
-import { AverageProductivityModule } from './average-productivity/average-productivity.module';
 import { UnfinishedWorkModule } from './unfinished-work/unfinished-work.module';
-import { PlanFactModule } from './plan-fact/plan-fact.module';
+import { LinearChartModule } from './linear-chart/linear-chart.module';
 
 
 @NgModule({
@@ -12,9 +11,8 @@ import { PlanFactModule } from './plan-fact/plan-fact.module';
   imports: [
     CommonModule,
     ChartsRoutingModule,
-    AverageProductivityModule,
-    UnfinishedWorkModule,
-    PlanFactModule
+    LinearChartModule,
+    UnfinishedWorkModule
   ]
 })
 export class ChartsModule { }

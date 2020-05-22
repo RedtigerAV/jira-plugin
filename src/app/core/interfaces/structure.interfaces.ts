@@ -11,4 +11,9 @@ export enum ChartID {
   PLAN_FACT = 'plan-fact'
 }
 
+export enum ChartType {
+  LINEAR = 'linear',
+  BAR = 'bar'
+}
+
 export type StructureID = TableID | ChartID;
