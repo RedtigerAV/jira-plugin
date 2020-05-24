@@ -12,10 +12,9 @@ import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { basePath } from '@core/common-configuration/global';
 import { SprintsService } from '@core/api/software/api/sprints.service';
-import { Sprint } from '@core/api/software/model/sprint';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
-import { secondsToHoursAndMinutes } from '@core/helpers/time.helpers';
+import { DurationMapper } from '../../duration-helpers/duration-mapper';
 
 interface IssueRowModel {
   link?: string;
@@ -25,6 +24,7 @@ interface IssueRowModel {
   assignee?: string;
   date?: string;
   sprint?: string;
+  changedBy?: string;
   visible?: boolean;
 }
 
@@ -54,59 +54,68 @@ export class LifecycleReportContext implements IReportContext {
     return of([
       {
         field: 'summary',
-        headerName: 'Summary',
+        headerName: 'Название',
         minWidth: 300,
         pinned: ITableColumnPinEnum.LEFT,
         filter: TableFilterEnum.TEXT
       },
       {
         field: 'link',
-        headerName: 'Issue Link',
+        headerName: 'Ссылка',
         filter: TableFilterEnum.TEXT,
         minWidth: 300,
         cellRenderer: params => `<a href="${params.value}" target="_blank" style="cursor: pointer">${params.value}</a>`
       },
       {
         field: 'type',
-        headerName: 'Type',
-        filter: TableFilterEnum.TEXT
+        headerName: 'Тип',
+        filter: TableFilterEnum.TEXT,
+        minWidth: 130
       },
       {
         field: 'labels',
-        headerName: 'Labels',
-        filter: TableFilterEnum.TEXT
+        headerName: 'Лейблы',
+        filter: TableFilterEnum.TEXT,
+        minWidth: 130
       },
       {
         field: 'assignee',
-        headerName: 'Assignee',
+        headerName: 'Назначено на',
+        filter: TableFilterEnum.TEXT
+      },
+      {
+        field: 'changedBy',
+        headerName: 'Кем изменено',
         filter: TableFilterEnum.TEXT
       },
       {
         field: 'date',
-        headerName: 'Date and Time',
+        headerName: 'Время изменения',
         // filter: TableFilterEnum.DATE,
         cellRenderer: params => `${this.datePipe.transform(new Date(params.value), 'HH:mm dd.MM.yyyy')}`
       },
       {
         field: 'sprint',
-        headerName: 'Sprint',
+        headerName: 'Спринт',
         filter: TableFilterEnum.TEXT
       },
       {
         field: 'timespent',
-        headerName: 'Time Spent',
+        headerName: 'Потрачено времени',
         filter: TableFilterEnum.TEXT,
-        cellRenderer: params => this.timeCellRenderer(params.value)
+        cellRenderer: params => this.timeCellRenderer(params.value),
+        comparator: this.durationComparator.bind(this)
       },
       {
         field: 'timeoriginalestimate',
-        headerName: 'Original estimate',
+        headerName: 'Оценка задачи',
         filter: TableFilterEnum.TEXT,
-        cellRenderer: params => this.timeCellRenderer(params.value)
+        cellRenderer: params => this.timeCellRenderer(params.value),
+        comparator: this.durationComparator.bind(this)
       },
       {
         field: 'status',
-        headerName: 'Status',
+        headerName: 'Статус',
         filter: TableFilterEnum.TEXT
       }
     ]);
@@ -190,6 +199,7 @@ export class LifecycleReportContext implements IReportContext {
 
         issue.changelog.histories.forEach(changes => {
           const date = changes.created.toString();
+          const author = changes.author && changes.author.displayName;
 
           if (new Date(date) >= startDate && new Date(date) <= endDate) {
             changes.items.forEach(change => {
@@ -204,6 +214,7 @@ export class LifecycleReportContext implements IReportContext {
 
                 issueChanges.push({
                   visible: filteredFields.includes(change.field.toLowerCase()),
+                  changedBy: author,
                   date,
                   ...issueModel,
                   [change.field.toLowerCase()]: `${change.fromString || ''} ⮕ ${change.toString}`,
@@ -232,6 +243,19 @@ export class LifecycleReportContext implements IReportContext {
 
     const values = value.split('⮕');
 
-    return values.map(time => secondsToHoursAndMinutes(time)).join(' ⮕ ');
+    return values.map(time => DurationMapper.secondsToDuration(time)).join(' ⮕ ');
+  }
+
+  private durationComparator(value1: string, value2: string): number {
+    value1 = value1 ? value1 : '0';
+    value2 = value2 ? value2 : '0';
+
+    const parsedValues1 = value1.split(' ⮕ ');
+    const parsedValues2 = value2.split(' ⮕ ');
+
+    console.log(parsedValues1);
+    console.log(parsedValues2);
+
+    return parseInt(parsedValues1[parsedValues1.length - 1]) - parseInt(parsedValues2[parsedValues2.length - 1]);
   }
 }
