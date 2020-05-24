@@ -1,5 +1,7 @@
 import { TableFilterEnum } from './table-filter.interfaces';
 import { ITableColumnPreview } from './table-column-preview.interface';
+import { IFilterOptionDef } from 'ag-grid-community';
+import { Comparator } from 'ag-grid-community/dist/lib/filter/provided/scalerFilter';
 
 export enum ITableColumnPinEnum {
   LEFT = 'left',
@@ -27,7 +29,9 @@ export interface ITableDefaultColumn {
   filterParams?: {
     applyButton?: boolean,
     resetButton?: boolean,
+    filterOptions?: IFilterOptionDef
   };
+  comparator?: (value1, value2) => number;
   sortable?: boolean;
   resizable?: boolean;
 }

@@ -21,7 +21,7 @@ import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { PageBeanUserDetailsModel } from '@core/api/platform/model/pageBeanUserDetails';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
-import { secondsToHoursAndMinutes } from '@core/helpers/time.helpers';
+import { DurationMapper } from '../../duration-helpers/duration-mapper';
 
 interface RowModel {
   user?: string;
@@ -60,25 +60,29 @@ export class TimeSpentReportContext implements IReportContext {
       {
         field: 'doneNumber',
         headerName: 'Завершенные задачи, кол-во',
-        filter: TableFilterEnum.NUMBER
+        filter: TableFilterEnum.NUMBER,
+        sortable: true
       },
       {
         field: 'scheduledTime',
         headerName: 'Запланированно часов',
-        cellRenderer: params => secondsToHoursAndMinutes(params.value),
-        filter: TableFilterEnum.NUMBER
+        cellRenderer: params => DurationMapper.secondsToDuration(params.value),
+        filter: TableFilterEnum.NUMBER,
+        sortable: true
       },
       {
         field: 'doneTime',
         headerName: 'Завершенные задачи, время',
-        cellRenderer: params => secondsToHoursAndMinutes(params.value),
-        filter: TableFilterEnum.NUMBER
+        cellRenderer: params => DurationMapper.secondsToDuration(params.value),
+        filter: TableFilterEnum.NUMBER,
+        sortable: true
       },
       {
         field: 'trackedTime',
         headerName: 'Списанное время',
         filter: TableFilterEnum.NUMBER,
-        cellRenderer: params => secondsToHoursAndMinutes(params.value),
+        cellRenderer: params => DurationMapper.secondsToDuration(params.value),
+        sortable: true
       },
       {
         field: 'sprint',
