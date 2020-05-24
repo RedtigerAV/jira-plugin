@@ -13,7 +13,7 @@ export class DurationMapper {
     const prettyValue = DurationMapper.roundSecondsToMinutes(value);
     const time = DurationMapper.toHHMM(prettyValue);
     const splitTimeString = time.split(':');
-    const dateStringList = splitTimeString.map((item, idx) => `${item} ${DurationMapper.durationItems[idx]}`);
+    const dateStringList = splitTimeString.map((item, idx) => `${item}${DurationMapper.durationItems[idx]}`);
 
     return DurationMapper.joinExcludeNill(dateStringList);
   }
@@ -25,14 +25,14 @@ export class DurationMapper {
 
     const hoursAndMinutes = value.split(' ');
 
-    return parseInt(hoursAndMinutes[0]) * 3600 + parseInt(hoursAndMinutes[1]) * 60;
+    return parseInt(hoursAndMinutes[0] || '0') * 3600 + parseInt(hoursAndMinutes[1] || '0') * 60;
   }
 
   public static durationComparator(value1: string, value2: string): number {
     return DurationMapper.durationToSeconds(value1) - DurationMapper.durationToSeconds(value2);
   }
 
-  private static roundSecondsToMinutes(value: number): number {
+  public static roundSecondsToMinutes(value: number): number {
     const residue = value % 60;
 
     if (!residue) {

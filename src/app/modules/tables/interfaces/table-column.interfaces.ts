@@ -29,7 +29,7 @@ export interface ITableDefaultColumn {
   filterParams?: {
     applyButton?: boolean,
     resetButton?: boolean,
-    filterOptions?: IFilterOptionDef
+    filterOptions?: IFilterOptionDef[]
   };
   comparator?: (value1, value2) => number;
   sortable?: boolean;

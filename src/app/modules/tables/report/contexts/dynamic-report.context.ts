@@ -19,6 +19,9 @@ import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { getSprintByDate } from '@core/helpers/issues.helpers';
 import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
 import { DurationMapper } from '../../duration-helpers/duration-mapper';
+import { textFilters } from '../../custom-filters/text-filters';
+import { durationFilters } from '../../custom-filters/duration-filters';
+import { numberFilters } from '../../custom-filters/number-filters';
 
 interface RowModel {
   sprint?: string;
@@ -52,7 +55,12 @@ export class DynamicReportContext implements IReportContext {
           {
             field: 'sprint',
             headerName: 'Спринт',
-            filter: TableFilterEnum.TEXT
+            filter: TableFilterEnum.TEXT,
+            filterParams: {
+              applyButton: true,
+              resetButton: true,
+              filterOptions: textFilters
+            }
           },
           {
             field: 'date',
@@ -67,13 +75,23 @@ export class DynamicReportContext implements IReportContext {
               {
                 field: 'all$number',
                 headerName: 'Всего задач, кол-во',
-                filter: TableFilterEnum.NUMBER
+                filter: TableFilterEnum.NUMBER,
+                filterParams: {
+                  applyButton: true,
+                  resetButton: true,
+                  filterOptions: numberFilters
+                }
               },
               {
                 field: 'all$time',
                 headerName: 'Всего задач, время',
-                filter: TableFilterEnum.NUMBER,
+                filter: TableFilterEnum.TEXT,
                 cellRenderer: params => DurationMapper.secondsToDuration(params.value),
+                filterParams: {
+                  applyButton: true,
+                  resetButton: true,
+                  filterOptions: durationFilters
+                }
               }
             ]
           },
@@ -84,13 +102,23 @@ export class DynamicReportContext implements IReportContext {
               {
                 field: 'left$number',
                 headerName: 'Осталось задач, кол-во',
-                filter: TableFilterEnum.NUMBER
+                filter: TableFilterEnum.NUMBER,
+                filterParams: {
+                  applyButton: true,
+                  resetButton: true,
+                  filterOptions: numberFilters
+                }
               },
               {
                 field: 'left$time',
                 headerName: 'Осталось задач, время',
-                filter: TableFilterEnum.NUMBER,
+                filter: TableFilterEnum.TEXT,
                 cellRenderer: params => DurationMapper.secondsToDuration(params.value),
+                filterParams: {
+                  applyButton: true,
+                  resetButton: true,
+                  filterOptions: durationFilters
+                }
               }
             ]
           }
@@ -208,13 +236,23 @@ export class DynamicReportContext implements IReportContext {
         {
           field: status.id + '$number',
           filter: TableFilterEnum.NUMBER,
-          headerName: status.name + ', кол-во.'
+          headerName: status.name + ', кол-во.',
+          filterParams: {
+            applyButton: true,
+            resetButton: true,
+            filterOptions: numberFilters
+          }
         },
         {
           field: status.id + '$time',
-          filter: TableFilterEnum.NUMBER,
+          filter: TableFilterEnum.TEXT,
           headerName: status.name + ', время',
           cellRenderer: params => DurationMapper.secondsToDuration(params.value),
+          filterParams: {
+            applyButton: true,
+            resetButton: true,
+            filterOptions: durationFilters
+          }
         }
       ]
     }

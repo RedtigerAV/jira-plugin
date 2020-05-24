@@ -22,6 +22,9 @@ import { PageBeanUserDetailsModel } from '@core/api/platform/model/pageBeanUserD
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
 import { DurationMapper } from '../../duration-helpers/duration-mapper';
+import { textFilters } from '../../custom-filters/text-filters';
+import { durationFilters } from '../../custom-filters/duration-filters';
+import { numberFilters } from '../../custom-filters/number-filters';
 
 interface RowModel {
   user?: string;
@@ -55,39 +58,69 @@ export class TimeSpentReportContext implements IReportContext {
       {
         field: 'user',
         headerName: 'Пользователь',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'doneNumber',
         headerName: 'Завершенные задачи, кол-во',
         filter: TableFilterEnum.NUMBER,
-        sortable: true
+        sortable: true,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: numberFilters
+        }
       },
       {
         field: 'scheduledTime',
         headerName: 'Запланированно часов',
         cellRenderer: params => DurationMapper.secondsToDuration(params.value),
-        filter: TableFilterEnum.NUMBER,
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: durationFilters
+        },
         sortable: true
       },
       {
         field: 'doneTime',
         headerName: 'Завершенные задачи, время',
         cellRenderer: params => DurationMapper.secondsToDuration(params.value),
-        filter: TableFilterEnum.NUMBER,
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: durationFilters
+        },
         sortable: true
       },
       {
         field: 'trackedTime',
         headerName: 'Списанное время',
-        filter: TableFilterEnum.NUMBER,
+        filter: TableFilterEnum.TEXT,
         cellRenderer: params => DurationMapper.secondsToDuration(params.value),
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: durationFilters
+        },
         sortable: true
       },
       {
         field: 'sprint',
         headerName: 'Спринт',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       }
     ]);
   }

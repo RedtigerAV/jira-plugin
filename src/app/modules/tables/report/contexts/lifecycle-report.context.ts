@@ -15,6 +15,9 @@ import { SprintsService } from '@core/api/software/api/sprints.service';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
 import { DurationMapper } from '../../duration-helpers/duration-mapper';
+import { textFilters } from '../../custom-filters/text-filters';
+import { IFilterOptionDef } from 'ag-grid-community';
+import { durationFilters } from '../../custom-filters/duration-filters';
 
 interface IssueRowModel {
   link?: string;
@@ -45,11 +48,6 @@ export class LifecycleReportContext implements IReportContext {
     this.datePipe = new DatePipe(locale);
   }
 
-  /**
-   * ToDo: навесить компараторы для сортирвоки
-   * ToDo: навесить компараторы для фильтрации
-   * ToDo: убрать из экспортируемой таблицы знак -> (возможно через переопределение toString)
-   */
   getTableColumnsDef(): Observable<ITableColumn[]> {
     return of([
       {
@@ -57,66 +55,115 @@ export class LifecycleReportContext implements IReportContext {
         headerName: 'Название',
         minWidth: 300,
         pinned: ITableColumnPinEnum.LEFT,
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'link',
         headerName: 'Ссылка',
         filter: TableFilterEnum.TEXT,
         minWidth: 300,
-        cellRenderer: params => `<a href="${params.value}" target="_blank" style="cursor: pointer">${params.value}</a>`
+        cellRenderer: params => `<a href="${params.value}" target="_blank" style="cursor: pointer">${params.value}</a>`,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'type',
         headerName: 'Тип',
         filter: TableFilterEnum.TEXT,
-        minWidth: 130
+        minWidth: 130,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'labels',
         headerName: 'Лейблы',
         filter: TableFilterEnum.TEXT,
-        minWidth: 130
+        minWidth: 130,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'assignee',
         headerName: 'Назначено на',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'changedBy',
         headerName: 'Кем изменено',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'date',
         headerName: 'Время изменения',
-        // filter: TableFilterEnum.DATE,
         cellRenderer: params => `${this.datePipe.transform(new Date(params.value), 'HH:mm dd.MM.yyyy')}`
       },
       {
         field: 'sprint',
         headerName: 'Спринт',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       },
       {
         field: 'timespent',
         headerName: 'Потрачено времени',
         filter: TableFilterEnum.TEXT,
         cellRenderer: params => this.timeCellRenderer(params.value),
-        comparator: this.durationComparator.bind(this)
+        comparator: this.durationComparator.bind(this),
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: this.durationFiltersAdapter(durationFilters)
+        }
       },
       {
         field: 'timeoriginalestimate',
         headerName: 'Оценка задачи',
         filter: TableFilterEnum.TEXT,
         cellRenderer: params => this.timeCellRenderer(params.value),
-        comparator: this.durationComparator.bind(this)
+        comparator: this.durationComparator.bind(this),
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: this.durationFiltersAdapter(durationFilters)
+        }
       },
       {
         field: 'status',
         headerName: 'Статус',
-        filter: TableFilterEnum.TEXT
+        filter: TableFilterEnum.TEXT,
+        filterParams: {
+          applyButton: true,
+          resetButton: true,
+          filterOptions: textFilters
+        }
       }
     ]);
   }
@@ -253,9 +300,24 @@ export class LifecycleReportContext implements IReportContext {
     const parsedValues1 = value1.split(' ⮕ ');
     const parsedValues2 = value2.split(' ⮕ ');
 
-    console.log(parsedValues1);
-    console.log(parsedValues2);
-
     return parseInt(parsedValues1[parsedValues1.length - 1]) - parseInt(parsedValues2[parsedValues2.length - 1]);
+  }
+
+  private durationFiltersAdapter(options: IFilterOptionDef[]): IFilterOptionDef[] {
+    return options.map(option => {
+      const originTest = option.test;
+
+      option.test = ((filterValue, cellValue) => {
+        if (!cellValue) {
+          return false;
+        }
+
+        const parsedCellValues = cellValue.toString().split(' ⮕ ');
+
+        return originTest(filterValue, parsedCellValues[parsedCellValues.length - 1]);
+      });
+
+      return option;
+    });
   }
 }

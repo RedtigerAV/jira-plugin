@@ -115,7 +115,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
     const dialogRef = this.dialog.open(ReportFilterModalComponent, {
       data: {
-        title: 'New filter',
+        title: 'Сохранение фильтра',
         filter: {
           name: '',
           state: filterState
@@ -172,7 +172,7 @@ export class ReportMediator implements OnDestroy, IReportMediator {
 
     const dialogRef = this.dialog.open(ReportSortsModalComponent, {
       data: {
-        title: 'New sort',
+        title: 'Сохранение сортировки',
         sort: {
           name: '',
           state: sortState
