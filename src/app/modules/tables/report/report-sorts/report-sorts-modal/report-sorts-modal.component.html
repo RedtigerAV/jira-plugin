@@ -9,8 +9,8 @@
   <div class="sort">
     <table>
       <tr>
-        <th class="tg-p1 tg-p1--bold">Column name</th>
-        <th class="tg-p1 tg-p1--bold">Sort value</th>
+        <th class="tg-p1 tg-p1--bold">Название столбца</th>
+        <th class="tg-p1 tg-p1--bold">Значение сортировки</th>
       </tr>
       <tr *ngFor="let sortState of data.sort.state">
         <td>{{sortState.columnPreview.headerName}}</td>
@@ -19,7 +19,7 @@
     </table>
   </div>
   <div class="actions">
-    <button class="tg-button" (click)="onSave()">Save</button>
-    <button class="tg-button tg-button--outline" (click)="onClose()">Close</button>
+    <button class="tg-button" (click)="onSave()">Сохранить</button>
+    <button class="tg-button tg-button--outline" (click)="onClose()">Сбросить</button>
   </div>
 </div>

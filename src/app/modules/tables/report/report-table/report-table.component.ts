@@ -29,6 +29,11 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   public rowData$: ReplaySubject<any[]>;
   public tableState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
   public tableStateEnum = StructureStateEnum;
+  public localeText = {
+    applyFilter: 'Применить фильтр',
+    resetFilter: 'Сбросить фильтр',
+    clearFilter: 'Очистить фильтр',
+  };
 
   private gridApi: GridApi;
   private gridColumnApi: ColumnApi;

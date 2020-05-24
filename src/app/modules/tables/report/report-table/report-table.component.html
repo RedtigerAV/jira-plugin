@@ -19,6 +19,7 @@
           [rowData]="rowData$ | async"
           [multiSortKey]="'ctrl'"
           [suppressDragLeaveHidesColumns]="true"
+          [localeText]="localeText"
           (gridReady)="onGridReady($event)"
           (filterChanged)="onFilterChanged()"
           (sortChanged)="onSortChanged()"

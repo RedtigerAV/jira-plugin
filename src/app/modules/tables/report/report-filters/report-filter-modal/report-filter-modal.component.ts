@@ -4,6 +4,10 @@ import { ITableColumnFilter, ITableFilter } from '../../../interfaces/table-filt
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { Validators } from '@angular/forms';
 import { markFormGroupTouched } from '@shared/helpers/form.helpers';
+import { durationFilters } from '../../../custom-filters/duration-filters';
+import { numberFilters } from '../../../custom-filters/number-filters';
+import { textFilters } from '../../../custom-filters/text-filters';
+import { IFilterOptionDef } from 'ag-grid-community';
 
 export interface IReportFilterModalData {
   title: string;
@@ -54,29 +58,12 @@ export class ReportFilterModalComponent implements OnInit {
   }
 
   getFilterNameByType(type: string): string {
-    switch (type) {
-      case 'equals':
-        return 'Equals';
-      case 'notEqual':
-        return 'Not equal';
-      case 'lessThan':
-        return 'Less than';
-      case 'lessThanOrEqual':
-        return 'Less than or equal';
-      case 'greaterThan':
-        return 'Greater than';
-      case 'greaterThanOrEqual':
-        return 'Greater than or equal';
-      case 'inRange':
-        return 'In range';
-      case 'contains':
-        return 'Contains';
-      case 'notContains':
-        return 'Not contains';
-      case 'startsWith':
-        return 'Starts with';
-      case 'endsWith':
-        return 'Ends with';
-    }
+    const allFilters: IFilterOptionDef[] = [
+      ...durationFilters,
+      ...numberFilters,
+      ...textFilters
+    ];
+
+    return allFilters.find(option => option.displayKey === type).displayName;
   }
 }
