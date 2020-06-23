@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Validators } from '@angular/forms';
@@ -13,8 +13,7 @@ export interface IReportSortModalData {
 @Component({
   selector: 'app-report-sorts-modal',
   templateUrl: './report-sorts-modal.component.html',
-  styleUrls: ['./report-sorts-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./report-sorts-modal.component.scss']
 })
 export class ReportSortsModalComponent implements OnInit {
   public form: FormGroup<{name: string}>;
@@ -22,7 +21,8 @@ export class ReportSortsModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ReportSortsModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IReportSortModalData,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -42,10 +42,14 @@ export class ReportSortsModalComponent implements OnInit {
 
     sort.name = this.form.value.name;
 
-    this.dialogRef.close(sort);
+    this.ngZone.run(() => {
+      this.dialogRef.close(sort);
+    });
   }
 
   onClose(): void {
-    this.dialogRef.close();
+    this.ngZone.run(() => {
+      this.dialogRef.close();
+    });
   }
 }

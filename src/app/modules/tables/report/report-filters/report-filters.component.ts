@@ -89,22 +89,22 @@ export class ReportFiltersComponent implements OnInit, OnDestroy, IReportFilters
 
     const dialogRef = this.dialog.open(ReportFilterModalComponent, {
       data: {
-        title: 'Edit filter',
+        title: 'Редактор фильтра',
         filter
       }
     });
 
     dialogRef.afterClosed()
       .pipe(
-        take(1),
         switchMap(result => !!result ? this.reportFiltersService.patchFilter(this.tableID, result) : of(null)),
         take(1)
       )
       .subscribe(resultFilters => {
         if (resultFilters) {
           this.filters$.next(resultFilters);
-          this.cdr.detectChanges();
         }
+
+        this.cdr.detectChanges();
       });
   }
 }
