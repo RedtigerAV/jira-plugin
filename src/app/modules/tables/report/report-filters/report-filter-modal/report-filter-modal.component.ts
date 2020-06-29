@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ITableColumnFilter, ITableFilter } from '../../../interfaces/table-filter.interfaces';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
@@ -17,8 +17,7 @@ export interface IReportFilterModalData {
 @Component({
   selector: 'app-report-filter-modal',
   templateUrl: './report-filter-modal.component.html',
-  styleUrls: ['./report-filter-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./report-filter-modal.component.scss']
 })
 export class ReportFilterModalComponent implements OnInit {
   public form: FormGroup<{name: string}>;
@@ -26,7 +25,8 @@ export class ReportFilterModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ReportFilterModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IReportFilterModalData,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -46,11 +46,15 @@ export class ReportFilterModalComponent implements OnInit {
 
     filter.name = this.form.value.name;
 
-    this.dialogRef.close(filter);
+    this.ngZone.run(() => {
+      this.dialogRef.close(filter);
+    });
   }
 
   onClose(): void {
-    this.dialogRef.close();
+    this.ngZone.run(() => {
+      this.dialogRef.close();
+    });
   }
 
   getColumnsFilters(filter: ITableFilter): ITableColumnFilter[] {

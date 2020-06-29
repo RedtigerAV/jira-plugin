@@ -89,22 +89,22 @@ export class ReportSortsComponent implements OnInit, OnDestroy, IReportSortsComp
 
     const dialogRef = this.dialog.open(ReportSortsModalComponent, {
       data: {
-        title: 'Edit sort',
+        title: 'Редактор сортировки',
         sort
       }
     });
 
     dialogRef.afterClosed()
       .pipe(
-        take(1),
         switchMap(result => !!result ? this.reportSortsService.patchSort(this.tableID, result) : of(null)),
         take(1)
       )
       .subscribe(resultSorts => {
         if (resultSorts) {
           this.sorts$.next(resultSorts);
-          this.cdr.detectChanges();
         }
+
+        this.cdr.detectChanges();
       });
   }
 }
