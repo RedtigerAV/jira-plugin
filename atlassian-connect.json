@@ -11,8 +11,12 @@
       "self": "{{localBaseUrl}}/atlassian-connect.json",
       "homepage": "{{localBaseUrl}}/atlassian-connect.json"
   },
+  "lifecycle": {
+    "installed": "/installed",
+    "uninstalled": "/uninstalled"
+  },
   "authentication": {
-      "type": "none"
+      "type": "jwt"
   },
   "scopes": [
       "READ", "WRITE", "ADMIN"

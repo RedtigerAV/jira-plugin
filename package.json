@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "heroku-postbuild": "ng build --prod",
     "swagger:build": "node tools/swagger-scripts/swagger.clean.js && npm run swagger:build:platform && node tools/swagger-scripts/swagger.fix.js",
     "swagger:build:platform": "node swagger-builder.js dirName=platform source=https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json",
     "swagger:build:software": "node swagger-builder.js dirName=software source=https://developer.atlassian.com/cloud/jira/software/swagger.v3.json",
@@ -16,8 +17,10 @@
   "dependencies": {
     "@angular/animations": "^8.2.14",
     "@angular/cdk": "^8.2.3",
+    "@angular/cli": "~8.3.17",
     "@angular/common": "~8.2.13",
     "@angular/compiler": "~8.2.13",
+    "@angular/compiler-cli": "~8.2.13",
     "@angular/core": "~8.2.13",
     "@angular/forms": "~8.2.13",
     "@angular/material": "^8.2.3",
@@ -36,14 +39,13 @@
     "ngx-mask": "^7.9.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "typescript": "~3.4.5",
     "uuid": "^7.0.3",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^8.1.0",
     "@angular-devkit/build-angular": "~0.803.17",
-    "@angular/cli": "~8.3.17",
-    "@angular/compiler-cli": "~8.2.13",
     "@angular/language-service": "~8.2.13",
     "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
@@ -68,11 +70,14 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.4.5",
     "@openapitools/openapi-generator-cli": "0.0.16-4.0.3",
     "follow-redirects": "^1.7.0",
     "https-proxy-agent": "^2.2.2",
     "ng-packagr": "^5.4.3",
     "tmp": "^0.1.0"
+  },
+  "engines": {
+    "node": "12.10.0",
+    "npm": "6.10.3"
   }
 }
