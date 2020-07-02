@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(compression());
 app.use(express.static(__dirname + '/dist/jira-timgo'));
 
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname + '/dist/jira-timgo/index.html')));
 
 if (devEnv) {
   app.use(errorHandler());
