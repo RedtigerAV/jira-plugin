@@ -20,6 +20,9 @@ app.use(compression());
 app.use(express.static(__dirname + '/dist/jira-timgo'));
 
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname + '/dist/jira-timgo')));
+app.get('/installed', (req, res) => {
+  res.send('success');
+});
 
 if (devEnv) {
   app.use(errorHandler());

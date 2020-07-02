@@ -42,6 +42,7 @@
     "express": "^4.17.1",
     "hammerjs": "^2.0.8",
     "jsdom": "^16.0.0",
+    "jugglingdb-postgres-atlassian": "0.1.0-atlassian-003",
     "jugglingdb-sqlite3": "0.0.5",
     "lodash-es": "^4.17.11",
     "ng-packagr": "^5.4.3",
