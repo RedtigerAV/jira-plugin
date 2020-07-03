@@ -1,6 +1,7 @@
 {
   "key": "jira-timgo",
   "name": "Jira TimGo Plugin",
+  "apiVersion": 2,
   "description": "Atlassian Jira plugin for planning and labor accounting in Agile projects",
   "vendor": {
     "name": "Atlassian Developers",
