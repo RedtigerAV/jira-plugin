@@ -1,21 +1,21 @@
 const ace = require('atlassian-connect-express');
-var config = require('atlassian-connect-express/lib/internal/config');
-var utils = require('atlassian-connect-express/lib/internal/utils');
-var bodyParser = require('body-parser');
-var compression = require('compression');
-var cookieParser = require('cookie-parser');
-var errorHandler = require('errorhandler');
+const config = require('atlassian-connect-express/lib/internal/config');
+const utils = require('atlassian-connect-express/lib/internal/utils');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+const cookieParser = require('cookie-parser');
+const errorHandler = require('errorhandler');
 
-var CONFIG_FILENAME = 'config.json';
-var configOpts = utils.loadJSON(CONFIG_FILENAME);
-var configuration = config(configOpts);
+const CONFIG_FILENAME = 'config.json';
+const configOpts = utils.loadJSON(CONFIG_FILENAME);
+const configuration = config(configOpts);
 
 module.exports = {
   devServer: {
     publicPath: '/',
     port: configuration.port(),
     disableHostCheck: true,
-    before: function (app, server) {
+    before: function (app) {
       const addon = ace(app);
       app.set('port', configuration.port());
       app.use(bodyParser.json());
@@ -27,9 +27,7 @@ module.exports = {
       }
 
       app.use(addon.middleware());
-      (async () => {
-        addon.register();
-      })()
+      addon.register();
     }
   }
 };
