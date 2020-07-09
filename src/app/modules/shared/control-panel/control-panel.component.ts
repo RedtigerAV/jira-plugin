@@ -12,7 +12,7 @@ import { IActionItem } from '../actions-panel/actions-panel.component';
 })
 export class ControlPanelComponent implements OnInit {
   @Input() form: FormGroup<ISettingsPanelForm>;
-  @Input() hiddenControls: BooleanFormState<ISettingsPanelForm>;
+  @Input() displayedControls: BooleanFormState<ISettingsPanelForm>;
   @Input() actions: IActionItem[];
   @Input() controlsDisplay: 'row' | 'column';
 

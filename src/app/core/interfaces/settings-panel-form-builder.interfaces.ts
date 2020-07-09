@@ -3,6 +3,6 @@ import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfa
 import { FormGroup } from '@ng-stack/forms';
 
 export interface ISettingsPanelFormBuilder {
-  hiddenControls?: BooleanFormState<ISettingsPanelForm>;
+  displayedControls: BooleanFormState<ISettingsPanelForm>;
   getSettingsFromGroup(model?: ISettingsPanelForm): FormGroup<ISettingsPanelForm>;
 }

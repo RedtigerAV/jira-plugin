@@ -23,7 +23,7 @@ import { GroupsService } from '@core/api/platform/api/groups.service';
 })
 export class SettingsPanelComponent implements OnInit, OnDestroy {
   @Input() form: FormGroup<ISettingsPanelForm>;
-  @Input() hiddenControls: BooleanFormState<ISettingsPanelForm>;
+  @Input() displayedControls: BooleanFormState<ISettingsPanelForm>;
   @Input() controlsDisplay: 'row' | 'column';
 
   public projectsDataSource: ProjectsDataSource;
@@ -74,7 +74,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   } ;
 
   private initSubscriptions(): void {
-    if (!this.hiddenControls.project) {
+    if (this.displayedControls.project) {
       this.form.controls.project.valueChanges
         .pipe(
           distinctUntilChanged(),
@@ -85,7 +85,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
         });
     }
 
-    if (!this.hiddenControls.board) {
+    if (this.displayedControls.board) {
       this.form.controls.board.valueChanges
         .pipe(
           distinctUntilChanged(),
