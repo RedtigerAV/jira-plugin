@@ -24,7 +24,7 @@ import { DefaultSettingsMiddleware } from '@core/services/default-settings.middl
 })
 export class PlanningComponent implements OnInit, OnDestroy {
   public form: FormGroup<ISettingsPanelForm>;
-  public hiddenControls: BooleanFormState<ISettingsPanelForm>;
+  public displayedControls: BooleanFormState<ISettingsPanelForm>;
   public actions: IActionItem[] = [
     {
       title: 'Начать планирование',
@@ -65,7 +65,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
     this.columnDefs$ = new ReplaySubject<any[]>(1);
     this.defaultColDef$ = new ReplaySubject<any>(1);
     this.settingsBuilder = new PlanningSettingsBuilder(this.fb);
-    this.hiddenControls = this.settingsBuilder.hiddenControls;
+    this.displayedControls = this.settingsBuilder.displayedControls;
   }
 
   ngOnInit(): void {

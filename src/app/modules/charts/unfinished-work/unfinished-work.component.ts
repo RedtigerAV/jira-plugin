@@ -26,7 +26,7 @@ export class UnfinishedWorkComponent extends ChartComponentBase implements OnIni
   public chartID = ChartID.UNFINISHED_WORK;
   public width = undefined;
   public form: FormGroup<ISettingsPanelForm>;
-  public hiddenControls: BooleanFormState<ISettingsPanelForm>;
+  public displayedControls: BooleanFormState<ISettingsPanelForm>;
   public xAxisLabel = 'Спринты';
   public yAxisLabel = 'Процент';
   public actions: IActionItem[] = [
@@ -62,7 +62,7 @@ export class UnfinishedWorkComponent extends ChartComponentBase implements OnIni
               private readonly snackbar: TgSnackbarService) {
     super();
     this.settingsBuilder = new UnfinishedWorkSettingsBuilder(this.fb);
-    this.hiddenControls = this.settingsBuilder.hiddenControls;
+    this.displayedControls = this.settingsBuilder.displayedControls;
     this.chartData$ = new BehaviorSubject<IChartSeries[]>([]);
   }
 

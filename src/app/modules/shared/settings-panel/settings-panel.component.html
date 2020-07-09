@@ -3,7 +3,7 @@
     [formGroup]="form"
     class="table-settings table-settings--{{controlsDisplay}}"
   >
-    <div *ngIf="!hiddenControls.project" class="table-settings__item">
+    <div *ngIf="displayedControls.project" class="table-settings__item">
       <app-select
         label="Проект"
         [dataSource]="projectsDataSource"
@@ -21,7 +21,7 @@
       </app-select>
     </div>
 
-    <div *ngIf="!hiddenControls.board" class="table-settings__item">
+    <div *ngIf="displayedControls.board" class="table-settings__item">
       <app-select
         label="Доска"
         [dataSource]="boardsDataSource"
@@ -30,7 +30,7 @@
       ></app-select>
     </div>
 
-    <div *ngIf="!hiddenControls.group" class="table-settings__item">
+    <div *ngIf="displayedControls.group" class="table-settings__item">
       <app-select
         label="Группа"
         [dataSource]="groupsDataSource"
@@ -39,7 +39,7 @@
       ></app-select>
     </div>
 
-    <div *ngIf="!hiddenControls.periodBy" class="table-settings__item">
+    <div *ngIf="displayedControls.periodBy" class="table-settings__item">
       <app-select
         label="Период по"
         [dataSource]="periodTypeDataSource"
@@ -50,7 +50,7 @@
     <ng-container *ngIf="form.controls.periodBy && periodType$ | async as period">
       <ng-container [ngSwitch]="period">
         <div class="table-settings__grouped-item" *ngSwitchCase="periodTypeEnum.SPRINT">
-          <div *ngIf="!hiddenControls.fromSprint" class="table-settings__item">
+          <div *ngIf="displayedControls.fromSprint" class="table-settings__item">
             <app-select
               label="От спринта"
               [dataSource]="sprintDataSource"
@@ -59,7 +59,7 @@
             ></app-select>
           </div>
 
-          <div *ngIf="!hiddenControls.toSprint" class="table-settings__item">
+          <div *ngIf="displayedControls.toSprint" class="table-settings__item">
             <app-select
               label="К спринту"
               [dataSource]="sprintDataSource"
@@ -70,7 +70,7 @@
         </div>
 
         <div class="table-settings__grouped-item" *ngSwitchCase="periodTypeEnum.DATE">
-          <div *ngIf="!hiddenControls.startDate" class="table-settings__item">
+          <div *ngIf="displayedControls.startDate" class="table-settings__item">
             <app-datepicker
               label="Дата начала"
               [formControl]="form.controls.startDate"
@@ -78,7 +78,7 @@
             ></app-datepicker>
           </div>
 
-          <div *ngIf="!hiddenControls.endDate" class="table-settings__item">
+          <div *ngIf="displayedControls.endDate" class="table-settings__item">
             <app-datepicker
               label="Дата конца"
               [formControl]="form.controls.endDate"
