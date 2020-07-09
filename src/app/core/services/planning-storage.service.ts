@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BoardsService } from '@core/api/software/api/boards.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 export interface IPlanningStorage {
   [userID: string]: {
@@ -13,7 +14,7 @@ export interface IPlanningStorage {
   providedIn: 'root'
 })
 export class PlanningStorageService {
-  private key = 'planning-storage';
+  private key = `${environment.addonKey}-planning-storage`;
 
   constructor(private readonly boardsService: BoardsService) {}
 
