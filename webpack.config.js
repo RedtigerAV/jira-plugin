@@ -16,13 +16,28 @@ module.exports = {
     port: configuration.port(),
     disableHostCheck: true,
     before: function (app) {
-      const addon = ace(app);
+      const addon = ace(app, {
+        config: {
+          descriptorTransformer: function(descriptor, config) {
+            if (config.environment() === 'development') {
+              descriptor.key = 'jira-timgo-dev';
+              descriptor.name = 'Jira TimGo Plugin DEV';
+
+              descriptor.modules.generalPages[0].key = 'timgo-dev';
+              descriptor.modules.generalPages[0].name.value = 'TimGo DEV';
+
+            }
+
+            return descriptor;
+          }
+        }
+      });
       app.set('port', configuration.port());
       app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({extended: false}));
       app.use(cookieParser());
       app.use(compression());
-      if (app.get('env') == 'development') {
+      if (app.get('env') === 'development') {
         app.use(errorHandler());
       }
 

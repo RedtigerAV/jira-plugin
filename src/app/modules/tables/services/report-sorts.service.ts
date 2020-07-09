@@ -3,9 +3,9 @@ import { TableID } from '@core/interfaces/structure.interfaces';
 import { forkJoin, Observable, of } from 'rxjs';
 import * as uuid from 'uuid';
 import { ITableSort } from '../interfaces/table-sort.interfaces';
-import { addonKey } from '@core/common-configuration/global';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class ReportSortsService {
@@ -14,14 +14,14 @@ export class ReportSortsService {
   constructor(private readonly appPropertiesService: AppPropertiesService) {}
 
   public getSorts(tableID: TableID): Observable<ITableSort[]> {
-    return this.appPropertiesService.getAddonProperties(addonKey)
+    return this.appPropertiesService.getAddonProperties(environment.addonKey)
       .pipe(
         switchMap(({keys}) => {
           const currentKey = this.getPropertyKey(tableID);
           const isPropertyExist = keys.some(({key}) => key === currentKey);
 
           return isPropertyExist
-            ? this.appPropertiesService.getAddonProperty(addonKey, currentKey)
+            ? this.appPropertiesService.getAddonProperty(environment.addonKey, currentKey)
             : of({value: []});
         }),
         catchError(() => of({value: []})),
@@ -39,7 +39,7 @@ export class ReportSortsService {
 
           return forkJoin(
             of(newSorts),
-            this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(tableID), newSorts)
+            this.appPropertiesService.putAddonProperty(environment.addonKey, this.getPropertyKey(tableID), newSorts)
           )
         }),
         map(([sorts]) => sorts)
@@ -55,7 +55,7 @@ export class ReportSortsService {
 
           return forkJoin(
             of(sorts),
-            this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(tableID), sorts)
+            this.appPropertiesService.putAddonProperty(environment.addonKey, this.getPropertyKey(tableID), sorts)
           );
         }),
         map(([sorts]) => sorts)
@@ -71,7 +71,7 @@ export class ReportSortsService {
 
           return forkJoin(
             of(sorts),
-            this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(tableID), sorts)
+            this.appPropertiesService.putAddonProperty(environment.addonKey, this.getPropertyKey(tableID), sorts)
           );
         }),
         map(([sorts]) => sorts)
