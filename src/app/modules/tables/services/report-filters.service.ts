@@ -4,8 +4,8 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { ITableFilter } from '../interfaces/table-filter.interfaces';
 import * as uuid from 'uuid';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
-import { addonKey } from '@core/common-configuration/global';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class ReportFiltersService {
@@ -14,14 +14,14 @@ export class ReportFiltersService {
   constructor(private readonly appPropertiesService: AppPropertiesService) {}
 
   public getFilters(tableID: TableID): Observable<ITableFilter[]> {
-    return this.appPropertiesService.getAddonProperties(addonKey)
+    return this.appPropertiesService.getAddonProperties(environment.addonKey)
       .pipe(
         switchMap(({keys}) => {
           const currentKey = this.getPropertyKey(tableID);
           const isPropertyExist = keys.some(({key}) => key === currentKey);
 
           return isPropertyExist
-            ? this.appPropertiesService.getAddonProperty(addonKey, currentKey)
+            ? this.appPropertiesService.getAddonProperty(environment.addonKey, currentKey)
             : of({value: []});
         }),
         catchError(() => of({value: []})),
@@ -39,7 +39,7 @@ export class ReportFiltersService {
 
           return forkJoin(
             of(newFilters),
-            this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(tableID), newFilters)
+            this.appPropertiesService.putAddonProperty(environment.addonKey, this.getPropertyKey(tableID), newFilters)
           )
         }),
         map(([filters]) => filters)
@@ -55,7 +55,7 @@ export class ReportFiltersService {
 
           return forkJoin(
             of(filters),
-            this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(tableID), filters)
+            this.appPropertiesService.putAddonProperty(environment.addonKey, this.getPropertyKey(tableID), filters)
           );
         }),
         map(([filters]) => filters)
@@ -71,7 +71,7 @@ export class ReportFiltersService {
 
           return forkJoin(
             of(filters),
-            this.appPropertiesService.putAddonProperty(addonKey, this.getPropertyKey(tableID), filters)
+            this.appPropertiesService.putAddonProperty(environment.addonKey, this.getPropertyKey(tableID), filters)
           );
         }),
         map(([filters]) => filters)
