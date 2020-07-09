@@ -6,14 +6,14 @@ import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfa
 import { DefaultSettingsService } from '@core/services/default-settings.service';
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
-import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
+import { DefaultSettingsMiddleware } from '@core/services/default-settings.middleware';
 
 @Component({
   selector: 'app-report-settings',
   templateUrl: './report-settings.component.html',
   styleUrls: ['./report-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DefaultSettingsMiddleware]
 })
 export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettingsComponent {
   @Input() context: IReportContext;
@@ -21,8 +21,8 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
   form: FormGroup<ISettingsPanelForm>;
 
   constructor(private readonly mediator: ReportMediator,
-              private readonly snackbar: TgSnackbarService,
               private readonly cdr: ChangeDetectorRef,
+              private readonly defaultSettingsMiddleware: DefaultSettingsMiddleware,
               private readonly reportDefaultSettingsService: DefaultSettingsService) {
     mediator.reportSettingsComponent = this;
   }
@@ -39,19 +39,10 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
   ngOnDestroy(): void {}
 
   applyDefaultSettings(): void {
-    this.reportDefaultSettingsService.getDefaultSettings(this.context.tableID)
-      .pipe(takeUntilDestroyed(this))
-      .subscribe((settings: ISettingsPanelForm) => {
-        this.form.patchValue(settings);
-        this.cdr.detectChanges();
-      });
+    this.defaultSettingsMiddleware.applyDefaultSettings(this.context.tableID, this.form, this.cdr);
   }
 
   saveSettingsAsDefault(): void {
-    this.reportDefaultSettingsService.setDefaultSettings(this.context.tableID, this.form.getRawValue())
-      .pipe(takeUntilDestroyed(this))
-      .subscribe(() => {
-        this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
-      });
+    this.defaultSettingsMiddleware.saveSettingsAsDefault(this.context.tableID, this.form);
   }
 }

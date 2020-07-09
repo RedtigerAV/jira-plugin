@@ -13,16 +13,14 @@ import { PlanningService } from './planning.service';
 import { PlanningSettingsBuilder } from './planning-settings.builder';
 import { DefaultSettingsService } from '@core/services/default-settings.service';
 import { TableID } from '@core/interfaces/structure.interfaces';
-import { TgSnackbarSuccess } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
-import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
-import { SettingsPanelModalService } from '../../shared/settings-panel/settings-panel-modal/settings-panel-modal.service';
+import { DefaultSettingsMiddleware } from '@core/services/default-settings.middleware';
 
 @Component({
   selector: 'app-planning',
   templateUrl: './planning.component.html',
   styleUrls: ['./planning.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PlanningService]
+  providers: [PlanningService, DefaultSettingsMiddleware]
 })
 export class PlanningComponent implements OnInit, OnDestroy {
   public form: FormGroup<ISettingsPanelForm>;
@@ -60,9 +58,8 @@ export class PlanningComponent implements OnInit, OnDestroy {
 
   constructor(private readonly fb: FormBuilder,
               private readonly cdr: ChangeDetectorRef,
-              private readonly settingsPanelModalService: SettingsPanelModalService,
+              private readonly defaultSettingsMiddleware: DefaultSettingsMiddleware,
               private readonly defaultSettingsService: DefaultSettingsService,
-              private readonly snackbar: TgSnackbarService,
               private readonly planningService: PlanningService) {
     this.rowData$ = new ReplaySubject<any[]>(1);
     this.columnDefs$ = new ReplaySubject<any[]>(1);
@@ -99,28 +96,15 @@ export class PlanningComponent implements OnInit, OnDestroy {
   }
 
   public applyDefaultSettings(): void {
-    this.defaultSettingsService.getDefaultSettings(this.tableID)
-      .pipe(takeUntilDestroyed(this))
-      .subscribe((settings: ISettingsPanelForm) => {
-        this.form.patchValue(settings);
-        this.cdr.detectChanges();
-      });
+    this.defaultSettingsMiddleware.applyDefaultSettings(this.tableID, this.form, this.cdr);
   }
 
   public saveSettingsAsDefault(): void {
-    this.defaultSettingsService.setDefaultSettings(this.tableID, this.form.getRawValue())
-      .pipe(takeUntilDestroyed(this))
-      .subscribe(() => {
-        this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
-      });
+    this.defaultSettingsMiddleware.saveSettingsAsDefault(this.tableID, this.form);
   }
 
   public onSettings(): void {
-    this.settingsPanelModalService.openDefaultSettingsPanelModel(this.tableID, this.settingsBuilder)
-      .pipe(takeUntilDestroyed(this))
-      .subscribe(() => {
-        this.snackbar.openSnackbar(new TgSnackbarSuccess('Настройки по умолчанию сохранены!'))
-      });
+    this.defaultSettingsMiddleware.openSettingsModalHandler(this.tableID, this.settingsBuilder);
   }
 
   private generateTable(): void {
