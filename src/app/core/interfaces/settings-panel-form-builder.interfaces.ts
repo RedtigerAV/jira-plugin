@@ -4,5 +4,6 @@ import { FormGroup } from '@ng-stack/forms';
 
 export interface ISettingsPanelFormBuilder {
   displayedControls: BooleanFormState<ISettingsPanelForm>;
-  getSettingsFromGroup(model?: ISettingsPanelForm): FormGroup<ISettingsPanelForm>;
+  destroy(): void;
+  getSettingsFormGroup(model?: ISettingsPanelForm): FormGroup<ISettingsPanelForm>;
 }

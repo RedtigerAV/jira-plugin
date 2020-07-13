@@ -32,7 +32,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
     this.reportDefaultSettingsService.getDefaultSettings(this.context.tableID)
       .pipe(take(1))
       .subscribe((settings: ISettingsPanelForm) => {
-        this.form = this.context.settingsBuilder.getSettingsFromGroup(settings);
+        this.form = this.context.settingsBuilder.getSettingsFormGroup(settings);
         this.cdr.detectChanges();
       });
   }

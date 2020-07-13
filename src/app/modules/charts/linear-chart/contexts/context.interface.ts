@@ -9,6 +9,8 @@ export interface ILinearChartContext {
   title: string;
   xAxisLabel: string;
   yAxisLabel: string;
+  yScaleMax?: number;
+  controlsDisplay?: 'row' | 'column';
   settingsBuilder: ISettingsPanelFormBuilder;
   getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]>;
   destroy(): void;

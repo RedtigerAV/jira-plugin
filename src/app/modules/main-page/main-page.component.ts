@@ -56,7 +56,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       name: 'Незавершенная работа',
       description: mainPageTexts[ChartID.UNFINISHED_WORK],
       chartID: ChartID.UNFINISHED_WORK,
-      chartType: ChartType.BAR
+      chartType: ChartType.LINEAR
     }
   ];
 

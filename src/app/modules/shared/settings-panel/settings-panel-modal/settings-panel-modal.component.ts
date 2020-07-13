@@ -21,7 +21,7 @@ export class SettingsPanelModalComponent {
 
   constructor(public dialogRef: MatDialogRef<SettingsPanelModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ISettingsPanelModalData) {
-    this.form = this.data.settingsBuilder.getSettingsFromGroup(this.data.settings);
+    this.form = this.data.settingsBuilder.getSettingsFormGroup(this.data.settings);
   }
 
   onSave(): void {

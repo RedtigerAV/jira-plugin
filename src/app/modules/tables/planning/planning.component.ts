@@ -76,7 +76,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
     this.defaultSettingsService.getDefaultSettings(this.tableID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
-        this.form = this.settingsBuilder.getSettingsFromGroup(settings);
+        this.form = this.settingsBuilder.getSettingsFormGroup(settings);
         this.cdr.detectChanges();
       });
   }
