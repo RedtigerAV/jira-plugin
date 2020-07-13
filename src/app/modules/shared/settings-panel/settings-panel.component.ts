@@ -12,8 +12,8 @@ import { BoardsService } from '@core/api/software/api/boards.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { ISettingsPanelForm, SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
 import { BooleanFormState } from '@shared/helpers/types.helper';
-import { GroupsDataSource } from '@core/datasources/groups.datasource';
-import { GroupsService } from '@core/api/platform/api/groups.service';
+import { UsersDataSource } from '@core/datasources/users.datasource';
+import { UserSearchService } from '@core/api/platform/api/userSearch.service';
 
 @Component({
   selector: 'app-settings-panel',
@@ -30,29 +30,13 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   public sprintDataSource: SprintsDataSource;
   public periodTypeDataSource: PeriodTypeDataSource;
   public boardsDataSource: BoardsDataSource;
-  public groupsDataSource: GroupsDataSource;
+  public usersDataSource: UsersDataSource;
   public periodTypeEnum = SettingsPanelPeriodTypesEnum;
   public periodType$: Observable<SettingsPanelPeriodTypesEnum>;
 
-  public startDateFilter = ((date: Date) => {
-    if (!this.form.value.endDate) {
-      return true;
-    }
-
-    return date <= this.form.value.endDate;
-  }).bind(this);
-
-  public endDateFilter = ((date: Date) => {
-    if (!this.form.value.startDate) {
-      return true;
-    }
-
-    return date >= this.form.value.startDate;
-  }).bind(this);
-
   constructor(private readonly projectService: ProjectsService,
               private readonly boardsService: BoardsService,
-              private readonly groupsService: GroupsService,
+              private readonly userSearchService: UserSearchService,
               private readonly sprintsService: SprintsService) {
   }
 
@@ -64,11 +48,27 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
+  public startDateFilter = (date: Date) => {
+    if (!this.form.value.endDate) {
+      return true;
+    }
+
+    return date <= this.form.value.endDate;
+  };
+
+  public endDateFilter = (date: Date) => {
+    if (!this.form.value.startDate) {
+      return true;
+    }
+
+    return date >= this.form.value.startDate;
+  };
+
   private initDataSources(): void {
     this.projectsDataSource = new ProjectsDataSource(this.projectService);
     this.boardsDataSource = new BoardsDataSource(this.boardsService);
     this.sprintDataSource = new SprintsDataSource(this.sprintsService);
-    this.groupsDataSource = new GroupsDataSource(this.groupsService);
+    this.usersDataSource = new UsersDataSource(this.userSearchService);
     this.periodTypeDataSource = new PeriodTypeDataSource();
 
     if (this.displayedControls.project) {

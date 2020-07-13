@@ -10,7 +10,6 @@ import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { BoardsService } from '@core/api/software/api/boards.service';
 import { WorkflowStatusesService } from '@core/api/platform/api/workflowStatuses.service';
-import { GroupsService } from '@core/api/platform/api/groups.service';
 import { PlanningStorageService } from '@core/services/planning-storage.service';
 
 @Injectable({
@@ -22,7 +21,6 @@ export class ReportContextResolver implements Resolve<IReportContext> {
               private readonly issueSearchService: IssueSearchService,
               private readonly sprintsService: SprintsService,
               private readonly boardsService: BoardsService,
-              private readonly groupsService: GroupsService,
               private readonly workflowStatusesService: WorkflowStatusesService,
               private readonly planningService: PlanningStorageService,
               @Inject(LOCALE_ID) public locale: string) {}
@@ -47,7 +45,6 @@ export class ReportContextResolver implements Resolve<IReportContext> {
         this.workflowStatusesService,
         this.sprintsService,
         this.issueSearchService,
-        this.groupsService,
         this.planningService,
         this.fb,
         this.locale

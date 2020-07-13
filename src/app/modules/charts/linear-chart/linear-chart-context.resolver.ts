@@ -6,7 +6,6 @@ import { AverageProductivityContext } from './contexts/average-productivity.cont
 import { FormBuilder } from '@ng-stack/forms';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
-import { GroupsService } from '@core/api/platform/api/groups.service';
 import { PlanningStorageService } from '@core/services/planning-storage.service';
 import { PlanFactContext } from './contexts/plan-fact.context';
 
@@ -18,8 +17,7 @@ export class LinearChartContextResolver implements Resolve<ILinearChartContext> 
               private readonly router: Router,
               private readonly issueSearchService: IssueSearchService,
               private readonly sprintsService: SprintsService,
-              private readonly planningStorage: PlanningStorageService,
-              private readonly groupsService: GroupsService) {
+              private readonly planningStorage: PlanningStorageService) {
 
   }
 
@@ -27,9 +25,9 @@ export class LinearChartContextResolver implements Resolve<ILinearChartContext> 
     const chartID = route.params.chartID;
 
     if (chartID === ChartID.AVERAGE_PRODUCTIVITY) {
-      return new AverageProductivityContext(this.sprintsService, this.issueSearchService, this.groupsService, this.fb);
+      return new AverageProductivityContext(this.sprintsService, this.issueSearchService, this.fb);
     } else if (chartID === ChartID.PLAN_FACT) {
-      return new PlanFactContext(this.sprintsService, this.issueSearchService, this.groupsService, this.planningStorage, this.fb);
+      return new PlanFactContext(this.sprintsService, this.issueSearchService, this.planningStorage, this.fb);
     }
 
     this.router.navigate(['/']);

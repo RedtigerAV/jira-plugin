@@ -1,18 +1,17 @@
 import { ILinearChartContext } from './context.interface';
 import { ChartID } from '@core/interfaces/structure.interfaces';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ILinearChartData } from '../../interfaces/chart-data.interfaces';
 import { map, switchMap } from 'rxjs/operators';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
-import { GroupsService } from '@core/api/platform/api/groups.service';
 import { IssueBeanModel } from '@core/api/platform/model/issueBean';
 import { Sprint } from '@core/api/software/model/sprint';
-import { UserDetailsModel } from '@core/api/platform/model/userDetails';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { AverageProductivitySettingsBuilder } from '../settings-builders/average-productivity-settings.builder';
 import { FormBuilder } from '@ng-stack/forms';
+import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
 
 export class AverageProductivityContext implements ILinearChartContext {
   public chartID = ChartID.AVERAGE_PRODUCTIVITY;
@@ -24,14 +23,13 @@ export class AverageProductivityContext implements ILinearChartContext {
   constructor(
     public sprintsService: SprintsService,
     public issueSearchService: IssueSearchService,
-    public groupsService: GroupsService,
     public fb: FormBuilder
   ){}
 
   public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
-    const groupName = settings.group.name;
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
+    const users = settings.users || [];
 
     return this.sprintsService.searchSprints(boardID, 'closed,active')
       .pipe(
@@ -43,12 +41,10 @@ export class AverageProductivityContext implements ILinearChartContext {
           ]
             .join(' AND ');
 
-          return forkJoin(
-            this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog'),
-            this.groupsService.getUsersFromGroup(groupName, false),
-          )
+          return this.issueSearchService
+            .searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog')
             .pipe(
-              map(([issues, users]) => this.transformData(issues.issues, sprints, users.values))
+              map(issues => this.transformData(issues.issues, sprints, users as UserPickerUserModel[]))
             )
         })
       );
@@ -58,7 +54,7 @@ export class AverageProductivityContext implements ILinearChartContext {
     this.settingsBuilder.destroy();
   }
 
-  private transformData(issues: IssueBeanModel[], sprints: Sprint[], users: UserDetailsModel[]): ILinearChartData[] {
+  private transformData(issues: IssueBeanModel[], sprints: Sprint[], users: UserPickerUserModel[]): ILinearChartData[] {
     const usersGroupIds = new Set(users.map(({accountId}) => accountId));
     const tracked: ILinearChartData = {
       name: 'По затраченному времени',

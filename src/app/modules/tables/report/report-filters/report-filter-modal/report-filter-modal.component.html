@@ -2,7 +2,7 @@
   <span class="title tg-h4">{{data.title}}</span>
   <div [formGroup]="form">
     <app-input
-      label="Filter name"
+      label="Название фильтра"
       [formControl]="form.controls.name"
     ></app-input>
   </div>
@@ -42,6 +42,6 @@
   </div>
   <div class="actions">
     <button class="tg-button" (click)="onSave()">Сохранить</button>
-    <button class="tg-button tg-button--outline" (click)="onClose()">Сбросить</button>
+    <button class="tg-button tg-button--outline" (click)="onClose()">Отмена</button>
   </div>
 </div>

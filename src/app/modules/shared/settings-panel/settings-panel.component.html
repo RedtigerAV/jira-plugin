@@ -32,14 +32,12 @@
       </app-select>
     </div>
 
-    <div *ngIf="displayedControls.group" class="table-settings__item">
-      <app-select
-        label="Группа"
-        [dataSource]="groupsDataSource"
-        [formControl]="form.controls.group"
-      >
-        <ng-template appEmptyOption>Очистить поле</ng-template>
-      </app-select>
+    <div *ngIf="displayedControls.users" class="table-settings__item">
+      <app-chip-list
+        label="Пользователи"
+        [dataSource]="usersDataSource"
+        [formControl]="form.controls.users"
+      ></app-chip-list>
     </div>
 
     <div *ngIf="displayedControls.periodBy" class="table-settings__item">
