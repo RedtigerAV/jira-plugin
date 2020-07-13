@@ -5,9 +5,8 @@ import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { Sprint } from '@core/api/software/model/sprint';
-import { GroupsService } from '@core/api/platform/api/groups.service';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
-import { UserDetailsModel } from '@core/api/platform/model/userDetails';
+import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
 
 /**
  * plan_info: { sprintID: {userID: number } }
@@ -31,7 +30,6 @@ export class PlanningService {
   };
 
   constructor(private readonly sprintsService: SprintsService,
-              private readonly groupsService: GroupsService,
               private readonly planningStorageService: PlanningStorageService) {}
 
   public getColumnsDef(settings: ISettingsPanelForm): Observable<ITableColumn[]> {
@@ -63,20 +61,17 @@ export class PlanningService {
    * @param settings
    */
   public getTableData(settings: ISettingsPanelForm): Observable<any> {
-    const groupName = settings.group.name;
     const boardID = settings.board.id.toString(10);
     const searchSprints$ = this.sprintsService.searchSprints(boardID, 'active,closed,future')
       .pipe(map(({values}) => values));
-    const searchUsers$ = this.groupsService.getUsersFromGroup(groupName, false)
-      .pipe(map(({values}) => values));
+    const users = settings.users || [];
 
     return forkJoin(
       searchSprints$,
-      searchUsers$,
       this.planningStorageService.getPlanningStorage(boardID)
     )
       .pipe(
-        map(([sprints, users, planning]) => this.transformData(sprints, users, planning))
+        map(([sprints, planning]) => this.transformData(sprints, users as UserPickerUserModel[], planning))
       )
   }
 
@@ -98,7 +93,7 @@ export class PlanningService {
     return this.planningStorageService.setPlanningStorage(boardID, planning);
   }
 
-  private transformData(sprints: Sprint[], users: UserDetailsModel[], planning: IPlanningStorage): IPlanningRowModel[] {
+  private transformData(sprints: Sprint[], users: UserPickerUserModel[], planning: IPlanningStorage): IPlanningRowModel[] {
     const result: IPlanningRowModel[] = [];
 
     users.forEach(user => {

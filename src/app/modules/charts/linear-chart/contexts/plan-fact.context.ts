@@ -6,14 +6,13 @@ import { ChartID } from '@core/interfaces/structure.interfaces';
 import { PlanFactSettingsBuilder } from '../settings-builders/plan-fact-settings.builder';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
-import { GroupsService } from '@core/api/platform/api/groups.service';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
 import { FormBuilder } from '@ng-stack/forms';
 import { map, switchMap } from 'rxjs/operators';
 import { IssueBeanModel } from '@core/api/platform/model/issueBean';
 import { Sprint } from '@core/api/software/model/sprint';
-import { UserDetailsModel } from '@core/api/platform/model/userDetails';
 import { getAllSprints } from '@core/helpers/issues.helpers';
+import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
 
 export class PlanFactContext implements ILinearChartContext {
   public chartID = ChartID.PLAN_FACT;
@@ -25,7 +24,6 @@ export class PlanFactContext implements ILinearChartContext {
   constructor(
     public sprintsService: SprintsService,
     public issueSearchService: IssueSearchService,
-    public groupsService: GroupsService,
     public planningStorageService: PlanningStorageService,
     public fb: FormBuilder
   ){}
@@ -35,9 +33,9 @@ export class PlanFactContext implements ILinearChartContext {
   }
 
   public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
-    const groupName = settings.group.name;
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
+    const users = settings.users || [];
 
     return this.sprintsService.searchSprints(boardID, 'closed,active')
       .pipe(
@@ -51,11 +49,10 @@ export class PlanFactContext implements ILinearChartContext {
 
           return forkJoin(
             this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog'),
-            this.groupsService.getUsersFromGroup(groupName, false),
             this.planningStorageService.getPlanningStorage(boardID)
           )
             .pipe(
-              map(([issues, users, planning]) => this.transformData(issues.issues, sprints, users.values, planning))
+              map(([issues, planning]) => this.transformData(issues.issues, sprints, users as UserPickerUserModel[], planning))
             )
         })
       );
@@ -64,7 +61,7 @@ export class PlanFactContext implements ILinearChartContext {
   private transformData(
     issues: IssueBeanModel[],
     sprints: Sprint[],
-    users: UserDetailsModel[],
+    users: UserPickerUserModel[],
     planning: IPlanningStorage
   ): ILinearChartData[] {
     const plan: ILinearChartData = {

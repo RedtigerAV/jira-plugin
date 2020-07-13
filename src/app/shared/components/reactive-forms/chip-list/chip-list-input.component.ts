@@ -109,9 +109,6 @@ export class ChipListInputComponent implements MatFormFieldControl<any>, Control
   @HostBinding('attr.aria-describedby') public describedBy = '';
 
   @Input()
-  public previewFormControl: FormControl;
-
-  @Input()
   public dataSource: IDataSource<any, any>;
 
   public separatorKeysCodes = [ENTER, COMMA];
@@ -154,9 +151,9 @@ export class ChipListInputComponent implements MatFormFieldControl<any>, Control
       this.dataSource.setConfig({ debounce: true, eagerLoading: false });
     }
 
-    this.lookupOptions = ((this.previewFormControl && this.previewFormControl.value) || []).map(option => {
+    this.lookupOptions = (this.ngControl && this.ngControl.value || []).map(option => {
       return {
-        value: this.dataSource.getKey(option),
+        value: option,
         viewValue: this.dataSource.displayWith(option)
       } as IOption;
     });
@@ -235,10 +232,10 @@ export class ChipListInputComponent implements MatFormFieldControl<any>, Control
     this.onValueChange(nextValue);
   }
 
-  public getDisplayValue(value: string): string {
+  public getDisplayValue(value: any): string {
     const option = this.lookupOptions.find(c => c.value === value);
 
-    return (option && option.viewValue) || value;
+    return (option && option.viewValue) || this.dataSource.displayWith(value);
   }
 
   public onBlur(): void {

@@ -33,9 +33,6 @@ export class ChipListComponent {
   // tslint:disable-next-line: no-any
   public dataSource: IDataSource<any, any>;
 
-  @Input()
-  public previewFormControl: FormControl;
-
   constructor(@Optional() @Self() public ngControl: NgControl, private readonly formErrorService: FormErrorsService) {
     if (ngControl) {
       ngControl.valueAccessor = this;

@@ -8,8 +8,8 @@ interface IPeriodTypeDataSourceOption {
 }
 
 export const periodTypeDataSource: IPeriodTypeDataSourceOption[] = [
-  { id: SettingsPanelPeriodTypesEnum.DATE, name: 'Date' },
-  { id: SettingsPanelPeriodTypesEnum.SPRINT, name: 'Sprint' }
+  { id: SettingsPanelPeriodTypesEnum.DATE, name: 'Дата' },
+  { id: SettingsPanelPeriodTypesEnum.SPRINT, name: 'Спринт' }
 ];
 
 export class PeriodTypeDataSource extends DataSourceBase<IPeriodTypeDataSourceOption, void> {

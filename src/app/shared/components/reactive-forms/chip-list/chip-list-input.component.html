@@ -6,7 +6,7 @@
     (removed)="removeByIndex(i)"
   >
     {{ getDisplayValue(value) }}
-    <mat-icon matChipRemove *ngIf="removable">error</mat-icon>
+    <mat-icon matChipRemove *ngIf="removable">clear</mat-icon>
   </mat-chip>
   <ng-container *ngIf="!disabled">
     <input
@@ -38,12 +38,17 @@
   </ng-container>
 </mat-chip-list>
 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-  <mat-option
-    *ngFor="let option of (autocomplete$ | async); trackBy: ('$index' | trackBy)"
-    [value]="dataSource.getKey(option)"
-  >
-    {{ dataSource.displayWith(option) }}
-  </mat-option>
+  <ng-container *ngIf="(autocomplete$ | async) as options">
+    <ng-container *ngIf="options?.length; else notFound">
+      <mat-option
+        *ngFor="let option of options; trackBy: ('$index' | trackBy)"
+        [value]="option"
+      >
+        {{ dataSource.displayWith(option) }}
+      </mat-option>
+    </ng-container>
+  </ng-container>
+
   <ng-template #notFound>
     <mat-option [disabled]="true">
       Совпадений не найдено

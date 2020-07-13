@@ -14,6 +14,9 @@ import { PlanningSettingsBuilder } from './planning-settings.builder';
 import { DefaultSettingsService } from '@core/services/default-settings.service';
 import { TableID } from '@core/interfaces/structure.interfaces';
 import { DefaultSettingsMiddleware } from '@core/services/default-settings.middleware';
+import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
+import { TgSnackbarDanger } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
+import { markFormGroupTouched } from '@shared/helpers/form.helpers';
 
 @Component({
   selector: 'app-planning',
@@ -60,6 +63,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
               private readonly cdr: ChangeDetectorRef,
               private readonly defaultSettingsMiddleware: DefaultSettingsMiddleware,
               private readonly defaultSettingsService: DefaultSettingsService,
+              private readonly snackbar: TgSnackbarService,
               private readonly planningService: PlanningService) {
     this.rowData$ = new ReplaySubject<any[]>(1);
     this.columnDefs$ = new ReplaySubject<any[]>(1);
@@ -108,6 +112,14 @@ export class PlanningComponent implements OnInit, OnDestroy {
   }
 
   private generateTable(): void {
+    if (this.form.invalid) {
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Заполните необходимые поля'));
+
+      markFormGroupTouched(this.form);
+
+      return;
+    }
+
     this.tableState$.next(StructureStateEnum.LOADING);
     this.defaultColDef$.next(this.planningService.defaultColumnsDef);
 

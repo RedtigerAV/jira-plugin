@@ -69,8 +69,8 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
           case 'board':
             fbConfig.board = [model && model.board, Validators.required];
             break;
-          case 'group':
-            fbConfig.group = [model && model.group, Validators.required];
+          case 'users':
+            fbConfig.users = [model && model.users, Validators.required];
             break;
           case 'startDate':
             fbConfig.startDate = [

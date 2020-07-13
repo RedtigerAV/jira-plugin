@@ -12,19 +12,18 @@ import { BoardsService } from '@core/api/software/api/boards.service';
 import { WorkflowStatusesService } from '@core/api/platform/api/workflowStatuses.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
-import { GroupsService } from '@core/api/platform/api/groups.service';
 import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
 import { BoardConfiguration } from '@core/api/software/model/boardConfiguration';
 import { StatusDetailsModel } from '@core/api/platform/model/statusDetails';
 import { Sprint } from '@core/api/software/model/sprint';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
-import { PageBeanUserDetailsModel } from '@core/api/platform/model/pageBeanUserDetails';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
 import { DurationMapper } from '../../duration-helpers/duration-mapper';
 import { textFilters } from '../../custom-filters/text-filters';
 import { durationFilters } from '../../custom-filters/duration-filters';
 import { numberFilters } from '../../custom-filters/number-filters';
+import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
 
 interface RowModel {
   user?: string;
@@ -46,7 +45,6 @@ export class TimeSpentReportContext implements IReportContext {
               public workflowStatusesService: WorkflowStatusesService,
               public sprintsService: SprintsService,
               public issueSearchService: IssueSearchService,
-              public groupsService: GroupsService,
               public planningStorageService: PlanningStorageService,
               public fb: FormBuilder,
               public locale: string) {
@@ -140,11 +138,11 @@ export class TimeSpentReportContext implements IReportContext {
   }
 
   getTableData(settings: ISettingsPanelForm): Observable<any> {
-    const groupName = settings.group.name;
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
     const startDate = new Date(settings.fromSprint.startDate);
     const endDate = new Date(settings.toSprint.completeDate || settings.toSprint.endDate);
+    const users = settings.users || [];
 
     const searchSprints$ = this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(
@@ -186,11 +184,10 @@ export class TimeSpentReportContext implements IReportContext {
 
           return forkJoin(
             this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog'),
-            this.groupsService.getUsersFromGroup(groupName, false),
             this.planningStorageService.getPlanningStorage(boardID)
           )
             .pipe(
-              map(([data, users, planning]) => this.transformData(data, sprints, users, planning))
+              map(([data, planning]) => this.transformData(data, sprints, users as UserPickerUserModel[], planning))
             );
         })
       );
@@ -200,13 +197,13 @@ export class TimeSpentReportContext implements IReportContext {
     this.settingsBuilder.destroy();
   }
 
-  private transformData(data: SearchResultsModel, sprints: Sprint[], users: PageBeanUserDetailsModel, planning: IPlanningStorage): any {
+  private transformData(data: SearchResultsModel, sprints: Sprint[], users: UserPickerUserModel[], planning: IPlanningStorage): any {
     let result: RowModel[] = [];
 
     sprints.forEach(sprint => {
       const usersRowMap = new Map<string, RowModel>();
 
-      users.values.forEach(user => {
+      users.forEach(user => {
         usersRowMap.set(user.accountId, {
           user: user.displayName,
           sprint: sprint.name,

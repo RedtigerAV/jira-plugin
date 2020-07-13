@@ -11,6 +11,9 @@ import { ChartComponentBase } from '../chart-component.base';
 import { ILinearChartContext } from './contexts/context.interface';
 import { ActivatedRoute } from '@angular/router';
 import { DefaultSettingsMiddleware } from '@core/services/default-settings.middleware';
+import { TgSnackbarService } from '@shared/components/tg-snackbar/tg-snackbar.service';
+import { TgSnackbarDanger } from '@shared/components/tg-snackbar/models/tg-snackbar.models';
+import { markFormGroupTouched } from '@shared/helpers/form.helpers';
 
 @Component({
   selector: 'app-linear-chart',
@@ -53,6 +56,7 @@ export class LinearChartComponent extends ChartComponentBase implements OnInit, 
               private readonly cdr: ChangeDetectorRef,
               private readonly defaultSettingsMiddleware: DefaultSettingsMiddleware,
               private readonly defaultSettingsService: DefaultSettingsService,
+              private readonly snackbar: TgSnackbarService,
               private readonly activatedRoute: ActivatedRoute) {
     super();
     this.context = this.activatedRoute.snapshot.data.context;
@@ -91,6 +95,14 @@ export class LinearChartComponent extends ChartComponentBase implements OnInit, 
   }
 
   private generateChart(): void {
+    if (this.form.invalid) {
+      this.snackbar.openSnackbar(new TgSnackbarDanger('Заполните необходимые поля'));
+
+      markFormGroupTouched(this.form);
+
+      return;
+    }
+
     this.chartState$.next(StructureStateEnum.LOADING);
 
     this.context.getData(this.form.getRawValue())
