@@ -23,7 +23,7 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
     this.destroy$.complete();
   }
 
-  public getSettingsFromGroup(model?: ISettingsPanelForm): FormGroup<ISettingsPanelForm> {
+  public getSettingsFormGroup(model?: ISettingsPanelForm): FormGroup<ISettingsPanelForm> {
     const fbConfig: NgStackFormBuilderConfig<ISettingsPanelForm> = {};
     const periodFormType: PeriodFormTypes = this.getPeriodFormType();
 

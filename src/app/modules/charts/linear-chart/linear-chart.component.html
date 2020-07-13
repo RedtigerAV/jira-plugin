@@ -16,7 +16,7 @@
       <app-control-panel
         [form]="form"
         [displayedControls]="context.settingsBuilder.displayedControls"
-        [controlsDisplay]="'column'"
+        [controlsDisplay]="context.controlsDisplay || 'column'"
         [actions]="actions"
       ></app-control-panel>
     </ng-container>
@@ -48,6 +48,7 @@
               [yAxis]="yAxis"
               [xAxisLabel]="xAxisLabel"
               [yAxisLabel]="yAxisLabel"
+              [yScaleMax]="context?.yScaleMax"
               [timeline]="timeline"
               [results]="chartData$ | async"
             >

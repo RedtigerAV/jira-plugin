@@ -1,22 +1,37 @@
-import { Injectable } from '@angular/core';
+import { ILinearChartContext } from './context.interface';
+import { ChartID } from '@core/interfaces/structure.interfaces';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
-import { Observable, of } from 'rxjs';
-import { IChartSeries } from '../interfaces/chart-data.interfaces';
-import { delay, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { IChartSeries, ILinearChartData } from '../../interfaces/chart-data.interfaces';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
+import { map, switchMap } from 'rxjs/operators';
 import { IssueBeanModel } from '@core/api/platform/model/issueBean';
 import { Sprint } from '@core/api/software/model/sprint';
 import { getAllSprints } from '@core/helpers/issues.helpers';
+import { UnfinishedWorkSettingsBuilder } from '../settings-builders/unfinished-work-settings.builder';
+import { FormBuilder } from '@ng-stack/forms';
 
-@Injectable()
-export class UnfinishedWorkService {
+export class UnfinishedWorkContext implements ILinearChartContext {
+  public chartID: ChartID;
+  public controlsDisplay: 'row' | 'column' = 'row';
+  public settingsBuilder = new UnfinishedWorkSettingsBuilder(this.fb);
+  public title = 'Процент работы, незавершенной в спринт';
+  public xAxisLabel = 'Спринты';
+  public yAxisLabel = 'Процент';
+  public yScaleMax = 100;
+
   constructor(
     private readonly sprintsService: SprintsService,
-    private readonly issueSearchService: IssueSearchService
+    private readonly issueSearchService: IssueSearchService,
+    private readonly fb: FormBuilder
   ){}
 
-  public getData(settings: ISettingsPanelForm): Observable<IChartSeries[]> {
+  public destroy(): void {
+    this.settingsBuilder.destroy();
+  }
+
+  public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
 
@@ -38,7 +53,7 @@ export class UnfinishedWorkService {
       );
   }
 
-  private transformData(issues: IssueBeanModel[], sprints: Sprint[]): IChartSeries[] {
+  private transformData(issues: IssueBeanModel[], sprints: Sprint[]): ILinearChartData[] {
     const result: IChartSeries[] = [];
     const timeAggregator = new Map<string, {unfinished: number, all: number}>();
 
@@ -82,6 +97,11 @@ export class UnfinishedWorkService {
       })
     });
 
-    return result;
+    return [
+      {
+        name: 'Незавершенная работа, %',
+        series: result
+      }
+    ];
   }
 }

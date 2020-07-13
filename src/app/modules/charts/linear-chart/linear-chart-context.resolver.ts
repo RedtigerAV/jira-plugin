@@ -8,6 +8,7 @@ import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { PlanningStorageService } from '@core/services/planning-storage.service';
 import { PlanFactContext } from './contexts/plan-fact.context';
+import { UnfinishedWorkContext } from './contexts/unfinished-work.context';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,8 @@ export class LinearChartContextResolver implements Resolve<ILinearChartContext> 
       return new AverageProductivityContext(this.sprintsService, this.issueSearchService, this.fb);
     } else if (chartID === ChartID.PLAN_FACT) {
       return new PlanFactContext(this.sprintsService, this.issueSearchService, this.planningStorage, this.fb);
+    } else if (chartID === ChartID.UNFINISHED_WORK) {
+      return new UnfinishedWorkContext(this.sprintsService, this.issueSearchService, this.fb);
     }
 
     this.router.navigate(['/']);

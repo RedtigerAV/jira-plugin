@@ -69,7 +69,7 @@ export class LinearChartComponent extends ChartComponentBase implements OnInit, 
     this.defaultSettingsService.getDefaultSettings(this.context.chartID)
       .pipe(takeUntilDestroyed(this))
       .subscribe((settings: ISettingsPanelForm) => {
-        this.form = this.context.settingsBuilder.getSettingsFromGroup(settings);
+        this.form = this.context.settingsBuilder.getSettingsFormGroup(settings);
         this.cdr.detectChanges();
       });
   }

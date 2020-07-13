@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ChartsRoutingModule } from './charts-routing.module';
-import { UnfinishedWorkModule } from './unfinished-work/unfinished-work.module';
 import { LinearChartModule } from './linear-chart/linear-chart.module';
 
 
@@ -11,8 +10,7 @@ import { LinearChartModule } from './linear-chart/linear-chart.module';
   imports: [
     CommonModule,
     ChartsRoutingModule,
-    LinearChartModule,
-    UnfinishedWorkModule
+    LinearChartModule
   ]
 })
 export class ChartsModule { }
