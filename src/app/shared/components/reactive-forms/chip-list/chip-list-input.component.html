@@ -1,0 +1,52 @@
+<mat-chip-list #chipList>
+  <mat-chip
+    *ngFor="let value of ngControl.value; trackBy: ('value' | trackBy); let i = index"
+    [selectable]="selectable"
+    [disabled]="disabled"
+    (removed)="removeByIndex(i)"
+  >
+    {{ getDisplayValue(value) }}
+    <mat-icon matChipRemove *ngIf="removable">error</mat-icon>
+  </mat-chip>
+  <ng-container *ngIf="!disabled">
+    <input
+      *ngIf="autocomplete; else chipInputToken"
+      [placeholder]="placeholder"
+      #input
+      (input)="changeInput($event.target.value)"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [matChipInputAddOnBlur]="addOnBlur"
+      [attr.inputmode]="inputMode"
+      (blur)="onBlur()"
+    />
+
+    <ng-template #chipInputToken>
+      <input
+        [placeholder]="placeholder"
+        #input
+        (input)="changeInput($event.target.value)"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        [attr.inputmode]="inputMode"
+        (matChipInputTokenEnd)="onChipInputTokenEnd($event)"
+        (blur)="onBlur()"
+      />
+    </ng-template>
+  </ng-container>
+</mat-chip-list>
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+  <mat-option
+    *ngFor="let option of (autocomplete$ | async); trackBy: ('$index' | trackBy)"
+    [value]="dataSource.getKey(option)"
+  >
+    {{ dataSource.displayWith(option) }}
+  </mat-option>
+  <ng-template #notFound>
+    <mat-option [disabled]="true">
+      Совпадений не найдено
+    </mat-option>
+  </ng-template>
+</mat-autocomplete>

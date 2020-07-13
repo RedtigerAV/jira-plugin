@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { StructureID } from '@core/interfaces/structure.interfaces';
 import { AppPropertiesService } from '@core/api/platform/api/appProperties.service';
@@ -30,11 +30,11 @@ export class DefaultSettingsService {
         map(({value}) => value),
         map((reportSettings: ISettingsPanelForm) => {
           if (reportSettings && reportSettings.startDate) {
-            reportSettings.startDate = new Date(reportSettings.startDate);
+            (reportSettings.startDate as Date) = new Date(reportSettings.startDate);
           }
 
           if (reportSettings && reportSettings.endDate) {
-            reportSettings.endDate = new Date(reportSettings.endDate);
+            (reportSettings.endDate as Date) = new Date(reportSettings.endDate);
           }
 
           return reportSettings;

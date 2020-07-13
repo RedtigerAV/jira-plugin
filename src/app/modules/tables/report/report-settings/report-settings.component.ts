@@ -7,6 +7,7 @@ import { DefaultSettingsService } from '@core/services/default-settings.service'
 import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DefaultSettingsMiddleware } from '@core/services/default-settings.middleware';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-settings',
@@ -29,7 +30,7 @@ export class ReportSettingsComponent implements OnInit, OnDestroy, IReportSettin
 
   ngOnInit() {
     this.reportDefaultSettingsService.getDefaultSettings(this.context.tableID)
-      .pipe(takeUntilDestroyed(this))
+      .pipe(take(1))
       .subscribe((settings: ISettingsPanelForm) => {
         this.form = this.context.settingsBuilder.getSettingsFromGroup(settings);
         this.cdr.detectChanges();

@@ -1,15 +1,19 @@
-<mat-form-field appearance="outline">
+<mat-form-field appearance="{{ isOutline ? 'outline' : 'legacy' }}">
   <mat-label>{{ label }}</mat-label>
 
   <app-autocomplete-input
+    [optionDirective]="optionDirective"
     [formControl]="control"
     [previewFormControl]="previewFormControl"
     [previewControlName]="previewControlName"
     [placeholder]="placeholder"
     [dataSource]="dataSource"
-    [getValue]="getValue"
+    [getKey]="getKey"
     [panelWidth]="panelWidth"
     [updateByInput]="updateByInput"
+    [panelClass]="panelClass"
+    [optionValue]="optionValue"
+    [inputMode]="inputMode"
     (optionSelected)="optionSelected.emit($event)"
     (onInput)="onInput.emit($event)"
   ></app-autocomplete-input>

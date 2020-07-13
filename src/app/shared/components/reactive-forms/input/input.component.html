@@ -1,14 +1,26 @@
-<mat-form-field appearance="outline">
+<mat-form-field appearance="{{ isOutline ? 'outline' : 'legacy' }}">
   <mat-label>{{ label }}</mat-label>
+  <ng-container matPrefix *ngIf="prefixDirective">
+    <ng-container *ngTemplateOutlet="prefixDirective.templateRef"></ng-container>
+  </ng-container>
 
   <input
+    #inputElement
+    class="input"
     [type]="type"
     matInput
+    [errorStateMatcher]="errorStateMatcher"
     [formControl]="control"
     [placeholder]="placeholder"
     [step]="step"
-    autocomplete="off"
+    [autocomplete]="autocomplete"
+    [readonly]="readonly"
+    [attr.inputmode]="inputMode"
+    (cdkAutofill)="onCdkAutofill($event)"
   />
+  <ng-container matSuffix *ngIf="suffixDirective">
+    <ng-container *ngTemplateOutlet="suffixDirective.templateRef"></ng-container>
+  </ng-container>
   <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
   <mat-error *ngIf="errorMessage">
     {{ errorMessage }}

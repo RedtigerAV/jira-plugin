@@ -46,8 +46,8 @@ export class DynamicReportContext implements IReportContext {
     this.datePipe = new DatePipe(locale);
   }
 
-  getTableColumnsDef(settings?:ISettingsPanelForm): Observable<ITableColumn[]> {
-    const boardID = settings.board;
+  getTableColumnsDef(settings?: ISettingsPanelForm): Observable<ITableColumn[]> {
+    const boardID = settings.board.id.toString();
 
     return this.getStatuses(boardID)
       .pipe(
@@ -145,8 +145,8 @@ export class DynamicReportContext implements IReportContext {
   }
 
   getTableData(settings: ISettingsPanelForm): Observable<any> {
-    const projectID = settings.project;
-    const boardID = settings.board;
+    const projectID = settings.project.id;
+    const boardID = settings.board.id.toString(10);
     let startDate: Date;
     let endDate: Date;
     const actualDate = new Date();
@@ -155,9 +155,9 @@ export class DynamicReportContext implements IReportContext {
 
     switch (settings.periodBy) {
       case SettingsPanelPeriodTypesEnum.SPRINT:
-        startDate = new Date(settings.fromSprintPreview.startDate.toString());
-        endDate = settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate
-          ? new Date((settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate).toString())
+        startDate = new Date(settings.fromSprint.startDate.toString());
+        endDate = settings.toSprint.completeDate || settings.toSprint.endDate
+          ? new Date((settings.toSprint.completeDate || settings.toSprint.endDate).toString())
           : new Date();
         break;
       case SettingsPanelPeriodTypesEnum.DATE:

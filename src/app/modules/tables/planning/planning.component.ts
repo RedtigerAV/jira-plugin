@@ -85,7 +85,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
     let rowData = [];
     this.gridApi.forEachNode(node => rowData.push(node.data));
 
-    this.planningService.updateTableData(this.form.value.board, rowData)
+    this.planningService.updateTableData(this.form.value.board.id.toString(10), rowData)
       .pipe(take(1))
       .subscribe();
   }

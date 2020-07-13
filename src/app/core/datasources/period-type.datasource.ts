@@ -1,6 +1,6 @@
-import { ISelectDataSource } from '@shared/components/reactive-forms/select/select.component';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
+import { DataSourceBase } from '@core/datasources/datasource.base';
 
 interface IPeriodTypeDataSourceOption {
   id: SettingsPanelPeriodTypesEnum;
@@ -12,18 +12,20 @@ export const periodTypeDataSource: IPeriodTypeDataSourceOption[] = [
   { id: SettingsPanelPeriodTypesEnum.SPRINT, name: 'Sprint' }
 ];
 
-export class PeriodTypeDataSource implements ISelectDataSource {
-  public data$ = of(<IPeriodTypeDataSourceOption[]>(periodTypeDataSource));
-
-  public getValue(option: IPeriodTypeDataSourceOption): string {
-    return option && option.id;
+export class PeriodTypeDataSource extends DataSourceBase<IPeriodTypeDataSourceOption, void> {
+  constructor() {
+    super();
   }
 
-  public getOptionByValue(value: string): IPeriodTypeDataSourceOption {
-    return periodTypeDataSource.find(option => this.getValue(option) === value);
+  public getKey(option: IPeriodTypeDataSourceOption): string {
+    return option && option.id;
   }
 
   public displayWith(option: IPeriodTypeDataSourceOption): string {
     return option && option.name;
+  }
+
+  protected getData(filter: void): Observable<IPeriodTypeDataSourceOption[]> {
+    return of(<IPeriodTypeDataSourceOption[]>(periodTypeDataSource));
   }
 }

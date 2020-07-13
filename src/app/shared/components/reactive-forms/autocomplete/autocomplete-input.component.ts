@@ -1,62 +1,51 @@
 import {
-  Component,
-  ViewChild,
-  Input,
-  OnInit,
-  OnDestroy,
-  ElementRef,
   ChangeDetectionStrategy,
-  HostBinding,
-  Optional,
-  Self,
+  Component,
+  ElementRef,
   EventEmitter,
-  Output
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  Self,
+  ViewChild
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormControl,
-  ControlContainer,
-  AbstractControl,
-  NgControl
-} from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import {
-  MatAutocompleteSelectedEvent,
-  MatFormFieldControl
-} from '@angular/material';
+import { AbstractControl, ControlContainer, ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { MatAutocompleteSelectedEvent, MatFormFieldControl } from '@angular/material';
 import { FocusMonitor } from '@angular/cdk/a11y';
+import { IDataSource } from '../interfaces/datasource.interfaces';
+import { DataSourceBase } from '@core/datasources/datasource.base';
+import { IAutocompleteStrategy } from './strategies/autocomplete.strategy';
+import { PrimitiveValueAutocompleteStrategy } from './strategies/primitive-value.strategy';
+import { OptionValueAutocompleteStrategy } from './strategies/option-value.strategy';
+import { InputModeEnum } from '@core/enums/input-mode.enum';
+import { CustomOptionDirective } from '@shared/components/reactive-forms/directives/custom-option/custom-option.directive';
 import { FormErrorsService } from '@shared/errors/services/form-errors.service';
-
-//tslint:disable
-
-export interface IAutocompleteDataSource {
-  // tslint:disable-next-line: no-any
-  data$: Observable<any>;
-  filterChanged: (value: string) => void;
-  // tslint:disable-next-line: no-any
-  getValue: (item: any) => any;
-  // tslint:disable-next-line: no-any
-  displayWith: (item: any) => string;
-}
 
 @Component({
   selector: 'app-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
   styleUrls: ['./autocomplete-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: MatFormFieldControl, useExisting: AutocompleteInputComponent }
-  ]
+  providers: [{ provide: MatFormFieldControl, useExisting: AutocompleteInputComponent }]
 })
 // tslint:disable: no-any
-export class AutocompleteInputComponent
-  implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy {
+export class AutocompleteInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy {
   // tslint:enable: no-any
 
   private static nextId = 0;
 
   @ViewChild('inputControl', { static: true })
   public inputControl: ElementRef;
+
+  @Input()
+  public optionDirective: CustomOptionDirective;
+
+  @Input()
+  public inputMode: InputModeEnum;
 
   @Input()
   public formControl: FormControl;
@@ -77,11 +66,12 @@ export class AutocompleteInputComponent
   public previewControlName: string;
 
   @Input()
-  public dataSource: IAutocompleteDataSource;
+  // tslint:disable-next-line: no-any
+  public dataSource: IDataSource<any, any>;
 
   @Input()
   // tslint:disable-next-line: no-any
-  public getValue: (item: any) => any;
+  public getKey: (item: any) => any;
 
   @Input()
   public panelWidth: string;
@@ -99,17 +89,16 @@ export class AutocompleteInputComponent
   @HostBinding()
   public id = `autocomplete-input-${AutocompleteInputComponent.nextId++}`;
 
+  @Input() public panelClass = '';
+
   public get control(): AbstractControl {
-    return (
-      this.formControl ||
-      this.controlContainer.control.get(this.formControlName)
-    );
+    return this.formControl || this.controlContainer.control.get(this.formControlName);
   }
 
   public get previewControl(): AbstractControl {
     return (
       this.previewFormControl ||
-      this.controlContainer.control.get(this.previewControlName)
+      (!!this.previewControlName ? this.controlContainer.control.get(this.previewControlName) : null)
     );
   }
 
@@ -161,6 +150,14 @@ export class AutocompleteInputComponent
   // tslint:disable-next-line: no-any
   public onValueChanged: (value: any) => void;
 
+  public strategy: IAutocompleteStrategy;
+
+  /**
+   * Если true, селект сохраняет опцию в FormControl. Иначе, сохраняет значение,
+   * возвращаемое datasource.getKey.
+   */
+  @Input() public optionValue: boolean;
+
   private _required = false;
   private _disabled = false;
 
@@ -193,11 +190,19 @@ export class AutocompleteInputComponent
   }
 
   public ngOnInit(): void {
-    const value = this.previewControl && this.previewControl.value;
+    this.strategy = this.optionValue
+      ? new OptionValueAutocompleteStrategy(this.dataSource)
+      : new PrimitiveValueAutocompleteStrategy(this.dataSource, this.previewControl);
 
-    this.inputControl.nativeElement.value = value
-      ? this.dataSource.displayWith(value)
-      : this.control.value;
+    this.strategy.validate(this);
+
+    if (this.dataSource instanceof DataSourceBase) {
+      // Если DataSource является подклассом DataSourceBase то он поддерживает опции, позволяющие настроить источник данных
+      // В случае AutoComplete, такой DataSource нуждается в debounce и данные сразу не нужны
+      this.dataSource.setConfig({ debounce: true, eagerLoading: false });
+    }
+
+    this.inputControl.nativeElement.value = this.strategy.displayWith(this.control.value);
   }
 
   // tslint:disable-next-line: no-any
@@ -218,10 +223,6 @@ export class AutocompleteInputComponent
   public setDisabledState(isDisabled: boolean): void {
     this._disabled = isDisabled;
     this.stateChanges.next();
-  }
-
-  public getErrorMessage(): string {
-    return this.formErrorsService.getFormControlErrorText(this.control);
   }
 
   public changeInput(input: string): void {
@@ -246,16 +247,13 @@ export class AutocompleteInputComponent
   }
 
   public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    const key = this.getValue
-      ? this.getValue(event.option.value)
-      : this.dataSource.getValue
-      ? this.dataSource.getValue(event.option.value)
-      : event.option.value.id;
+    const value = this.getKey ? this.getKey(event.option.value) : this.strategy.getValue(event.option.value);
 
-    this.onValueChanged(key);
+    this.onValueChanged(value);
 
     this.stateChanges.next();
     this.optionSelected.emit(event);
+    this.inputControl.nativeElement.value = this.dataSource.displayWith(event.option.value);
   }
 
   public ngOnDestroy(): void {

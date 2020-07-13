@@ -1,0 +1,18 @@
+<mat-form-field appearance="outline">
+  <mat-label *ngIf="label">{{ label }}</mat-label>
+  <app-chip-list-input
+    [formControl]="ngControl.control"
+    [previewFormControl]="previewFormControl"
+    [selectable]="selectable"
+    [removable]="removable"
+    [dataSource]="dataSource"
+    [placeholder]="placeholder"
+    [autocomplete]="autocomplete"
+    [addOnBlur]="addOnBlur"
+    [inputMode]="inputMode"
+  ></app-chip-list-input>
+
+  <mat-error>
+    {{ errorMessage }}
+  </mat-error>
+</mat-form-field>

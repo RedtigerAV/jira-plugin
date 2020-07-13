@@ -3,23 +3,31 @@
   type="text"
   matInput
   (input)="changeInput($event.target.value)"
+  [attr.inputmode]="inputMode"
   [matAutocomplete]="dropdown"
   [placeholder]="placeholder"
   [disabled]="disabled"
   (blur)="onBlur()"
 />
-
 <mat-autocomplete
   #dropdown="matAutocomplete"
   [displayWith]="dataSource.displayWith"
   (optionSelected)="onOptionSelected($event)"
   [panelWidth]="panelWidth"
+  [class]="panelClass"
 >
-  <mat-option
-    *ngFor="let option of (dataSource.data$ | async)"
-    [value]="option"
-    class="format-text"
-  >
+  <ng-container *ngFor="let option of (dataSource.data$ | async)">
+    <mat-option [value]="option" class="format-text">
+      <ng-container
+        *ngTemplateOutlet="
+            !!optionDirective ? optionDirective.templateRef : defaultOption;
+            context: { $implicit: option }
+          "
+      ></ng-container>
+    </mat-option>
+  </ng-container>
+
+  <ng-template #defaultOption let-option>
     {{ dataSource.displayWith(option) }}
-  </mat-option>
+  </ng-template>
 </mat-autocomplete>
