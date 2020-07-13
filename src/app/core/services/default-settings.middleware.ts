@@ -10,6 +10,7 @@ import { SettingsPanelModalService } from '../../modules/shared/settings-panel/s
 import { DefaultSettingsService } from '@core/services/default-settings.service';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { FormGroup } from '@ng-stack/forms';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class DefaultSettingsMiddleware implements OnDestroy {
@@ -21,7 +22,7 @@ export class DefaultSettingsMiddleware implements OnDestroy {
 
   public saveSettingsAsDefault(structureID: StructureID, form: FormGroup<ISettingsPanelForm>, text?: string): void {
     this.defaultSettingsService.setDefaultSettings(structureID, form.getRawValue())
-      .pipe(takeUntilDestroyed(this))
+      .pipe(take(1))
       .subscribe(() => {
         this.snackbar.openSnackbar(new TgSnackbarSuccess(text ? text : 'Настройки по умолчанию сохранены!'))
       });
@@ -29,7 +30,7 @@ export class DefaultSettingsMiddleware implements OnDestroy {
 
   public applyDefaultSettings(structureID: StructureID, form: FormGroup<ISettingsPanelForm>, cdr: ChangeDetectorRef): void {
     this.defaultSettingsService.getDefaultSettings(structureID)
-      .pipe(takeUntilDestroyed(this))
+      .pipe(take(1))
       .subscribe((settings: ISettingsPanelForm) => {
         form.patchValue(settings);
         cdr.detectChanges();
@@ -38,7 +39,7 @@ export class DefaultSettingsMiddleware implements OnDestroy {
 
   public openSettingsModalHandler(structureID: StructureID, settingsBuilder: ISettingsPanelFormBuilder, text?: string): void {
     this.settingsPanelModalService.openDefaultSettingsPanelModel(structureID, settingsBuilder)
-      .pipe(takeUntilDestroyed(this))
+      .pipe(take(1))
       .subscribe(() => {
         this.snackbar.openSnackbar(new TgSnackbarSuccess(text ? text : 'Настройки по умолчанию сохранены!'))
       });

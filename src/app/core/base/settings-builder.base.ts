@@ -2,9 +2,7 @@ import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { ISettingsPanelForm, SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { BooleanFormState } from '@shared/helpers/types.helper';
-import { IFormBuilderConfig } from '@core/interfaces/form-builder-config.interface';
-import { StringKeys } from '@core/interfaces/string-keys.interface';
+import { BooleanFormState, NgStackFormBuilderConfig, StringKeys } from '@shared/helpers/types.helper';
 import { Validators } from '@angular/forms';
 import { ISettingsPanelFormBuilder } from '@core/interfaces/settings-panel-form-builder.interfaces';
 
@@ -26,7 +24,7 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
   }
 
   public getSettingsFromGroup(model?: ISettingsPanelForm): FormGroup<ISettingsPanelForm> {
-    const fbConfig: IFormBuilderConfig<ISettingsPanelForm> = {};
+    const fbConfig: NgStackFormBuilderConfig<ISettingsPanelForm> = {};
     const periodFormType: PeriodFormTypes = this.getPeriodFormType();
 
     this.setPeriodByControl(fbConfig, model, periodFormType);
@@ -40,7 +38,7 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
   }
 
   private setPeriodByControl(
-    fbConfig: IFormBuilderConfig<ISettingsPanelForm>,
+    fbConfig: NgStackFormBuilderConfig<ISettingsPanelForm>,
     model: ISettingsPanelForm,
     periodFormType: PeriodFormTypes
   ): void {
@@ -60,32 +58,23 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
     }
   }
 
-  private setControls(fbConfig: IFormBuilderConfig<ISettingsPanelForm>, model: ISettingsPanelForm): void {
+  private setControls(fbConfig: NgStackFormBuilderConfig<ISettingsPanelForm>, model: ISettingsPanelForm): void {
     Object.entries(this.displayedControls)
       .filter(([, value]) => !!value)
       .forEach(([key, value]: [StringKeys<ISettingsPanelForm>, boolean]) => {
         switch (key) {
           case 'project':
-            fbConfig.project = [(model && model.project) || '', Validators.required];
-            break;
-          case 'projectPreview':
-            fbConfig.projectPreview = [model && model.projectPreview];
+            fbConfig.project = [model && model.project, Validators.required];
             break;
           case 'board':
-            fbConfig.board = [(model && model.board) || '', Validators.required];
-            break;
-          case 'boardPreview':
-            fbConfig.boardPreview = [model && model.projectPreview];
+            fbConfig.board = [model && model.board, Validators.required];
             break;
           case 'group':
-            fbConfig.group = [(model && model.group) || '', Validators.required];
-            break;
-          case 'groupPreview':
-            fbConfig.groupPreview = [model && model.groupPreview];
+            fbConfig.group = [model && model.group, Validators.required];
             break;
           case 'startDate':
             fbConfig.startDate = [
-              (model && model.startDate) || '',
+              model && model.startDate,
               fbConfig.periodBy[0] === SettingsPanelPeriodTypesEnum.DATE
                 ? Validators.required
                 : undefined
@@ -93,7 +82,7 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
             break;
           case 'endDate':
             fbConfig.endDate = [
-              (model && model.endDate) || '',
+              model && model.endDate,
               fbConfig.periodBy[0] === SettingsPanelPeriodTypesEnum.DATE
                 ? Validators.required
                 : undefined
@@ -101,25 +90,19 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
             break;
           case 'fromSprint':
             fbConfig.fromSprint = [
-              (model && model.fromSprint) || '',
+              model && model.fromSprint,
               fbConfig.periodBy[0] === SettingsPanelPeriodTypesEnum.SPRINT
                 ? Validators.required
                 : undefined
             ];
-            break;
-          case 'fromSprintPreview':
-            fbConfig.fromSprintPreview = [model && model.fromSprintPreview];
             break;
           case 'toSprint':
             fbConfig.toSprint = [
-              (model && model.toSprint) || '',
+              model && model.toSprint,
               fbConfig.periodBy[0] === SettingsPanelPeriodTypesEnum.SPRINT
                 ? Validators.required
                 : undefined
             ];
-            break;
-          case 'toSprintPreview':
-            fbConfig.toSprintPreview = [model && model.toSprintPreview];
             break;
         }
       });
@@ -160,7 +143,6 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
       )
       .subscribe(() => {
         form.controls.board.reset();
-        form.controls.boardPreview.reset();
       });
   }
 
@@ -172,10 +154,7 @@ export abstract class SettingsBuilderBase implements ISettingsPanelFormBuilder{
       )
       .subscribe(() => {
         form.controls.fromSprint.reset();
-        form.controls.fromSprintPreview.reset();
-
         form.controls.toSprint.reset();
-        form.controls.toSprintPreview.reset();
       });
   }
 

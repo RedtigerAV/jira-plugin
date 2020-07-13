@@ -140,11 +140,11 @@ export class TimeSpentReportContext implements IReportContext {
   }
 
   getTableData(settings: ISettingsPanelForm): Observable<any> {
-    const groupName = settings.group;
-    const projectID = settings.project;
-    const boardID = settings.board;
-    const startDate = new Date(settings.fromSprintPreview.startDate);
-    const endDate = new Date(settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate);
+    const groupName = settings.group.name;
+    const projectID = settings.project.id;
+    const boardID = settings.board.id.toString(10);
+    const startDate = new Date(settings.fromSprint.startDate);
+    const endDate = new Date(settings.toSprint.completeDate || settings.toSprint.endDate);
 
     const searchSprints$ = this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(

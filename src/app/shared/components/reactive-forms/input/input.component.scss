@@ -1,3 +1,15 @@
 .mat-form-field {
   width: 100%;
 }
+.skb-prefix {
+  top: 3px;
+  position: relative;
+}
+
+/* Removing input background colour for Chrome autocomplete */
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

@@ -6,7 +6,7 @@ export type Any<T> = {
 };
 
 /**
- * Переводит модель формы в состояние ее задизейбленных контроллов
+ * Переводит модель формы в состояние ее контроллов
  */
 // tslint:disable-next-line: no-any
 export type BooleanFormState<T = any> = Partial<
@@ -14,14 +14,13 @@ export type BooleanFormState<T = any> = Partial<
     [P in keyof T]: T[P] extends Array<infer Item>
       ? BooleanFormState<Item>
       : T[P] extends object
-      ? BooleanFormState<T[P]>
+      ? BooleanFormState<T[P]> | boolean
       : boolean
   }
 >;
 
-export type NgStackFormBuilderConfig<T, V extends object = any> = {
+export type StringKeys<T> = Extract<keyof T, string>;
+
+export type NgStackFormBuilderConfig<T extends object = any, V extends object = any> = {
   [P in keyof T]?: FbControlConfig<T[P], V>
 };
-
-// tslint:disable-next-line: no-any
-export type NgStackFormControl<T> = T | any;

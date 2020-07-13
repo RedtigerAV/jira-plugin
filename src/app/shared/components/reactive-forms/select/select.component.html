@@ -1,42 +1,51 @@
-<ng-container
-  *ngIf="{
-    options: dataSource.data$ | async
-  } as data"
->
-  <mat-form-field [formGroup]="controlContainer.control" appearance="outline">
-    <mat-label>{{ label }}</mat-label>
+<mat-form-field [formGroup]="controlContainer.control" appearance="{{ isOutline ? 'outline' : 'legacy' }}">
+  <mat-label>{{ label }}</mat-label>
 
-    <mat-select
-      [placeholder]="placeholder"
-      [formControl]="control"
-      (selectionChange)="onSelectionChange($event)"
-    >
-      <ng-container *ngIf="getOptions(data.options)?.length; else notFound">
-        <ng-container *ngFor="let option of getOptions(data.options)">
-          <mat-option [value]="dataSource.getValue(option)" class="format-text">
-            <ng-container
-              *ngTemplateOutlet="
-          !!optionDirective ? optionDirective.templateRef : defaultOption;
-          context: { $implicit: option }
-        "
-            ></ng-container>
+  <mat-select
+    [placeholder]="placeholder"
+    [formControl]="control"
+    (selectionChange)="selectionChange.emit($event)"
+    [disableOptionCentering]="true"
+    [compareWith]="compareWith"
+    #select
+  >
+    <mat-select-trigger *ngIf="triggerDirective">
+      <ng-container
+        *ngTemplateOutlet="triggerDirective.templateRef; context: { $implicit: control.value }"
+      ></ng-container>
+    </mat-select-trigger>
+
+    <ng-container *ngIf="(options$ | async) as options">
+      <ng-container *ngIf="getOptions(options)?.length; else notFound">
+        <ng-container *ngIf="emptyOptionDirective">
+          <mat-option [value]="undefined">
+            <ng-container *ngTemplateOutlet="emptyOptionDirective.templateRef"></ng-container>
           </mat-option>
-
-          <ng-template #defaultOption let-option>
-            {{ dataSource.displayWith(option) }}
-          </ng-template>
         </ng-container>
-      </ng-container>
 
-      <ng-template #notFound>
-        <mat-option disabled>
-          {{ textNotFound }}
+        <mat-option *ngFor="let option of getOptions(options)" [value]="valueSelectStrategy.getValue(option)">
+          <ng-container
+            *ngTemplateOutlet="
+              !!optionDirective ? optionDirective.templateRef : defaultOption;
+              context: { $implicit: option }
+            "
+          ></ng-container>
         </mat-option>
-      </ng-template>
-    </mat-select>
+      </ng-container>
+    </ng-container>
+  </mat-select>
 
-    <mat-error *ngIf="getErrorMessage()">
-      {{ getErrorMessage() }}
-    </mat-error>
-  </mat-form-field>
-</ng-container>
+  <ng-template #notFound>
+    <mat-option disabled>
+      {{ textNotFound }}
+    </mat-option>
+  </ng-template>
+
+  <ng-template #defaultOption let-option>
+    {{ dataSource.displayWith(option) }}
+  </ng-template>
+
+  <mat-error *ngIf="errorMessage">
+    {{ errorMessage }}
+  </mat-error>
+</mat-form-field>

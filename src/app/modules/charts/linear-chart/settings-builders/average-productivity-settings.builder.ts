@@ -6,11 +6,8 @@ import { SettingsBuilderBase } from '@core/base/settings-builder.base';
 export class AverageProductivitySettingsBuilder extends SettingsBuilderBase {
   public displayedControls: BooleanFormState<ISettingsPanelForm> = {
     project: true,
-    projectPreview: true,
     board: true,
-    boardPreview: true,
-    group: true,
-    groupPreview: true
+    group: true
   };
 
   constructor(public fb: FormBuilder) {

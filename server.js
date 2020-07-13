@@ -10,7 +10,7 @@ const http = require('http');
 const app = express();
 const addon = ace(app);
 const port = addon.config.port();
-const devEnv = app.get('env') == 'development';
+const devEnv = app.get('env') === 'development';
 
 app.set('port', port);
 app.use(bodyParser.json());

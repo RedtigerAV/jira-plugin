@@ -2,7 +2,7 @@ import { IReportContext } from '../interfaces/report-context.interfaces';
 import { TableID } from '@core/interfaces/structure.interfaces';
 import { Observable, of } from 'rxjs';
 import { ITableColumn, ITableColumnPinEnum, ITableDefaultColumn } from '../../interfaces/table-column.interfaces';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ISettingsPanelForm, SettingsPanelPeriodTypesEnum } from '@core/interfaces/settings-panel-form.interfaces';
 import { FormBuilder } from '@ng-stack/forms';
 import { LifecycleReportSettingsBuilder } from '../report-settings-builders/lifecycle-report-settings.builder';
@@ -187,16 +187,16 @@ export class LifecycleReportContext implements IReportContext {
   }
 
   getTableData(settings: ISettingsPanelForm): Observable<any> {
-    const projectID = settings.project;
-    const boardID = settings.board;
+    const projectID = settings.project.id;
+    const boardID = settings.board.id.toString(10);
     let startDate: Date;
     let endDate: Date;
 
     switch (settings.periodBy) {
       case SettingsPanelPeriodTypesEnum.SPRINT:
-        startDate = new Date(settings.fromSprintPreview.startDate.toString());
-        endDate = settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate
-          ? new Date((settings.toSprintPreview.completeDate || settings.toSprintPreview.endDate).toString())
+        startDate = new Date(settings.fromSprint.startDate.toString());
+        endDate = settings.toSprint.completeDate || settings.toSprint.endDate
+          ? new Date((settings.toSprint.completeDate || settings.toSprint.endDate).toString())
           : new Date();
         break;
       case SettingsPanelPeriodTypesEnum.DATE:
@@ -206,6 +206,8 @@ export class LifecycleReportContext implements IReportContext {
         startDate.setHours(0, 0, 0, 0);
         endDate.setHours(0, 0, 0, 0);
         endDate.setDate(endDate.getDate() + 1);
+        console.log(startDate);
+        console.log(endDate);
         break;
     }
 

@@ -8,8 +8,9 @@
         label="Проект"
         [dataSource]="projectsDataSource"
         [formControl]="form.controls.project"
-        [previewFormControl]="form.controls.projectPreview"
       >
+        <ng-template appEmptyOption>Очистить поле</ng-template>
+
         <ng-template appCustomOption let-option>
           <div class="project-preview">
             <ng-container *ngIf="(option?.avatarUrls && option?.avatarUrls['16x16']) as avatar">
@@ -26,8 +27,9 @@
         label="Доска"
         [dataSource]="boardsDataSource"
         [formControl]="form.controls.board"
-        [previewFormControl]="form.controls.boardPreview"
-      ></app-select>
+      >
+        <ng-template appEmptyOption>Очистить поле</ng-template>
+      </app-select>
     </div>
 
     <div *ngIf="displayedControls.group" class="table-settings__item">
@@ -35,13 +37,15 @@
         label="Группа"
         [dataSource]="groupsDataSource"
         [formControl]="form.controls.group"
-        [previewFormControl]="form.controls.groupPreview"
-      ></app-select>
+      >
+        <ng-template appEmptyOption>Очистить поле</ng-template>
+      </app-select>
     </div>
 
     <div *ngIf="displayedControls.periodBy" class="table-settings__item">
       <app-select
         label="Период по"
+        [optionValue]="false"
         [dataSource]="periodTypeDataSource"
         [formControl]="form.controls.periodBy"
       ></app-select>
@@ -55,8 +59,9 @@
               label="От спринта"
               [dataSource]="sprintDataSource"
               [formControl]="form.controls.fromSprint"
-              [previewFormControl]="form.controls.fromSprintPreview"
-            ></app-select>
+            >
+              <ng-template appEmptyOption>Очистить поле</ng-template>
+            </app-select>
           </div>
 
           <div *ngIf="displayedControls.toSprint" class="table-settings__item">
@@ -64,8 +69,9 @@
               label="К спринту"
               [dataSource]="sprintDataSource"
               [formControl]="form.controls.toSprint"
-              [previewFormControl]="form.controls.toSprintPreview"
-            ></app-select>
+            >
+              <ng-template appEmptyOption>Очистить поле</ng-template>
+            </app-select>
           </div>
         </div>
 
@@ -74,7 +80,7 @@
             <app-datepicker
               label="Дата начала"
               [formControl]="form.controls.startDate"
-              [filter]="startDateFilter.bind(this)"
+              [filter]="startDateFilter"
             ></app-datepicker>
           </div>
 
@@ -82,7 +88,7 @@
             <app-datepicker
               label="Дата конца"
               [formControl]="form.controls.endDate"
-              [filter]="endDateFilter.bind(this)"
+              [filter]="endDateFilter"
             ></app-datepicker>
           </div>
         </div>

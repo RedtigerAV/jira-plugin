@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import {
-  MatAutocompleteModule,
-  MatInputModule,
-  MatFormFieldModule
-} from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { AutocompleteComponent } from './autocomplete.component';
+import { CustomOptionDirectiveModule } from '@shared/components/reactive-forms/directives/custom-option/custom-option-directive.module';
 
 @NgModule({
   imports: [
@@ -16,9 +13,10 @@ import { AutocompleteComponent } from './autocomplete.component';
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    CustomOptionDirectiveModule
   ],
   declarations: [AutocompleteComponent, AutocompleteInputComponent],
-  exports: [AutocompleteComponent, AutocompleteInputComponent]
+  exports: [AutocompleteComponent, AutocompleteInputComponent, CustomOptionDirectiveModule]
 })
 export class AutocomlpeteModule {}

@@ -35,9 +35,9 @@ export class PlanFactContext implements ILinearChartContext {
   }
 
   public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
-    const groupName = settings.group;
-    const projectID = settings.project;
-    const boardID = settings.board;
+    const groupName = settings.group.name;
+    const projectID = settings.project.id;
+    const boardID = settings.board.id.toString(10);
 
     return this.sprintsService.searchSprints(boardID, 'closed,active')
       .pipe(

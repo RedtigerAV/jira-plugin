@@ -6,16 +6,12 @@ import { SettingsBuilderBase } from '@core/base/settings-builder.base';
 export class LifecycleReportSettingsBuilder extends SettingsBuilderBase {
   public displayedControls: BooleanFormState<ISettingsPanelForm> = {
     project: true,
-    projectPreview: true,
     board: true,
-    boardPreview: true,
     periodBy: true,
     startDate: true,
     endDate: true,
     fromSprint: true,
-    toSprint: true,
-    fromSprintPreview: true,
-    toSprintPreview: true
+    toSprint: true
   };
 
   constructor(public fb: FormBuilder) {

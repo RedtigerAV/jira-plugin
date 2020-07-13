@@ -4,8 +4,8 @@ import { ProjectsDataSource } from '@core/datasources/projects.datasource';
 import { SprintsDataSource } from '@core/datasources/sprints.datasource';
 import { PeriodTypeDataSource } from '@core/datasources/period-type.datasource';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 import { BoardsDataSource } from '@core/datasources/boards.datasource';
 import { ProjectsService } from '@core/api/platform/api/projects.service';
 import { BoardsService } from '@core/api/software/api/boards.service';
@@ -32,9 +32,23 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   public boardsDataSource: BoardsDataSource;
   public groupsDataSource: GroupsDataSource;
   public periodTypeEnum = SettingsPanelPeriodTypesEnum;
+  public periodType$: Observable<SettingsPanelPeriodTypesEnum>;
 
-  private currentProject$: BehaviorSubject<string>;
-  private currentBoard$: BehaviorSubject<string>;
+  public startDateFilter = ((date: Date) => {
+    if (!this.form.value.endDate) {
+      return true;
+    }
+
+    return date <= this.form.value.endDate;
+  }).bind(this);
+
+  public endDateFilter = ((date: Date) => {
+    if (!this.form.value.startDate) {
+      return true;
+    }
+
+    return date >= this.form.value.startDate;
+  }).bind(this);
 
   constructor(private readonly projectService: ProjectsService,
               private readonly boardsService: BoardsService,
@@ -43,65 +57,44 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.currentProject$ = new BehaviorSubject<string>(this.form.value.project);
-    this.currentBoard$ = new BehaviorSubject<string>(this.form.value.board);
-
-    this.initSubscriptions();
     this.initDataSources();
+    this.periodType$ = this.form.controls.periodBy.valueChanges
+      .pipe(startWith(this.form.value.periodBy));
   }
 
   ngOnDestroy(): void {}
 
-  public get periodType$(): Observable<SettingsPanelPeriodTypesEnum> {
-    return this.form.controls.periodBy.valueChanges
-      .pipe(startWith(this.form.value.periodBy as any));
-  }
+  private initDataSources(): void {
+    this.projectsDataSource = new ProjectsDataSource(this.projectService);
+    this.boardsDataSource = new BoardsDataSource(this.boardsService);
+    this.sprintDataSource = new SprintsDataSource(this.sprintsService);
+    this.groupsDataSource = new GroupsDataSource(this.groupsService);
+    this.periodTypeDataSource = new PeriodTypeDataSource();
 
-  public startDateFilter = (date: Date) => {
-    if (!this.form.value.endDate) {
-      return true;
-    }
-
-    return date <= this.form.value.endDate;
-  };
-
-  public endDateFilter = (date: Date) => {
-    if (!this.form.value.startDate) {
-      return true;
-    }
-
-    return date >= this.form.value.startDate;
-  } ;
-
-  private initSubscriptions(): void {
     if (this.displayedControls.project) {
       this.form.controls.project.valueChanges
         .pipe(
+          startWith(this.form.controls.project.value),
           distinctUntilChanged(),
+          debounceTime(0),
           takeUntilDestroyed(this)
         )
         .subscribe(value => {
-          this.currentProject$.next(value);
+          this.boardsDataSource.filterChanged(value && value.id);
         });
     }
 
     if (this.displayedControls.board) {
       this.form.controls.board.valueChanges
         .pipe(
+          startWith(this.form.controls.board.value),
           distinctUntilChanged(),
+          debounceTime(0),
           takeUntilDestroyed(this)
         )
         .subscribe(value => {
-          this.currentBoard$.next(value);
+          this.sprintDataSource.filterChanged(value && value.id.toString());
         });
     }
-  }
-
-  private initDataSources(): void {
-    this.projectsDataSource = new ProjectsDataSource(this.projectService);
-    this.boardsDataSource = new BoardsDataSource(this.currentProject$, this.boardsService);
-    this.sprintDataSource = new SprintsDataSource(this.currentBoard$, this.sprintsService);
-    this.groupsDataSource = new GroupsDataSource(this.groupsService);
-    this.periodTypeDataSource = new PeriodTypeDataSource();
   }
 }

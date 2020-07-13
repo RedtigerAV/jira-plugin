@@ -17,8 +17,8 @@ export class UnfinishedWorkService {
   ){}
 
   public getData(settings: ISettingsPanelForm): Observable<IChartSeries[]> {
-    const projectID = settings.project;
-    const boardID = settings.board;
+    const projectID = settings.project.id;
+    const boardID = settings.board.id.toString(10);
 
     return this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(

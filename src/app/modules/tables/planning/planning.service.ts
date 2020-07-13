@@ -35,7 +35,7 @@ export class PlanningService {
               private readonly planningStorageService: PlanningStorageService) {}
 
   public getColumnsDef(settings: ISettingsPanelForm): Observable<ITableColumn[]> {
-    const boardID = settings.board;
+    const boardID = settings.board.id.toString(10);
 
     return this.sprintsService.searchSprints(boardID, 'active,closed,future')
       .pipe(
@@ -63,8 +63,8 @@ export class PlanningService {
    * @param settings
    */
   public getTableData(settings: ISettingsPanelForm): Observable<any> {
-    const groupName = settings.group;
-    const boardID = settings.board;
+    const groupName = settings.group.name;
+    const boardID = settings.board.id.toString(10);
     const searchSprints$ = this.sprintsService.searchSprints(boardID, 'active,closed,future')
       .pipe(map(({values}) => values));
     const searchUsers$ = this.groupsService.getUsersFromGroup(groupName, false)
