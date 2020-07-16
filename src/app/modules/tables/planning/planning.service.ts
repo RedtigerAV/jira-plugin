@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { ITableColumn, ITableColumnPinEnum, ITableDefaultColumn } from '../interfaces/table-column.interfaces';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { Sprint } from '@core/api/software/model/sprint';
 import { IPlanningStorage, PlanningStorageService } from '@core/services/planning-storage.service';
 import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
+import { DurationMapper } from '../duration-helpers/duration-mapper';
 
 /**
  * plan_info: { sprintID: {userID: number } }
@@ -17,7 +18,7 @@ interface IPlanningRowModel {
     accountId: string;
     displayName?: string;
   },
-  [key: string]: number | object
+  [key: string]: string | object
 }
 
 @Injectable()
@@ -85,7 +86,7 @@ export class PlanningService {
 
       Object.keys(data).forEach(key => {
         if (key !== 'user') {
-          planning[accountID][key] = (Number(data[key]) || 0) * 3600;
+          planning[accountID][key] = DurationMapper.durationToSeconds(data[key] as string);
         }
       });
     });
@@ -105,7 +106,8 @@ export class PlanningService {
       };
 
       sprints.forEach(sprint => {
-        row[sprint.id.toString()] = (planning && planning[user.accountId] && planning[user.accountId][sprint.id.toString()] || 0) / 3600;
+        row[sprint.id.toString()] =
+          DurationMapper.secondsToDuration(planning && planning[user.accountId] && planning[user.accountId][sprint.id.toString()] || 0);
       });
 
       result.push(row);
