@@ -7,7 +7,9 @@ export class PlanFactSettingsBuilder extends SettingsBuilderBase {
   public displayedControls: BooleanFormState<ISettingsPanelForm> = {
     project: true,
     board: true,
-    users: true
+    users: true,
+    fromSprint: true,
+    toSprint: true
   };
 
   constructor(public fb: FormBuilder) {

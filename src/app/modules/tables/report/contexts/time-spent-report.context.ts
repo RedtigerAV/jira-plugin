@@ -12,7 +12,7 @@ import { BoardsService } from '@core/api/software/api/boards.service';
 import { WorkflowStatusesService } from '@core/api/platform/api/workflowStatuses.service';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
-import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
+import { filterSprintsByDates, getStartEndDatesFromSprints } from '@core/helpers/sprint.helpers';
 import { BoardConfiguration } from '@core/api/software/model/boardConfiguration';
 import { StatusDetailsModel } from '@core/api/platform/model/statusDetails';
 import { Sprint } from '@core/api/software/model/sprint';
@@ -140,8 +140,7 @@ export class TimeSpentReportContext implements IReportContext {
   getTableData(settings: ISettingsPanelForm): Observable<any> {
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
-    const startDate = new Date(settings.fromSprint.startDate);
-    const endDate = new Date(settings.toSprint.completeDate || settings.toSprint.endDate);
+    const { startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint);
     const users = settings.users || [];
 
     const searchSprints$ = this.sprintsService.searchSprints(boardID, 'active,closed')

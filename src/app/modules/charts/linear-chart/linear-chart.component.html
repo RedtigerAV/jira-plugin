@@ -14,9 +14,9 @@
   <div class="item">
     <ng-container *ngIf="form">
       <app-control-panel
+        controlsDisplay="row"
         [form]="form"
         [displayedControls]="context.settingsBuilder.displayedControls"
-        [controlsDisplay]="context.controlsDisplay || 'column'"
         [actions]="actions"
       ></app-control-panel>
     </ng-container>
