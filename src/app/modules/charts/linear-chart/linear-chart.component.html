@@ -27,12 +27,12 @@
       <app-tg-card-title>График</app-tg-card-title>
       <app-tg-card-content>
         <div class="chart-wrapper">
-          <div [hidden]="(chartState$ | async) !== chartStateEnum.NOT_LOADED">
-            <span class="tg-h4 placeholder-text">Нажмите <strong>Рассчитать показатель</strong> чтобы отобразить график</span>
+          <div class="placeholder-text" [hidden]="(chartState$ | async) !== chartStateEnum.NOT_LOADED">
+            <span class="tg-h4">Нажмите <strong>Рассчитать показатель</strong> чтобы отобразить график</span>
           </div>
 
-          <div [hidden]="(chartState$ | async) !== chartStateEnum.LOADING">
-            <mat-spinner class="spinner"></mat-spinner>
+          <div class="spinner" [hidden]="(chartState$ | async) !== chartStateEnum.LOADING">
+            <mat-spinner></mat-spinner>
           </div>
 
           <div [hidden]="(chartState$ | async) !== chartStateEnum.LOADED">

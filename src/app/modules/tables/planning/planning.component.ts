@@ -6,7 +6,7 @@ import { ITableColumn, ITableDefaultColumn } from '../interfaces/table-column.in
 import { IActionItem } from '../../shared/actions-panel/actions-panel.component';
 import { BooleanFormState } from '@shared/helpers/types.helper';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
-import { StructureStateEnum } from '@core/interfaces/structure-state.interface';
+import { LoadingStateEnum } from '@core/interfaces/loading-state.interface';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { PlanningService } from './planning.service';
@@ -51,8 +51,8 @@ export class PlanningComponent implements OnInit, OnDestroy {
   public columnDefs$: ReplaySubject<ITableColumn[]>;
   public defaultColDef$: ReplaySubject<ITableDefaultColumn>;
   public rowData$: ReplaySubject<any[]>;
-  public tableState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
-  public tableStateEnum = StructureStateEnum;
+  public tableState$ = new BehaviorSubject<LoadingStateEnum>(LoadingStateEnum.NOT_LOADED);
+  public tableStateEnum = LoadingStateEnum;
   public settingsBuilder: PlanningSettingsBuilder;
 
   private gridApi: GridApi;
@@ -120,7 +120,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.tableState$.next(StructureStateEnum.LOADING);
+    this.tableState$.next(LoadingStateEnum.LOADING);
     this.defaultColDef$.next(this.planningService.defaultColumnsDef);
 
     this.planningService.getColumnsDef(this.form.getRawValue())
@@ -133,7 +133,7 @@ export class PlanningComponent implements OnInit, OnDestroy {
       )
       .subscribe(data => {
         this.rowData$.next(data);
-        this.tableState$.next(StructureStateEnum.LOADED);
+        this.tableState$.next(LoadingStateEnum.LOADED);
         this.cdr.detectChanges();
       });
   }

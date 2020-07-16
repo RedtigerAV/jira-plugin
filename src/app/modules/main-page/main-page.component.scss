@@ -34,19 +34,12 @@
 }
 
 .charts {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-gap: var(--tg-gap);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .chart-card {
-  flex: 30%;
-  margin-right: var(--tg-gap);
-
-  &:last-child {
-    margin-right: 0;
-  }
-
   &:focus {
     outline: none;
     text-decoration: none;

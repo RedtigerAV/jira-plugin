@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@ng-stack/forms';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
 import { IActionItem } from '../../shared/actions-panel/actions-panel.component';
 import { BehaviorSubject } from 'rxjs';
-import { StructureStateEnum } from '@core/interfaces/structure-state.interface';
+import { LoadingStateEnum } from '@core/interfaces/loading-state.interface';
 import { ILinearChartData } from '../interfaces/chart-data.interfaces';
 import { DefaultSettingsService } from '@core/services/default-settings.service';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
@@ -47,8 +47,8 @@ export class LinearChartComponent extends ChartComponentBase implements OnInit, 
       }).bind(this)
     }
   ];
-  public chartState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
-  public chartStateEnum = StructureStateEnum;
+  public chartState$ = new BehaviorSubject<LoadingStateEnum>(LoadingStateEnum.NOT_LOADED);
+  public chartStateEnum = LoadingStateEnum;
   public chartData$: BehaviorSubject<ILinearChartData[]>;
   public context: ILinearChartContext;
 
@@ -103,13 +103,13 @@ export class LinearChartComponent extends ChartComponentBase implements OnInit, 
       return;
     }
 
-    this.chartState$.next(StructureStateEnum.LOADING);
+    this.chartState$.next(LoadingStateEnum.LOADING);
 
     this.context.getData(this.form.getRawValue())
       .pipe(takeUntilDestroyed(this))
       .subscribe(data => {
         this.chartData$.next(data);
-        this.chartState$.next(StructureStateEnum.LOADED);
+        this.chartState$.next(LoadingStateEnum.LOADED);
         this.cdr.detectChanges();
         this.legend$.next(true);
       });

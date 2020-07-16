@@ -57,6 +57,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
       description: mainPageTexts[ChartID.UNFINISHED_WORK],
       chartID: ChartID.UNFINISHED_WORK,
       chartType: ChartType.LINEAR
+    },
+    {
+      name: 'Вес багов',
+      description: mainPageTexts[ChartID.BUGS_WEIGHT],
+      chartID: ChartID.BUGS_WEIGHT,
+      chartType: ChartType.LINEAR
     }
   ];
 
