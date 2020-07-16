@@ -11,6 +11,7 @@ import { Sprint } from '@core/api/software/model/sprint';
 import { getAllSprints } from '@core/helpers/issues.helpers';
 import { UnfinishedWorkSettingsBuilder } from '../settings-builders/unfinished-work-settings.builder';
 import { FormBuilder } from '@ng-stack/forms';
+import { filterSprintsByDates, getStartEndDatesFromSprints } from '@core/helpers/sprint.helpers';
 
 export class UnfinishedWorkContext implements ILinearChartContext {
   public chartID: ChartID;
@@ -34,10 +35,12 @@ export class UnfinishedWorkContext implements ILinearChartContext {
   public getData(settings: ISettingsPanelForm): Observable<ILinearChartData[]> {
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
+    const { startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint);
 
     return this.sprintsService.searchSprints(boardID, 'active,closed')
       .pipe(
         map(({values}) => values),
+        map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
             `project=${projectID}`,
@@ -62,7 +65,7 @@ export class UnfinishedWorkContext implements ILinearChartContext {
     });
 
     issues.forEach(issue => {
-      const allSprints = getAllSprints(issue);
+      const allSprints = getAllSprints(issue).filter(issueSprint => sprints.some(sprint => sprint.id === issueSprint.id));;
       let time = Number(issue.fields['timeoriginalestimate'] || 0) / 3600;
       const isFinished = issue.fields['status']['statusCategory']['key'] === 'done';
 

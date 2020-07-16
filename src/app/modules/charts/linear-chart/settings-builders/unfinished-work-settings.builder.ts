@@ -6,7 +6,9 @@ import { SettingsBuilderBase } from '@core/base/settings-builder.base';
 export class UnfinishedWorkSettingsBuilder extends SettingsBuilderBase {
   public displayedControls: BooleanFormState<ISettingsPanelForm> = {
     project: true,
-    board: true
+    board: true,
+    fromSprint: true,
+    toSprint: true
   };
 
   constructor(public fb: FormBuilder) {

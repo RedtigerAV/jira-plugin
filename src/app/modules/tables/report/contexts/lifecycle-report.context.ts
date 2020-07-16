@@ -13,11 +13,12 @@ import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { basePath } from '@core/common-configuration/global';
 import { SprintsService } from '@core/api/software/api/sprints.service';
 import { getCurrentSprint } from '@core/helpers/issues.helpers';
-import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
+import { filterSprintsByDates, getStartEndDatesFromSprints } from '@core/helpers/sprint.helpers';
 import { DurationMapper } from '../../duration-helpers/duration-mapper';
 import { textFilters } from '../../custom-filters/text-filters';
 import { IFilterOptionDef } from 'ag-grid-community';
 import { durationFilters } from '../../custom-filters/duration-filters';
+import { Sprint } from '@core/api/software/model/sprint';
 
 interface IssueRowModel {
   link?: string;
@@ -194,10 +195,7 @@ export class LifecycleReportContext implements IReportContext {
 
     switch (settings.periodBy) {
       case SettingsPanelPeriodTypesEnum.SPRINT:
-        startDate = new Date(settings.fromSprint.startDate.toString());
-        endDate = settings.toSprint.completeDate || settings.toSprint.endDate
-          ? new Date((settings.toSprint.completeDate || settings.toSprint.endDate).toString())
-          : new Date();
+        ({ startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint));
         break;
       case SettingsPanelPeriodTypesEnum.DATE:
       default:
@@ -206,8 +204,6 @@ export class LifecycleReportContext implements IReportContext {
         startDate.setHours(0, 0, 0, 0);
         endDate.setHours(0, 0, 0, 0);
         endDate.setDate(endDate.getDate() + 1);
-        console.log(startDate);
-        console.log(endDate);
         break;
     }
 

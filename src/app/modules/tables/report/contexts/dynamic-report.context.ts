@@ -17,7 +17,7 @@ import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { Sprint } from '@core/api/software/model/sprint';
 import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 import { getSprintByDate } from '@core/helpers/issues.helpers';
-import { filterSprintsByDates } from '@core/helpers/sprint.helpers';
+import { filterSprintsByDates, getStartEndDatesFromSprints } from '@core/helpers/sprint.helpers';
 import { DurationMapper } from '../../duration-helpers/duration-mapper';
 import { textFilters } from '../../custom-filters/text-filters';
 import { durationFilters } from '../../custom-filters/duration-filters';
@@ -155,10 +155,7 @@ export class DynamicReportContext implements IReportContext {
 
     switch (settings.periodBy) {
       case SettingsPanelPeriodTypesEnum.SPRINT:
-        startDate = new Date(settings.fromSprint.startDate.toString());
-        endDate = settings.toSprint.completeDate || settings.toSprint.endDate
-          ? new Date((settings.toSprint.completeDate || settings.toSprint.endDate).toString())
-          : new Date();
+        ({ startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint));
         break;
       case SettingsPanelPeriodTypesEnum.DATE:
       default:
@@ -167,6 +164,7 @@ export class DynamicReportContext implements IReportContext {
         break;
     }
 
+    //ToDo: период задается не совсем верно: таблица отображает данные на день больше
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(0, 0, 0, 0);
 
@@ -302,7 +300,8 @@ export class DynamicReportContext implements IReportContext {
       };
       const currentSprint = sprints.find(sprint =>
         new Date(sprint.startDate.toString()) <= currentDate
-        && new Date((sprint.completeDate || sprint.endDate).toString()) >= currentDate
+        //ToDo: с использованием new Date() для последнего дня не находится спринт
+        && new Date((sprint.completeDate || new Date().toString()).toString()) >= currentDate
       );
 
       statuses.forEach(({id}) => {

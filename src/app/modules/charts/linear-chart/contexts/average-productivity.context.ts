@@ -12,6 +12,7 @@ import { getCurrentSprint } from '@core/helpers/issues.helpers';
 import { AverageProductivitySettingsBuilder } from '../settings-builders/average-productivity-settings.builder';
 import { FormBuilder } from '@ng-stack/forms';
 import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
+import { filterSprintsByDates, getStartEndDatesFromSprints } from '@core/helpers/sprint.helpers';
 
 export class AverageProductivityContext implements ILinearChartContext {
   public chartID = ChartID.AVERAGE_PRODUCTIVITY;
@@ -30,10 +31,12 @@ export class AverageProductivityContext implements ILinearChartContext {
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
     const users = settings.users || [];
+    const { startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint);
 
     return this.sprintsService.searchSprints(boardID, 'closed,active')
       .pipe(
         map(({values}) => values),
+        map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
             `project=${projectID}`,
