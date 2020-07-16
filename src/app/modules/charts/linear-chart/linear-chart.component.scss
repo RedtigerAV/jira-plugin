@@ -10,6 +10,7 @@
 .chart-wrapper {
   display: flex;
   align-items: center;
+  min-height: 100px;
   flex-direction: column;
   will-change: height;
 }

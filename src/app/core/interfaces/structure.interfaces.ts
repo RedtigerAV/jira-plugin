@@ -8,7 +8,8 @@ export enum TableID {
 export enum ChartID {
   AVERAGE_PRODUCTIVITY = 'average-productivity',
   UNFINISHED_WORK = 'unfinished-work',
-  PLAN_FACT = 'plan-fact'
+  PLAN_FACT = 'plan-fact',
+  BUGS_WEIGHT = 'bugs-weight'
 }
 
 export enum ChartType {

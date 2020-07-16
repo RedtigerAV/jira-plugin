@@ -21,4 +21,4 @@ export const DatesProviders: Provider[] = [
   { provide: LOCALE_ID, useValue: 'ru' }
 ];
 
-export const dateFormat = 'yyyy/MM/dd HH:mm';
+export const dateRequestFormat = 'yyyy/MM/dd HH:mm';

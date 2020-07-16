@@ -1,4 +1,4 @@
-export enum StructureStateEnum {
+export enum LoadingStateEnum {
   NOT_LOADED = 'not-loaded',
   LOADING = 'loading',
   LOADED = 'loaded',

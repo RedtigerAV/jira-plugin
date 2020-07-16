@@ -9,7 +9,7 @@ import { IReportContext } from '../interfaces/report-context.interfaces';
 import { takeUntilDestroyed } from '@core/rxjs-operators/take-until-destroyed/take-until-destroyed.operator';
 import { DatePipe } from '@angular/common';
 import { ISettingsPanelForm } from '@core/interfaces/settings-panel-form.interfaces';
-import { StructureStateEnum } from '@core/interfaces/structure-state.interface';
+import { LoadingStateEnum } from '@core/interfaces/loading-state.interface';
 import { ReportMediatorEventsEnum } from '../interfaces/report-mediator.interfaces';
 import { ITableSortState } from '../../interfaces/table-sort.interfaces';
 import { ITableColumnPreview } from '../../interfaces/table-column-preview.interface';
@@ -27,8 +27,8 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   public columnDefs$: ReplaySubject<ITableColumn[]>;
   public defaultColDef$: ReplaySubject<ITableDefaultColumn>;
   public rowData$: ReplaySubject<any[]>;
-  public tableState$ = new BehaviorSubject<StructureStateEnum>(StructureStateEnum.NOT_LOADED);
-  public tableStateEnum = StructureStateEnum;
+  public tableState$ = new BehaviorSubject<LoadingStateEnum>(LoadingStateEnum.NOT_LOADED);
+  public tableStateEnum = LoadingStateEnum;
   public localeText = {
     applyFilter: 'Применить фильтр',
     resetFilter: 'Сбросить фильтр',
@@ -71,7 +71,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
   }
 
   public generateTable(settings: ISettingsPanelForm): void {
-    this.tableState$.next(StructureStateEnum.LOADING);
+    this.tableState$.next(LoadingStateEnum.LOADING);
 
     forkJoin(
       this.context.getTableColumnsDef(settings),
@@ -87,7 +87,7 @@ export class ReportTableComponent implements OnInit, OnDestroy, IReportTableComp
       )
       .subscribe(data => {
         this.rowData$.next(data);
-        this.tableState$.next(StructureStateEnum.LOADED);
+        this.tableState$.next(LoadingStateEnum.LOADED);
         this.cdr.detectChanges();
       });
   }
