@@ -38,7 +38,11 @@ export class PlanningService {
 
     return this.sprintsService.searchSprints(boardID, 'active,closed,future')
       .pipe(
-        map(({values}) => values),
+        map(({values}) => {
+          const newSprints = values.slice();
+
+          return newSprints.reverse();
+        }),
         map((sprints: Sprint[]) => ([
           {
             field: 'user',
@@ -46,7 +50,7 @@ export class PlanningService {
             cellRenderer: params => `${params.value.displayName}`,
             pinned: ITableColumnPinEnum.LEFT
           },
-          ...sprints.reverse().map(sprint => ({
+          ...sprints.map(sprint => ({
             field: sprint.id.toString(),
             headerName: sprint.name,
             editable: true
