@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TgSnackbarModule } from '@shared/components/tg-snackbar/tg-snackbar.module';
 import { DatesProviders } from '@core/common-configuration/dates.configuration';
 import { NgStackFormsModule } from '@ng-stack/forms';
+import { CacheInterceptor } from '@core/interceptors/cache/cache.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NgStackFormsModule } from '@ng-stack/forms';
     NgStackFormsModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JiraApiInterceptor, multi: true },
     ...DatesProviders
   ],

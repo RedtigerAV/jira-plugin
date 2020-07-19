@@ -119,7 +119,9 @@ export class BugsWeightContext implements ILinearChartContext {
     startDate: Date,
     endDate: Date
   ): ILinearChartData[] {
-    const prioritiesValues = priorities
+    const prioritiesClone = priorities.slice();
+
+    const prioritiesValues = prioritiesClone
       .reverse()
       .reduce((acc, priority, index) => {
         if (index === 0) {

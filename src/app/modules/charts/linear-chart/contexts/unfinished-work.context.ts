@@ -87,28 +87,30 @@ export class UnfinishedWorkContext implements ILinearChartContext {
     });
 
     issues.forEach(issue => {
-      const allSprints = getAllSprints(issue).filter(issueSprint => sprints.some(sprint => sprint.id === issueSprint.id));;
+      const allSprints = getAllSprints(issue);
       let time = Number(issue.fields['timeoriginalestimate'] || 0) / 3600;
       const isFinished = issue.fields['status']['statusCategory']['key'] === 'done';
 
       allSprints.forEach((issueSprint, index) => {
-        issue.changelog.histories.forEach(changes => {
-          const created = new Date(changes.created);
+        if (sprints.some(sprint => sprint.id === issueSprint.id)) {
+          issue.changelog.histories.forEach(changes => {
+            const created = new Date(changes.created);
 
-          if (new Date(issueSprint.completeDate || issueSprint.endDate) >= created) {
-            changes.items.forEach(change => {
-              if (change.field.toLowerCase() === 'timeoriginalestimate') {
-                time = Number(change.to || 0) / 3600;
-              }
-            });
+            if (new Date(issueSprint.completeDate || issueSprint.endDate) >= created) {
+              changes.items.forEach(change => {
+                if (change.field.toLowerCase() === 'timeoriginalestimate') {
+                  time = Number(change.to || 0) / 3600;
+                }
+              });
+            }
+          });
+
+          if (index !== allSprints.length - 1 || !isFinished) {
+            timeAggregator.get(issueSprint.id.toString()).unfinished += time;
           }
-        });
 
-        if (index !== allSprints.length - 1 || !isFinished) {
-          timeAggregator.get(issueSprint.id.toString()).unfinished += time;
+          timeAggregator.get(issueSprint.id.toString()).all += time;
         }
-
-        timeAggregator.get(issueSprint.id.toString()).all += time;
       });
     });
 
