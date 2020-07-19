@@ -24,6 +24,15 @@ import { textFilters } from '../../custom-filters/text-filters';
 import { durationFilters } from '../../custom-filters/duration-filters';
 import { numberFilters } from '../../custom-filters/number-filters';
 import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
+import { retryRequestOperator } from '@core/rxjs-operators/request-retry/retry-request.operator';
+import { PaginatedSprints } from '@core/api/software/model/paginatedSprints';
+import {
+  ISSUES_DEFAULT_PAGE_SIZE, issuesIncrementArgumentsRule, issuesSearchRetryRule, issuesValuesMapper,
+  SPRINTS_DEFAULT_PAGE_SIZE, sprintsIncrementArgumentsRule,
+  sprintsSearchRetryRule,
+  sprintsValuesMapper
+} from '@core/rxjs-operators/request-retry/retry-request-default.options';
+import { IssueBeanModel } from '@core/api/platform/model/issueBean';
 
 interface RowModel {
   user?: string;
@@ -143,9 +152,15 @@ export class TimeSpentReportContext implements IReportContext {
     const { startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint);
     const users = settings.users || [];
 
-    const searchSprints$ = this.sprintsService.searchSprints(boardID, 'active,closed')
+    const searchSprints$ = retryRequestOperator<PaginatedSprints, Sprint>(
+      this.sprintsService,
+      this.sprintsService.searchSprints,
+      [boardID, 'active,closed', 0, SPRINTS_DEFAULT_PAGE_SIZE],
+      sprintsValuesMapper,
+      sprintsSearchRetryRule,
+      sprintsIncrementArgumentsRule
+    )
       .pipe(
-        map(({values}) => values),
         map(sprints => filterSprintsByDates(sprints, startDate, endDate))
       );
     const searchStatuses$ = forkJoin(
@@ -182,11 +197,18 @@ export class TimeSpentReportContext implements IReportContext {
             .join(' AND ');
 
           return forkJoin(
-            this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog'),
+            retryRequestOperator<SearchResultsModel, IssueBeanModel>(
+              this.issueSearchService,
+              this.issueSearchService.searchForIssuesUsingJql,
+              [jql, 0, ISSUES_DEFAULT_PAGE_SIZE, undefined, undefined, 'changelog'],
+              issuesValuesMapper,
+              issuesSearchRetryRule,
+              issuesIncrementArgumentsRule
+            ),
             this.planningStorageService.getPlanningStorage(boardID)
           )
             .pipe(
-              map(([data, planning]) => this.transformData(data, sprints, users as UserPickerUserModel[], planning))
+              map(([issues, planning]) => this.transformData(issues, sprints, users as UserPickerUserModel[], planning))
             );
         })
       );
@@ -196,7 +218,7 @@ export class TimeSpentReportContext implements IReportContext {
     this.settingsBuilder.destroy();
   }
 
-  private transformData(data: SearchResultsModel, sprints: Sprint[], users: UserPickerUserModel[], planning: IPlanningStorage): any {
+  private transformData(issues: IssueBeanModel[], sprints: Sprint[], users: UserPickerUserModel[], planning: IPlanningStorage): any {
     let result: RowModel[] = [];
 
     sprints.forEach(sprint => {
@@ -213,7 +235,7 @@ export class TimeSpentReportContext implements IReportContext {
         });
       });
 
-      data.issues.forEach(issue => {
+      issues.forEach(issue => {
         const issueUser = issue.fields['assignee'] && issue.fields['assignee']['accountId'];
 
         if (getCurrentSprint(issue).id === sprint.id && issueUser) {

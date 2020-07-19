@@ -18,6 +18,7 @@ export class GroupsDataSource extends DataSourceBase<FoundGroupModel, void>{
   }
 
   protected getData(): Observable<FoundGroupModel[]> {
+    // ToDo: если использовать, то заюзать retryRequestOperator
     return this.groupsService.findGroups().pipe(map(result => result.groups));
   }
 }

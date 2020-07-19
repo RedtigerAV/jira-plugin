@@ -12,11 +12,17 @@ export class SprintsService extends ApiBase {
     super();
   }
 
-  public searchSprints(boardId: string, state?: string): Observable<PaginatedSprints> {
+  public searchSprints(boardId: string, state?: string, startAt?: number, maxResults?: number): Observable<PaginatedSprints> {
     let params = this.defaultParams;
 
     if (!!state) {
       params = params.append('state', state);
+    }
+    if (startAt !== undefined && startAt !== null) {
+      params = params.append('startAt', <any>startAt);
+    }
+    if (maxResults !== undefined && maxResults !== null) {
+      params = params.append('maxResults', <any>maxResults);
     }
 
     return this.http.get<PaginatedSprints>(`${this.basePath}/rest/agile/1.0/board/${boardId}/sprint`, {params});

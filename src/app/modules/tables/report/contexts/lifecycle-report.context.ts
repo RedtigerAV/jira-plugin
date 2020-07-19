@@ -19,6 +19,14 @@ import { textFilters } from '../../custom-filters/text-filters';
 import { IFilterOptionDef } from 'ag-grid-community';
 import { durationFilters } from '../../custom-filters/duration-filters';
 import { Sprint } from '@core/api/software/model/sprint';
+import { retryRequestOperator } from '@core/rxjs-operators/request-retry/retry-request.operator';
+import { IssueBeanModel } from '@core/api/platform/model/issueBean';
+import {
+  ISSUES_DEFAULT_PAGE_SIZE, issuesIncrementArgumentsRule,
+  issuesSearchRetryRule,
+  issuesValuesMapper, SPRINTS_DEFAULT_PAGE_SIZE, sprintsIncrementArgumentsRule, sprintsSearchRetryRule, sprintsValuesMapper
+} from '@core/rxjs-operators/request-retry/retry-request-default.options';
+import { PaginatedSprints } from '@core/api/software/model/paginatedSprints';
 
 interface IssueRowModel {
   link?: string;
@@ -207,9 +215,15 @@ export class LifecycleReportContext implements IReportContext {
         break;
     }
 
-    return this.sprintsService.searchSprints(boardID, 'active,closed')
+    return retryRequestOperator<PaginatedSprints, Sprint>(
+      this.sprintsService,
+      this.sprintsService.searchSprints,
+      [boardID, 'active,closed', 0, SPRINTS_DEFAULT_PAGE_SIZE],
+      sprintsValuesMapper,
+      sprintsSearchRetryRule,
+      sprintsIncrementArgumentsRule
+    )
       .pipe(
-        map(({values}) => values),
         map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
@@ -218,16 +232,25 @@ export class LifecycleReportContext implements IReportContext {
           ]
             .join(' AND ');
 
-          return this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog')
-        }),
-        map(data => this.transformData(data, startDate, endDate))
+          return retryRequestOperator<SearchResultsModel, IssueBeanModel>(
+            this.issueSearchService,
+            this.issueSearchService.searchForIssuesUsingJql,
+            [jql, 0, ISSUES_DEFAULT_PAGE_SIZE, undefined, undefined, 'changelog'],
+            issuesValuesMapper,
+            issuesSearchRetryRule,
+            issuesIncrementArgumentsRule
+          )
+            .pipe(
+              map(issues => this.transformData(issues, startDate, endDate))
+            );
+        })
       )
   }
 
-  private transformData(data: SearchResultsModel, startDate: Date, endDate: Date): any {
+  private transformData(issues: IssueBeanModel[], startDate: Date, endDate: Date): any {
     let result: IssueRowModel[] = [];
 
-    data.issues.forEach(issue => {
+    issues.forEach(issue => {
       const issueChanges: IssueRowModel[] = [];
       const currentSprint = getCurrentSprint(issue);
       const issueModel: IssueRowModel = {

@@ -3,6 +3,8 @@ import { ProjectsService } from '@core/api/platform/api/projects.service';
 import { ProjectModel } from '@core/api/platform/model/project';
 import { map } from 'rxjs/operators';
 import { DataSourceBase } from '@core/datasources/datasource.base';
+import { retryRequestOperator } from '@core/rxjs-operators/request-retry/retry-request.operator';
+import { PageBeanProjectModel } from '@core/api/platform/model/pageBeanProject';
 
 export class ProjectsDataSource extends DataSourceBase<ProjectModel, void> {
   constructor(private readonly projectsService: ProjectsService) {
@@ -18,6 +20,17 @@ export class ProjectsDataSource extends DataSourceBase<ProjectModel, void> {
   }
 
   protected getData(): Observable<ProjectModel[]> {
-    return this.projectsService.searchProjects(0, 1000).pipe(map(result => result.values));
+    return retryRequestOperator<PageBeanProjectModel, ProjectModel>(
+      this.projectsService,
+      this.projectsService.searchProjects,
+      [0, 50],
+      response => response.values,
+      response => !response.isLast,
+      functionArguments => {
+        functionArguments[0] += 50;
+
+        return functionArguments;
+      }
+    );
   }
 }

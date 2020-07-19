@@ -22,6 +22,15 @@ import { DurationMapper } from '../../duration-helpers/duration-mapper';
 import { textFilters } from '../../custom-filters/text-filters';
 import { durationFilters } from '../../custom-filters/duration-filters';
 import { numberFilters } from '../../custom-filters/number-filters';
+import { retryRequestOperator } from '@core/rxjs-operators/request-retry/retry-request.operator';
+import { PaginatedSprints } from '@core/api/software/model/paginatedSprints';
+import {
+  ISSUES_DEFAULT_PAGE_SIZE, issuesIncrementArgumentsRule, issuesSearchRetryRule, issuesValuesMapper,
+  SPRINTS_DEFAULT_PAGE_SIZE, sprintsIncrementArgumentsRule,
+  sprintsSearchRetryRule,
+  sprintsValuesMapper
+} from '@core/rxjs-operators/request-retry/retry-request-default.options';
+import { IssueBeanModel } from '@core/api/platform/model/issueBean';
 
 interface RowModel {
   sprint?: string;
@@ -144,6 +153,7 @@ export class DynamicReportContext implements IReportContext {
     this.settingsBuilder.destroy();
   }
 
+  // ToDo: поставить ограничение в несколько недель
   getTableData(settings: ISettingsPanelForm): Observable<any> {
     const projectID = settings.project.id;
     const boardID = settings.board.id.toString(10);
@@ -174,9 +184,15 @@ export class DynamicReportContext implements IReportContext {
 
     endDate.setDate(endDate.getDate() + 1);
 
-    return this.sprintsService.searchSprints(boardID, 'active,closed')
+    return retryRequestOperator<PaginatedSprints, Sprint>(
+      this.sprintsService,
+      this.sprintsService.searchSprints,
+      [boardID, 'active,closed', 0, SPRINTS_DEFAULT_PAGE_SIZE],
+      sprintsValuesMapper,
+      sprintsSearchRetryRule,
+      sprintsIncrementArgumentsRule
+    )
       .pipe(
-        map(({values}) => values),
         map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
@@ -187,10 +203,17 @@ export class DynamicReportContext implements IReportContext {
 
           return forkJoin(
             this.getStatuses(boardID),
-            this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog')
+            retryRequestOperator<SearchResultsModel, IssueBeanModel>(
+              this.issueSearchService,
+              this.issueSearchService.searchForIssuesUsingJql,
+              [jql, 0, ISSUES_DEFAULT_PAGE_SIZE, undefined, undefined, 'changelog'],
+              issuesValuesMapper,
+              issuesSearchRetryRule,
+              issuesIncrementArgumentsRule
+            )
           )
             .pipe(
-              map(([statuses, data]) => this.transformData(data, sprints, statuses, startDate, endDate))
+              map(([statuses, issues]) => this.transformData(issues, sprints, statuses, startDate, endDate))
             )
         })
       );
@@ -256,9 +279,9 @@ export class DynamicReportContext implements IReportContext {
     }
   }
 
-  private transformData(data: SearchResultsModel, sprints: Sprint[], statuses: StatusDetailsModel[], startDate: Date, endDate: Date): any {
+  private transformData(issues: IssueBeanModel[], sprints: Sprint[], statuses: StatusDetailsModel[], startDate: Date, endDate: Date): any {
     function sortIssuesChanges(): void {
-      data.issues.forEach(issue => {
+      issues.forEach(issue => {
         if (issue.changelog && issue.changelog.histories) {
           issue.changelog.histories.sort((c1, c2) => new Date(c1.created.toString()).getTime() - new Date(c2.created.toString()).getTime());
         }
@@ -317,30 +340,28 @@ export class DynamicReportContext implements IReportContext {
 
       row.sprint = currentSprint.name;
 
-      data.issues.forEach(issue => {
+      issues.forEach(issue => {
         const estimate: number = Number(issue.fields['timeoriginalestimate']) || 0;
         let sprint = getSprintByDate(issue, currentDate);
-        let statusID;
+        let statusID = statuses[0].id;
 
-        if (new Date(issue.fields['created'].toString()) <= currentDate) {
-          statusID = issue.fields['status']['id']
-        }
+        if (sprint && sprint.name === row.sprint) {
+          if (issue.changelog && issue.changelog.histories) {
+            const histories = issue.changelog.histories.filter(({created}) => new Date(created.toString()) <= currentDate);
 
-        if (issue.changelog && issue.changelog.histories) {
-          const histories = issue.changelog.histories.filter(({created}) => new Date(created.toString()) <= currentDate);
-
-          histories.forEach(changes => {
-            changes.items.forEach(change => {
-              if (change.field.toLowerCase() === 'status') {
-                statusID = change.to;
-              }
+            histories.forEach(changes => {
+              changes.items.forEach(change => {
+                if (change.field.toLowerCase() === 'status') {
+                  statusID = change.to;
+                }
+              });
             });
-          });
-        }
+          }
 
-        if (statusID && sprint && sprint.name === row.sprint) {
-          row[`${statusID}$number`] = (row[`${statusID}$number`] as number) + 1;
-          row[`${statusID}$time`] = (row[`${statusID}$time`] as number) + estimate;
+          if (statusID) {
+            row[`${statusID}$number`] = (row[`${statusID}$number`] as number) + 1;
+            row[`${statusID}$time`] = (row[`${statusID}$time`] as number) + estimate;
+          }
         }
       });
 

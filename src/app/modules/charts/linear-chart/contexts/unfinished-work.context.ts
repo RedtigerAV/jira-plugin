@@ -12,6 +12,15 @@ import { getAllSprints } from '@core/helpers/issues.helpers';
 import { UnfinishedWorkSettingsBuilder } from '../settings-builders/unfinished-work-settings.builder';
 import { FormBuilder } from '@ng-stack/forms';
 import { filterSprintsByDates, getStartEndDatesFromSprints } from '@core/helpers/sprint.helpers';
+import { retryRequestOperator } from '@core/rxjs-operators/request-retry/retry-request.operator';
+import { PaginatedSprints } from '@core/api/software/model/paginatedSprints';
+import {
+  ISSUES_DEFAULT_PAGE_SIZE, issuesIncrementArgumentsRule, issuesSearchRetryRule, issuesValuesMapper,
+  SPRINTS_DEFAULT_PAGE_SIZE, sprintsIncrementArgumentsRule,
+  sprintsSearchRetryRule,
+  sprintsValuesMapper
+} from '@core/rxjs-operators/request-retry/retry-request-default.options';
+import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 
 export class UnfinishedWorkContext implements ILinearChartContext {
   public chartID: ChartID;
@@ -37,9 +46,15 @@ export class UnfinishedWorkContext implements ILinearChartContext {
     const boardID = settings.board.id.toString(10);
     const { startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint);
 
-    return this.sprintsService.searchSprints(boardID, 'active,closed')
+    return retryRequestOperator<PaginatedSprints, Sprint>(
+      this.sprintsService,
+      this.sprintsService.searchSprints,
+      [boardID, 'active,closed', 0, SPRINTS_DEFAULT_PAGE_SIZE],
+      sprintsValuesMapper,
+      sprintsSearchRetryRule,
+      sprintsIncrementArgumentsRule
+    )
       .pipe(
-        map(({values}) => values),
         map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
@@ -48,9 +63,16 @@ export class UnfinishedWorkContext implements ILinearChartContext {
           ]
             .join(' AND ');
 
-          return this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog')
+          return retryRequestOperator<SearchResultsModel, IssueBeanModel>(
+            this.issueSearchService,
+            this.issueSearchService.searchForIssuesUsingJql,
+            [jql, 0, ISSUES_DEFAULT_PAGE_SIZE, undefined, undefined, 'changelog'],
+            issuesValuesMapper,
+            issuesSearchRetryRule,
+            issuesIncrementArgumentsRule
+          )
             .pipe(
-              map(issues => this.transformData(issues.issues, sprints))
+              map(issues => this.transformData(issues, sprints))
             )
         })
       );

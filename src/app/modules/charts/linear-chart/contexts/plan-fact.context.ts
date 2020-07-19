@@ -14,6 +14,15 @@ import { Sprint } from '@core/api/software/model/sprint';
 import { getAllSprints } from '@core/helpers/issues.helpers';
 import { UserPickerUserModel } from '@core/api/platform/model/userPickerUser';
 import { filterSprintsByDates, getStartEndDatesFromSprints } from '@core/helpers/sprint.helpers';
+import { retryRequestOperator } from '@core/rxjs-operators/request-retry/retry-request.operator';
+import { PaginatedSprints } from '@core/api/software/model/paginatedSprints';
+import {
+  ISSUES_DEFAULT_PAGE_SIZE, issuesIncrementArgumentsRule, issuesSearchRetryRule, issuesValuesMapper,
+  SPRINTS_DEFAULT_PAGE_SIZE, sprintsIncrementArgumentsRule,
+  sprintsSearchRetryRule,
+  sprintsValuesMapper
+} from '@core/rxjs-operators/request-retry/retry-request-default.options';
+import { SearchResultsModel } from '@core/api/platform/model/searchResults';
 
 export class PlanFactContext implements ILinearChartContext {
   public chartID = ChartID.PLAN_FACT;
@@ -39,9 +48,15 @@ export class PlanFactContext implements ILinearChartContext {
     const users = settings.users || [];
     const { startDate, endDate } = getStartEndDatesFromSprints(settings.fromSprint as Sprint, settings.toSprint as Sprint);
 
-    return this.sprintsService.searchSprints(boardID, 'closed,active')
+    return retryRequestOperator<PaginatedSprints, Sprint>(
+      this.sprintsService,
+      this.sprintsService.searchSprints,
+      [boardID, 'active,closed', 0, SPRINTS_DEFAULT_PAGE_SIZE],
+      sprintsValuesMapper,
+      sprintsSearchRetryRule,
+      sprintsIncrementArgumentsRule
+    )
       .pipe(
-        map(({values}) => values),
         map(sprints => filterSprintsByDates(sprints, startDate, endDate)),
         switchMap(sprints => {
           const jql = [
@@ -51,11 +66,18 @@ export class PlanFactContext implements ILinearChartContext {
             .join(' AND ');
 
           return forkJoin(
-            this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog'),
+            retryRequestOperator<SearchResultsModel, IssueBeanModel>(
+              this.issueSearchService,
+              this.issueSearchService.searchForIssuesUsingJql,
+              [jql, 0, ISSUES_DEFAULT_PAGE_SIZE, undefined, undefined, 'changelog'],
+              issuesValuesMapper,
+              issuesSearchRetryRule,
+              issuesIncrementArgumentsRule
+            ),
             this.planningStorageService.getPlanningStorage(boardID)
           )
             .pipe(
-              map(([issues, planning]) => this.transformData(issues.issues, sprints, users as UserPickerUserModel[], planning))
+              map(([issues, planning]) => this.transformData(issues, sprints, users as UserPickerUserModel[], planning))
             )
         })
       );
