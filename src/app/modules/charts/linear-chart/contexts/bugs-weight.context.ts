@@ -17,6 +17,13 @@ import { IssueSearchService } from '@core/api/platform/api/issueSearch.service';
 import { DatePipe } from '@angular/common';
 import { dateRequestFormat } from '@core/common-configuration/dates.configuration';
 import { IssuePrioritiesService } from '@core/api/platform/api/issuePriorities.service';
+import { retryRequestOperator } from '@core/rxjs-operators/request-retry/retry-request.operator';
+import { SearchResultsModel } from '@core/api/platform/model/searchResults';
+import {
+  ISSUES_DEFAULT_PAGE_SIZE, issuesIncrementArgumentsRule,
+  issuesSearchRetryRule,
+  issuesValuesMapper
+} from '@core/rxjs-operators/request-retry/retry-request-default.options';
 
 export interface IDateChartSeries extends IChartSeries {
   date?: Date;
@@ -90,9 +97,16 @@ export class BugsWeightContext implements ILinearChartContext {
             .join(' AND ');
           //tslint:enable
 
-          return this.issueSearchService.searchForIssuesUsingJql(jql, undefined, 1000, undefined, undefined, 'changelog')
+          return retryRequestOperator<SearchResultsModel, IssueBeanModel>(
+            this.issueSearchService,
+            this.issueSearchService.searchForIssuesUsingJql,
+            [jql, 0, ISSUES_DEFAULT_PAGE_SIZE, undefined, undefined, 'changelog'],
+            issuesValuesMapper,
+            issuesSearchRetryRule,
+            issuesIncrementArgumentsRule
+          )
             .pipe(
-              map(issues => this.transformData(issues.issues, priorities, doneStatuses, startDate, endDate))
+              map(issues => this.transformData(issues, priorities, doneStatuses, startDate, endDate))
             )
         })
       );
@@ -105,7 +119,9 @@ export class BugsWeightContext implements ILinearChartContext {
     startDate: Date,
     endDate: Date
   ): ILinearChartData[] {
-    const prioritiesValues = priorities
+    const prioritiesClone = priorities.slice();
+
+    const prioritiesValues = prioritiesClone
       .reverse()
       .reduce((acc, priority, index) => {
         if (index === 0) {
